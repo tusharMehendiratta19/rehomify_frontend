@@ -1,0 +1,41 @@
+.mobile-seller-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #e9655e;
+  padding: 5px 5px;
+  color: #fff;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+.mobile-burger-btn {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  width: 10%;
+}
+
+.mobile-seller-title {
+  font-weight: bold;
+  font-size: 16px;
+  text-align: center;
+  flex-grow: 1;
+  width: 50%;
+  margin: 0 10%;
+}
+
+.mobile-logout-btn {
+  background: white;
+  border: none;
+  color: #e9655e;
+  padding: 6px 10px;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 12px;
+  cursor: pointer;
+  width: 15%;
+}

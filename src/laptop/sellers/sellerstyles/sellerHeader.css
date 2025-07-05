@@ -1,0 +1,41 @@
+.seller-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fa8072; /* Light Coral */
+  padding: 1rem 2rem;
+  color: white;
+  font-family: 'Segoe UI', sans-serif;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  width: 100%;
+}
+
+.logo {
+  font-size: 1.8rem;
+  font-weight: bold;
+  width: 20%;
+}
+
+.hub-title {
+  font-size: 1.2rem;
+  font-weight: 500;
+  width: 15%;
+  text-align: center;
+}
+
+.logout-btn {
+  background-color: white;
+  color: #fa8072;
+  padding: 0.5rem 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 8%;
+  font-size: medium;
+}

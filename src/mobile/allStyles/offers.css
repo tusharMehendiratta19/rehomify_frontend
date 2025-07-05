@@ -1,0 +1,83 @@
+.mobile-offers-main {
+  background-color: #f9f9f9;
+  min-height: 100vh;
+  padding-bottom: 2rem;
+}
+
+.mobile-offers-container {
+  padding: 1rem;
+}
+
+.mobile-offers-title {
+  font-size: 1.4rem;
+  font-weight: bold;
+  text-align: center;
+  color: #b63e2b;
+  /* padding: 0.6rem 1rem; */
+  border-radius: 20px 4px 20px 4px;
+  padding: 5px 10px;
+  border-bottom: 4px solid #b63e2b;
+  border-left: 1px solid #b63e2b;
+  border-top: 1px solid #b63e2b;
+  border-right: 4px solid #b63e2b;
+  margin-bottom: 1.5rem;
+  width: 80%;
+  margin: 0 auto 1.5rem;
+}
+
+.mobile-offers-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); 
+  gap: 0.5rem;
+  /* padding: 0 0.5rem; */
+}
+
+.mobile-offer-card {
+  background-color: #fdeacc;
+  border-radius: 16px;
+  padding: 0.8rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  transition: transform 0.2s ease;
+}
+
+.mobile-offer-card:active {
+  transform: scale(0.98);
+}
+
+.mobile-offer-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mobile-offer-code-box {
+  border: 1.5px dashed #000;
+  width: fit-content;
+  background: #fff;
+  padding: 0.3rem 0.6rem;
+  font-size: 0.75rem;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.mobile-offer-image {
+  width: 60px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.mobile-offer-discount {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #b63e2b;
+}
+
+.mobile-offer-tagline {
+  font-size: 0.85rem;
+  color: #333;
+}

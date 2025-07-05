@@ -1,0 +1,80 @@
+.explore-wrapper {
+  padding: 2rem;
+  position: relative;
+  background-color: #fdfdfd;
+}
+
+.explore-heading {
+  margin-left: 1%;
+  text-align: center;
+  width: 30%;
+  padding: 10px 15px;
+  border-bottom: 4px solid #b63e2b;
+  border-left: 1px solid #b63e2b;
+  border-top: 1px solid #b63e2b;
+  border-right: 4px solid #b63e2b;
+  color: #b63e2b;
+  border-radius: 20px 4px 20px 4px;
+  margin-bottom: 2%;
+}
+
+.explore-carousel {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.explore-cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 40px;
+  padding: 20px;
+}
+
+.explore-card {
+  position: relative; /* Added this line */
+  flex: 0 0 auto;
+  width: 250px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  /* padding: 15px; */
+  text-align: center;
+  scroll-snap-align: start;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  /* height: 280px; */
+}
+
+.explore-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.hover-btn {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.65);
+  color: #fff;
+  padding: 0.5rem;
+  width: 94%;
+  margin: 0 0 3% 3%;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  font-weight: bold;
+  box-sizing: border-box;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.explore-card:hover .hover-btn {
+  opacity: 1;
+}

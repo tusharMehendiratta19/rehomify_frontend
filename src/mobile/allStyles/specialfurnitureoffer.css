@@ -1,0 +1,70 @@
+.mobile-offers-title-special {
+  font-size: 1.4rem;
+  font-weight: bold;
+  text-align: center;
+  color: #b63e2b;
+  border-radius: 15px 4px 15px 4px;
+  padding: 5px 10px;
+  border-bottom: 4px solid #b63e2b;
+  border-left: 1px solid #b63e2b;
+  border-top: 1px solid #b63e2b;
+  border-right: 4px solid #b63e2b;
+  width: 80%;
+  margin: 1rem auto;
+}
+
+.mobile-product-offer-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  padding: 0 1rem;
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
+
+.mobile-product-offer-card {
+  background: linear-gradient(90deg, #d9ba87, #f9e4ca, #d9ba87);
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  padding-bottom: 0.75rem;
+  transition: transform 0.2s;
+}
+
+.mobile-product-offer-card:active {
+  transform: scale(0.98);
+}
+
+.mobile-product-offer-image {
+  width: fit-content;
+  height: 100px;
+  object-fit: cover;
+  margin-bottom: 0.5rem;
+}
+
+.mobile-product-offer-header {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #5a3921;
+  margin-bottom: 0.25rem;
+}
+
+.mobile-product-offer-desc {
+  font-size: 0.8rem;
+  color: #444;
+  margin-bottom: 0.5rem;
+  padding: 0 0.3rem;
+}
+
+.mobile-product-offer-price {
+  background-color: #5a3921;
+  color: white;
+  /* font-weight: bold; */
+  font-size: 0.8rem;
+  font-size: small;
+  padding: 4px 8px;
+  border-radius: 6px;
+  width: 80%;
+  margin: 0 auto;
+}

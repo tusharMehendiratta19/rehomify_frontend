@@ -1,0 +1,91 @@
+.mobile-signup-wrapper {
+  width: 100vw;
+  min-height: 100vh;
+  padding: 1rem;
+  background-color: #f9f9f9;
+}
+
+.mobile-signup-content {
+  width: 100%;
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.mobile-signup-content h4 {
+  font-size: 1.2rem;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+.mobile-signup-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.mobile-form-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.mobile-form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Input styles */
+.mobile-signup-container input,
+.mobile-signup-container select {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 14px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.mobile-signup-container input:focus,
+.mobile-signup-container select:focus {
+  border-color: #f27059;
+  box-shadow: 0 0 0 3px rgba(242, 112, 89, 0.2);
+  outline: none;
+}
+
+/* Submit button */
+.mobile-signup-container button {
+  width: 100%;
+  padding: 12px;
+  background-color: #f27059;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.mobile-signup-container button:hover {
+  background-color: #e4574f;
+}
+
+/* Login redirect */
+.mobile-signup-container p {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 13px;
+}
+
+.mobile-signup-container span {
+  color: #f27059;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.mobile-signup-container span:hover {
+  text-decoration: underline;
+}

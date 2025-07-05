@@ -1,0 +1,71 @@
+.mobile-seller-testimonials-container {
+  padding: 20px;
+  background-color: #fffaf8;
+}
+
+.mobile-seller-testimonials-title {
+  margin: 0 auto 20px 3%;
+  width: fit-content;
+  text-align: center;
+  padding: 5px 15px;
+  border: 1px solid #b63e2b;
+  border-right-width: 4px;
+  border-bottom-width: 4px;
+  color: #b63e2b;
+  border-radius: 15px 4px 15px 4px;
+  font-size: small;
+}
+
+.mobile-seller-testimonials-scroll {
+  display: flex;
+  overflow-x: auto;
+  gap: 16px;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 10px;
+}
+
+.mobile-seller-testimonial-card {
+  /* min-width: 240px; */
+  width: 200px;
+  flex-shrink: 0;
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 10px;
+  text-align: center;
+  scroll-snap-align: start;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.mobile-seller-testimonial-img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 10px;
+}
+
+.mobile-seller-testimonial-name {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 4px 0;
+}
+
+.mobile-seller-testimonial-order {
+  font-size: 13px;
+  color: #888;
+  margin-bottom: 6px;
+}
+
+.mobile-seller-testimonial-rating {
+  font-size: 16px;
+  color: #ff9529;
+  margin-bottom: 8px;
+}
+
+.mobile-seller-testimonial-feedback {
+  font-style: italic;
+  font-size: 14px;
+  color: #444;
+  padding: 0 6px;
+}

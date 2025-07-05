@@ -1,0 +1,82 @@
+.mobile-trends-container {
+  padding: 1rem;
+  background-color: #fdfdfc;
+}
+.mobile-trends-title{
+  width: 90%;
+  margin-left: 5%;
+  margin-top: 2%;
+  color: #b63e2b;
+  /* border: 1px solid #b63e2b; */
+  border-radius: 20px 4px 20px 4px;
+  text-align: center;
+  padding: 5px 10px;
+  border-bottom: 4px solid #b63e2b;
+  border-left: 1px solid #b63e2b;
+  border-top: 1px solid #b63e2b;
+  border-right: 4px solid #b63e2b;
+  margin-bottom: 1%;
+}
+
+.mobile-trends-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.mobile-trends-card {
+  background-color: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.mobile-trend-video {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-bottom: 1px solid #eee;
+}
+
+.mobile-trend-blogs {
+  padding: 1rem;
+}
+
+.mobile-trend-blogs h3 {
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.mobile-blog-entry {
+  margin-bottom: 1rem;
+}
+
+.mobile-blog-entry h4 {
+  font-size: 1.1rem;
+  color: #222;
+  margin-bottom: 0.3rem;
+}
+
+.mobile-blog-entry p {
+  font-size: 0.95rem;
+  color: #555;
+  line-height: 1.5;
+}
+
+/* Larger screens */
+@media (min-width: 768px) {
+  .mobile-trends-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    gap: 2rem;
+  }
+
+  .mobile-trend-video {
+    height: 300px;
+  }
+
+  .mobile-trend-blogs h3 {
+    font-size: 1.5rem;
+  }
+}

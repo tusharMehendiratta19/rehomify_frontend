@@ -1,0 +1,50 @@
+.seller-layout {
+  position: fixed;
+  top: 8.9%;
+  left: 0;
+  display: flex;
+  height: 100vh;
+  /* background-color: gray; */
+  /* background-color: #fefefe; */
+  width: 16%;
+}
+
+/* Sidebar */
+.seller-sidebar {
+  width: 100%;
+  background-color: #f8d8d1;
+  padding: 1.5rem 1rem;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+}
+
+.seller-nav-main {
+  display: flex;
+  width: 100%;
+
+  flex-direction: column;
+  gap: 1rem;
+}
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 15px;
+  color: #333;
+  text-decoration: none;
+  font-weight: 500;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+  cursor: pointer !important;
+}
+
+.nav-link:hover {
+  background-color: #edd6ba;
+}
+
+.nav-icon {
+  color: #4a4a4a;
+  width: 20%;
+  margin-right: -5%;
+}

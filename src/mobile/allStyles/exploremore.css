@@ -1,0 +1,81 @@
+.mobile-explore-wrapper {
+  padding: 1rem;
+  background-color: #fdfdfd;
+}
+
+.mobile-explore-show-more-container {
+  text-align: center;
+  margin-top: 12px;
+}
+
+.mobile-explore-show-more-btn {
+  padding: 5px 10px;
+  font-size: 10px;
+  background-color: white;
+  color: #b63e2b;
+  border: 1px solid #b63e2b;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s ease;
+  width: 30%;
+}
+
+.mobile-explore-show-more-btn:hover {
+  background-color: #922c1e;
+}
+
+
+.mobile-explore-heading {
+  width: 50%;
+  margin: 0 auto 1.5rem auto;
+  padding: 10px 15px;
+  border: 2px solid #b63e2b;
+  border-left-width: 1px;
+  border-right-width: 4px;
+  border-bottom-width: 4px;
+  color: #b63e2b;
+  border-radius: 20px 4px 20px 4px;
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+.mobile-explore-cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+}
+
+.mobile-explore-card {
+  position: relative;
+  width: 45%;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s;
+}
+
+.mobile-explore-image {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 10px 10px 0 0;
+}
+
+.mobile-hover-btn {
+  position: absolute;
+  bottom: 0px;
+  /* left: 6px;
+  right: 6px; */
+  background: rgba(0, 0, 0, 0.65);
+  color: #fff;
+  padding: 6px;
+  font-size: 0.6rem;
+  font-weight: bold;
+  border-radius: 0 0 6px 6px;
+  opacity: 1;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}

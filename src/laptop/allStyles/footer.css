@@ -1,0 +1,86 @@
+.main-layout {
+  background-color: #e1e0e0;
+  padding: 10px 10px;
+  color: #333;
+  font-size: 14px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.footer-columns {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 30px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.main-column,
+.social-media-column,
+.become-seller-column {
+  flex: 1;
+  min-width: 250px;
+}
+
+.footer-section {
+  margin-bottom: 20px;
+}
+
+.footer-section h4 {
+  font-size: 18px;
+  color: #b63e2b;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.footer-section h4:hover {
+  color: #dd4d36;
+}
+
+.footer-section p {
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* .social-links {
+  display: flex;
+  /* flex-direction: column; */
+/* gap: 10px; */
+/* } */
+
+.social-icon {
+  color: #333;
+  transition: color 0.3s;
+  display: inline-block;
+}
+
+.social-icon:hover {
+  color: #dd4d36;
+}
+
+.become-seller-column h4 {
+  font-size: 18px;
+  color: #b63e2b;
+  margin-bottom: 10px;
+}
+
+.become-seller-column p {
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.become-seller-btn {
+  background-color: #b63e2b;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.become-seller-btn:hover {
+  background-color: #a13220;
+}

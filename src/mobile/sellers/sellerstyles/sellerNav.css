@@ -1,0 +1,39 @@
+.mobile-seller-sidebar {
+  position: fixed;
+  top: 35px; /* height of header */
+  left: -100%;
+  width: 50%;
+  height: 41%;
+  background-color: #fff;
+  border-right: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  border-radius: 0 0 10px 0;
+  transition: left 0.3s ease-in-out;
+  z-index: 999;
+}
+
+.mobile-seller-sidebar.open {
+  left: 0 !important;
+}
+
+.mobile-seller-nav-main {
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  /* background-color: yellow; */
+}
+
+.mobile-nav-link {
+  display: flex;
+  align-items: center;
+  padding: 12px 8px;
+  text-decoration: none;
+  color: #333;
+  border-bottom: 1px solid #eee;
+  font-size: 15px;
+}
+
+.mobile-nav-icon {
+  margin-right: 10px;
+  width: 24px;
+}

@@ -1,0 +1,249 @@
+.mobile-header-container {
+  width: 100%;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+/* Top Bar */
+.mobile-top-bar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  /* justify-content: space-between; */
+  padding: 10px;
+  background-color: #f4ebd0;
+}
+
+.mobile-logo-img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.mobile-cart-link{
+  position: fixed;
+  right: 10px;
+  width: 10%;
+}
+
+.mobile-resell-button {
+  background-color: white;
+  color: #c94b33;
+  border: 1px solid #c94b33;
+  position: fixed;
+  right: 60px;
+  padding: 3px 6px;
+  width: 18%;
+  border-radius: 5px;
+  font-size: 13px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  gap: 2px;
+  overflow: hidden;
+}
+
+.resell-letter {
+  opacity: 0;
+  animation: showLetter 0.3s forwards;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-direction: normal;
+  animation-duration: 2.6s;
+}
+
+
+@keyframes showLetter {
+  to {
+    opacity: 1;
+  }
+}
+
+
+
+.mobile-user-icon {
+  color: #444;
+  cursor: pointer;
+  width: 10%;
+}
+.mobile-cart-icon {
+  color: #444;
+  cursor: pointer;
+  width: 100%;
+}
+
+.mobile-logo-slogan {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  flex: 1;
+  margin: 0 10px;
+}
+
+.mobile-logo {
+  font-size: 20px;
+  font-weight: bold;
+  color: #c94b33;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  letter-spacing: 4px;
+  width: 100%;
+}
+
+.mobile-slogan {
+  width: 100%;
+  font-size: 13px;
+  color: #444;
+  font-style: italic;
+  text-align: center;
+}
+
+/* Dropdown Menu */
+.mobile-dropdown-menu {
+  position: absolute;
+  right: 10px;
+  top: 60px;
+  background: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  border-radius: 6px;
+  padding: 0.5rem;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  width: 25%;
+}
+
+.mobile-dropdown-menu button {
+  padding: 0.5rem;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  color: #333;
+}
+
+.mobile-dropdown-menu button:hover {
+  background-color: #f0f0f0;
+}
+
+/* Bottom Bar */
+.mobile-bottom-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  padding: 10px;
+  border-top: 1px solid #eee;
+  width: 100%;
+  height: 50px;
+}
+
+.burger-icon {
+  position: fixed;
+  left: 5px;
+  width: 10%;
+  margin-right: 200px;
+  color: #444;
+  cursor: pointer;
+}
+
+.mobile-bottom-bar .mobile-search-input {
+  position: fixed;
+  left: 50px;
+  flex: 1;
+  /* margin: 0 10px; */
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  /* background-color: yellow; */
+  border-radius: 20px;
+  outline: none;
+  width: 50%;
+  margin: 10px 0 10px 0;
+  font-size: 14px;
+}
+
+/* .mobile-sell-btn {
+  background-color: transparent;
+  color: #e4574f;
+  border: 1px solid #e4574f;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 13px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+} */
+
+.mobile-sell-btn:hover {
+  background-color: #e4574f;
+  color: white;
+}
+
+/* Side Navbar */
+.mobile-side-nav {
+  position: fixed;
+  top: 123px;
+  left: 3px;
+  background-color: #ffffff;
+  width: 50%;
+  border-radius: 10px;
+  height: 300px;
+  padding: 10px;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+  z-index: 99;
+  display: flex;
+  flex-direction: column;
+}
+
+.mobile-side-nav a {
+  text-decoration: none;
+  padding: 12px 0;
+  color: #333;
+  font-weight: 500;
+  border-bottom: 1px solid #eee;
+}
+
+.side-nav-links {
+  width: 100%;
+  height: 100%;
+  /* background-color: gray; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 10px;
+  color: #333;
+  text-decoration: none;
+}
+.side-nav-links:hover {
+  background-color: #f0f0f0;
+}
+.side-nav-links .nav-link:hover {
+  background-color: #f0f0f0;
+}
+.side-nav-links .nav-link.active {
+  background-color: #e4574f;
+  color: white;
+}
+.side-nav-links .nav-link.active:hover {
+  background-color: #c94b33;
+}
+
+.side-nav-header {
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px;
+}
+
+.close-btn {
+  font-size: 24px;
+  cursor: pointer;
+  color: #c94b33;
+  text-align: right;
+  width: 100%;
+  margin-top: -10px;
+  margin-bottom: -10px;
+}

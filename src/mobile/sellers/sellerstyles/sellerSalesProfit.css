@@ -1,0 +1,64 @@
+.sales-profit-container {
+  padding: 20px;
+  background-color: #f9f9f9;
+  position: absolute;
+  left: 16.75%;
+  top: 180%;
+  width: 82.5%;  
+}
+
+/* Container for the sales table */
+.sales-table-container {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+.sales-table-container h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #333;
+}
+/* Table Styling */
+.sales-table table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.sales-table th, .sales-table td {
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #ddd;
+  width: auto;
+}
+
+.sales-table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+.sales-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* Styling for Download PDF button */
+.download-pdf-btn {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-top: 20px;
+  display: block;
+  width: 200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.download-pdf-btn:hover {
+  background-color: #45a049;
+}

@@ -1,0 +1,68 @@
+.mobile-explore-section {
+  padding: 1.5rem 1rem;
+  background-color: #f9f9f9;
+  text-align: center;
+}
+
+.mobile-explore-title {
+  font-size: 1.3rem;
+  padding: 10px 15px;
+  border-bottom: 4px solid #b63e2b;
+  border-left: 1px solid #b63e2b;
+  border-top: 1px solid #b63e2b;
+  border-right: 4px solid #b63e2b;
+  color: #b63e2b;
+  border-radius: 20px 4px 20px 4px;
+  width: 80%;
+  margin: 0 auto 1.5rem auto;
+}
+
+.mobile-category-cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.mobile-category-card {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 0.75rem;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s;
+  text-align: center;
+}
+
+.mobile-category-card:active {
+  transform: scale(0.97);
+}
+
+.mobile-category-image {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+}
+
+.mobile-category-title {
+  font-size: 0.95rem;
+  margin-bottom: 0.4rem;
+  color: #333;
+}
+
+.mobile-explore-category-button {
+  background-color: #fff;
+  color: #e6584e;
+  border: 1px solid #e6584e;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.mobile-explore-category-button:hover {
+  background-color: #e6584e;
+  color: white;
+}
