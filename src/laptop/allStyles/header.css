@@ -37,7 +37,7 @@
 .userIcon {
   /* background-color: gray; */
   width: 3%;
-  margin-right: -20%;
+  margin-right: -18%;
 }
 
 .dropdown-menu {
@@ -128,8 +128,8 @@
 
 .cartBtn {
   /* background-color: gray; */
-  width: 6%;
-  /* margin-left: 3%; */
+  width: 4%;
+  margin-left: 3%;
   align-items: center;
 }
 

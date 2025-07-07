@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import "../../App.css";
+import "../allStyles/carousel.css";
 
 const slides = [
   "https://videos.pexels.com/video-files/3770033/3770033-sd_640_360_25fps.mp4",

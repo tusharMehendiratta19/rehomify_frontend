@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import "../../App.css";
+import "../allStyles/productrow.css";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 const dummyProducts = {
