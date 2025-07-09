@@ -6,18 +6,53 @@ const Login = () => {
   const navigate = useNavigate();
   const [form, setForm] = useState({ username: '', password: '' });
   const [userType, setUserType] = useState('Customer'); // Default selected user type
+  const [snackbar, setSnackbar] = useState({ show: false, message: '', success: true });
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (userType === 'Seller') {
-      navigate('/sellerHub');
-    } else {
-      navigate('/home');
+    const payload = {
+      password: form.password,
+      type: userType,
+      [userType === 'Seller' ? 'number' : 'email']: form.username,
+    };
+
+    try {
+      const res = await fetch("https://rehomify.in/v1/auth/login", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const result = await res.json();
+
+      if (res.ok && result.success) {
+        showSnackbar('Login successful!', true);
+
+        // Optionally: store token or user info
+        // localStorage.setItem('token', result.token);
+
+        setTimeout(() => {
+          navigate(userType === 'Seller' ? '/sellerHub' : '/home');
+        }, 1500);
+      } else {
+        showSnackbar(result.result || 'Login failed', false);
+      }
+    } catch (err) {
+      showSnackbar('Server error. Please try again.', false);
     }
+  };
+
+  const showSnackbar = (message, success) => {
+    setSnackbar({ show: true, message, success });
+    setTimeout(() => {
+      setSnackbar({ show: false, message: '', success: true });
+    }, 3000);
   };
 
   return (
@@ -88,6 +123,12 @@ const Login = () => {
           </p>
         </form>
       </div>
+
+      {snackbar.show && (
+        <div className={`snackbar ${snackbar.success ? 'success' : 'error'}`}>
+          {snackbar.message}
+        </div>
+      )}
     </div>
   );
 };

@@ -153,3 +153,36 @@
   color: #ff6f61;
   cursor: pointer;
 }
+
+.snackbar {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #444;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 4px;
+  font-size: 16px;
+  z-index: 9999;
+  opacity: 0.95;
+  animation: fadein 0.3s, fadeout 0.3s 2.7s;
+}
+
+.snackbar.success {
+  background-color: #28a745;
+}
+
+.snackbar.error {
+  background-color: #dc3545;
+}
+
+@keyframes fadein {
+  from { bottom: 0; opacity: 0; }
+  to { bottom: 30px; opacity: 0.95; }
+}
+
+@keyframes fadeout {
+  from { bottom: 30px; opacity: 0.95; }
+  to { bottom: 0; opacity: 0; }
+}
