@@ -17,7 +17,7 @@ const Login = () => {
     const payload = {
       password: form.password,
       type: userType,
-      [userType === 'Seller' ? 'number' : 'email']: form.username,
+      [userType === 'Seller' ? 'mobileNo' : 'email']: form.username,
     };
 
     try {
@@ -30,8 +30,9 @@ const Login = () => {
       });
 
       const result = await res.json();
+      console.log("result: ",result)
 
-      if (res.ok && result.success) {
+      if (result.status) {
         showSnackbar('Login successful!', true);
 
         // Optionally: store token or user info
@@ -39,7 +40,7 @@ const Login = () => {
 
         setTimeout(() => {
           navigate(userType === 'Seller' ? '/sellerHub' : '/home');
-        }, 1500);
+        }, 3000);
       } else {
         showSnackbar(result.result || 'Login failed', false);
       }

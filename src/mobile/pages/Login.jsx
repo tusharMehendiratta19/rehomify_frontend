@@ -1,23 +1,52 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../allStyles/login.css'; // Make sure mobile styles are included or separated
+import '../allStyles/login.css';
 
 const MobileLogin = () => {
   const navigate = useNavigate();
   const [form, setForm] = useState({ username: '', password: '' });
   const [userType, setUserType] = useState('Customer');
+  const [snackbar, setSnackbar] = useState({ show: false, message: '', success: true });
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (userType === 'Seller') {
-      navigate('/sellerHub');
-    } else {
-      navigate('/home');
+
+    const payload =
+      userType === 'Seller'
+        ? { mobileNo: form.username, password: form.password }
+        : { email: form.username, password: form.password };
+
+    try {
+      const res = await fetch('https://rehomify.in/v1/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      const result = await res.json();
+
+      if (result.status) {
+        showSnackbar('Login successful!', true);
+        setTimeout(() => {
+          navigate(userType === 'Seller' ? '/sellerHub' : '/home');
+        }, 1500);
+      } else {
+        showSnackbar(result.result || 'Login failed!', false);
+      }
+    } catch (err) {
+      showSnackbar('Server error. Please try again.', false);
     }
+  };
+
+  const showSnackbar = (message, success) => {
+    setSnackbar({ show: true, message, success });
+    setTimeout(() => {
+      setSnackbar({ show: false, message: '', success: true });
+    }, 3000);
   };
 
   return (
@@ -26,7 +55,6 @@ const MobileLogin = () => {
       <div className="mobile-login-content">
         <h4>Welcome to ReHomify<br />Login Below</h4>
         <form className="mobile-login-form" onSubmit={handleSubmit}>
-
           <div className="mobile-radio-group">
             <div className='mobile-radio-label'>
               <label>
@@ -81,11 +109,16 @@ const MobileLogin = () => {
           <button type="submit">Login</button>
 
           <p className="mobile-signup-link">
-            New User?{' '}
-            <span onClick={() => navigate('/signup')}>Sign Up</span>
+            New User? <span onClick={() => navigate('/signup')}>Sign Up</span>
           </p>
         </form>
       </div>
+
+      {snackbar.show && (
+        <div className={`snackbar ${snackbar.success ? 'success' : 'error'}`}>
+          {snackbar.message}
+        </div>
+      )}
     </div>
   );
 };

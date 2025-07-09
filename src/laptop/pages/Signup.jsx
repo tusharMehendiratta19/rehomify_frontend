@@ -8,7 +8,7 @@ const Signup = () => {
     name: '',
     number: '',
     email: '',
-    type: 'Customer',
+    type: 'customer',
     password: '',
     confirmPassword: '',
   });
@@ -35,7 +35,7 @@ const Signup = () => {
         },
         body: JSON.stringify({
           name: form.name,
-          number: form.number,
+          mobileNo: form.number,
           email: form.email,
           type: form.type,
           password: form.password,
@@ -43,14 +43,15 @@ const Signup = () => {
       });
 
       const result = await res.json();
+      console.log("result>> ",result)
 
-      if (res.ok && result.success) {
+      if (result.status) {
         showSnackbar('Signup successful!', true);
 
         // Redirect after short delay to allow snackbar to show
         setTimeout(() => {
-          navigate(form.type === 'Seller' ? '/sellerHub' : '/');
-        }, 1500);
+          navigate(form.type === 'seller' ? '/sellerHub' : '/home');
+        }, 3000);
       } else {
         showSnackbar(result.result || 'Signup failed', false);
       }
@@ -102,8 +103,8 @@ const Signup = () => {
             <div className="laptop-form-group">
               <label>Type</label>
               <select name="type" value={form.type} onChange={handleChange}>
-                <option value="Customer">Customer</option>
-                <option value="Seller">Seller</option>
+                <option value="customer">customer</option>
+                <option value="seller">seller</option>
               </select>
             </div>
             <div className="laptop-form-group">

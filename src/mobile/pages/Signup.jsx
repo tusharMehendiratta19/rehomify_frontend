@@ -8,22 +8,60 @@ const Signup = () => {
     name: '',
     number: '',
     email: '',
-    type: 'Customer',
+    type: 'customer',
     password: '',
     confirmPassword: '',
   });
 
-  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+  const [snackbar, setSnackbar] = useState({ show: false, message: '', success: true });
 
-  const handleSubmit = (e) => {
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Signup data:', form);
 
-    if (form.type === 'Seller') {
-      navigate('/sellerHub');
-    } else {
-      navigate('/');
+    if (form.password !== form.confirmPassword) {
+      showSnackbar('Passwords do not match!', false);
+      return;
     }
+
+    try {
+      const payload = {
+        name: form.name,
+        mobileNo: form.number, // ✅ Corrected field name
+        email: form.email,
+        type: form.type,
+        password: form.password
+      };
+
+      const res = await fetch('https://rehomify.in/v1/auth/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      const result = await res.json();
+
+      if (result.status) {
+        showSnackbar('Signup successful!', true);
+        setTimeout(() => {
+          navigate(form.type === 'Seller' ? '/sellerHub' : '/');
+        }, 1500);
+      } else {
+        showSnackbar(result.result || 'Signup failed!', false);
+      }
+    } catch (err) {
+      showSnackbar('Server error. Please try again.', false);
+    }
+  };
+
+  const showSnackbar = (message, success) => {
+    setSnackbar({ show: true, message, success });
+    setTimeout(() => {
+      setSnackbar({ show: false, message: '', success: true });
+    }, 3000);
   };
 
   return (
@@ -60,8 +98,8 @@ const Signup = () => {
             <div className="mobile-form-group">
               <label>Type</label>
               <select name="type" value={form.type} onChange={handleChange}>
-                <option value="Customer">Customer</option>
-                <option value="Seller">Seller</option>
+                <option value="customer">Customer</option>
+                <option value="seller">Seller</option>
               </select>
             </div>
             <div className="mobile-form-group">
@@ -108,6 +146,12 @@ const Signup = () => {
           </p>
         </form>
       </div>
+
+      {snackbar.show && (
+        <div className={`snackbar ${snackbar.success ? 'success' : 'error'}`}>
+          {snackbar.message}
+        </div>
+      )}
     </div>
   );
 };

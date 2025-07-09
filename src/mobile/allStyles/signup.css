@@ -89,3 +89,38 @@
 .mobile-signup-container span:hover {
   text-decoration: underline;
 }
+
+.snackbar {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 40px;
+  background-color: #333;
+  color: #fff;
+  padding: 10px 20px;
+  font-size: 14px;
+  border-radius: 6px;
+  z-index: 999;
+  max-width: 90%;
+  text-align: center;
+  animation: fadein 0.3s, fadeout 0.3s 2.7s;
+}
+
+.snackbar.success {
+  background-color: #28a745;
+}
+
+.snackbar.error {
+  background-color: #dc3545;
+}
+
+@keyframes fadein {
+  from { bottom: 0; opacity: 0; }
+  to { bottom: 20px; opacity: 1; }
+}
+
+@keyframes fadeout {
+  from { bottom: 20px; opacity: 1; }
+  to { bottom: 0; opacity: 0; }
+}

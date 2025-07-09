@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
 import '../allStyles/login.css';
 
 const ForgotPassword = () => {
@@ -10,23 +9,52 @@ const ForgotPassword = () => {
     newPassword: '',
     confirmPassword: ''
   });
+  const [snackbar, setSnackbar] = useState({ show: false, message: '', success: true });
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // You can add validation or API call here
     if (form.newPassword !== form.confirmPassword) {
-      alert('Passwords do not match!');
+      showSnackbar('Passwords do not match!', false);
       return;
     }
 
-    // Simulate successful password reset
-    alert('Password reset successful!');
-    navigate('/login');
+    try {
+      const res = await fetch("https://rehomify.in/v1/auth/changePassword", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          mobileNo: form.number,
+          password: form.newPassword
+        }),
+      });
+
+      const result = await res.json();
+
+      if (result.status) {
+        showSnackbar('Password reset successful!', true);
+        setTimeout(() => {
+          navigate('/login');
+        }, 1500);
+      } else {
+        showSnackbar(result.result || 'Failed to reset password.', false);
+      }
+    } catch (err) {
+      showSnackbar('Server error. Please try again.', false);
+    }
+  };
+
+  const showSnackbar = (message, success) => {
+    setSnackbar({ show: true, message, success });
+    setTimeout(() => {
+      setSnackbar({ show: false, message: '', success: true });
+    }, 3000);
   };
 
   return (
@@ -67,6 +95,12 @@ const ForgotPassword = () => {
           <p className="laptop-backtoLogin" onClick={() => navigate('/login')}>Back to Login</p>
         </form>
       </div>
+
+      {snackbar.show && (
+        <div className={`snackbar ${snackbar.success ? 'success' : 'error'}`}>
+          {snackbar.message}
+        </div>
+      )}
     </div>
   );
 };
