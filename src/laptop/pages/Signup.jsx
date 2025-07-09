@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../allStyles/signup.css'; // Make sure path is correct
+import '../allStyles/signup.css'; // Ensure path is correct
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -13,17 +13,57 @@ const Signup = () => {
     confirmPassword: '',
   });
 
-  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+  const [snackbar, setSnackbar] = useState({ show: false, message: '', success: true });
 
-  const handleSubmit = (e) => {
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Signup data:', form);
 
-    if (form.type === 'Seller') {
-      navigate('/sellerHub');
-    } else {
-      navigate('/');
+    if (form.password !== form.confirmPassword) {
+      showSnackbar('Passwords do not match', false);
+      return;
     }
+
+    try {
+      const res = await fetch("https://rehomify.in/v1/auth/signup", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: form.name,
+          number: form.number,
+          email: form.email,
+          type: form.type,
+          password: form.password,
+        }),
+      });
+
+      const result = await res.json();
+
+      if (res.ok && result.success) {
+        showSnackbar('Signup successful!', true);
+
+        // Redirect after short delay to allow snackbar to show
+        setTimeout(() => {
+          navigate(form.type === 'Seller' ? '/sellerHub' : '/');
+        }, 1500);
+      } else {
+        showSnackbar(result.result || 'Signup failed', false);
+      }
+    } catch (err) {
+      showSnackbar('Server error. Please try again.', false);
+    }
+  };
+
+  const showSnackbar = (message, success) => {
+    setSnackbar({ show: true, message, success });
+    setTimeout(() => {
+      setSnackbar({ show: false, message: '', success: true });
+    }, 3000);
   };
 
   return (
@@ -34,7 +74,6 @@ const Signup = () => {
         <h4>Welcome to ReHomify, Please Sign Up Below.</h4>
 
         <form className="laptop-signup-container" onSubmit={handleSubmit}>
-
           <div className="laptop-form-row">
             <div className="laptop-form-group">
               <label>Name</label>
@@ -49,7 +88,7 @@ const Signup = () => {
             <div className="laptop-form-group">
               <label>Number</label>
               <input
-                type="number"
+                type="tel"
                 name="number"
                 value={form.number}
                 onChange={handleChange}
@@ -74,6 +113,7 @@ const Signup = () => {
                 name="email"
                 value={form.email}
                 onChange={handleChange}
+                required
               />
             </div>
           </div>
@@ -111,6 +151,12 @@ const Signup = () => {
           </p>
         </form>
       </div>
+
+      {snackbar.show && (
+        <div className={`snackbar ${snackbar.success ? 'success' : 'error'}`}>
+          {snackbar.message}
+        </div>
+      )}
     </div>
   );
 };
