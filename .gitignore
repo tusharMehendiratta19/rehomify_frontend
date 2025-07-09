@@ -9,6 +9,8 @@ lerna-debug.log*
 
 node_modules
 dist
+dist.zip
+ec2-rehomify.pem
 dist-ssr
 *.local
 
