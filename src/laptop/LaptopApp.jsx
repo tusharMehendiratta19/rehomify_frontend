@@ -55,7 +55,7 @@ function LaptopApp() {
     <Router>
       <Routes>
         {/* Public Routes */}
-        <Route path="/" element={<Login onLogin={handleLogin} />} />
+        <Route path="/" element={<Home />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/home" element={<Home />} />
         <Route path="/products" element={<Products />} />
