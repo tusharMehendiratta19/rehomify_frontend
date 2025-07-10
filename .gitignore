@@ -11,6 +11,7 @@ node_modules
 dist
 dist.zip
 ec2-rehomify.pem
+rehomify-ec2.pem
 dist-ssr
 *.local
 
