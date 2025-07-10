@@ -51,7 +51,7 @@ const Signup = () => {
         // Redirect after short delay to allow snackbar to show
         setTimeout(() => {
           navigate(form.type === 'seller' ? '/sellerHub' : '/home');
-        }, 3000);
+        }, 1500);
       } else {
         showSnackbar(result.result || 'Signup failed', false);
       }

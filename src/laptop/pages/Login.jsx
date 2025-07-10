@@ -34,13 +34,15 @@ const Login = () => {
 
       if (result.status) {
         showSnackbar('Login successful!', true);
+        localStorage.setItem("token", result.token); // or your own logic
+
 
         // Optionally: store token or user info
         // localStorage.setItem('token', result.token);
 
         setTimeout(() => {
           navigate(userType === 'Seller' ? '/sellerHub' : '/home');
-        }, 3000);
+        }, 1500);
       } else {
         showSnackbar(result.result || 'Login failed', false);
       }

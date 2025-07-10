@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-// import { FaUserCircle, , FaSearch } from "react-icons/fa";
-import "../allStyles/header.css"; // Ensure this is already imported
+import "../allStyles/header.css";
 import {
   FaUserCircle,
   FaShoppingCart,
@@ -15,10 +14,12 @@ import {
 
 const slogans = ["Table", "Chair", "Sofa", "Bed", "Cupboard"];
 
-const Header = ({ isLoggedIn = true, handleLogout }) => {
+const Header = () => {
   const [index, setIndex] = useState(0);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const navigate = useNavigate();
+
+  const isLoggedIn = !!localStorage.getItem("token"); // adjust if your key is different
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -28,17 +29,41 @@ const Header = ({ isLoggedIn = true, handleLogout }) => {
   }, []);
 
   const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
+
+  const handleProtectedRoute = (path) => {
+    console.log("isLoggedIn: ", isLoggedIn)
+    console.log("path: ", path)
+    if (!isLoggedIn) {
+      navigate("/login");
+    } else {
+      navigate(path);
+    }
+  };
+
   const handleOptionClick = (option) => {
     setDropdownOpen(false);
-    if (option === "logout") {
-      // handleLogout();
+
+    if (!isLoggedIn) {
       navigate("/login");
-    } else if (option === "profile") {
-      navigate("/profile");
-    } else if (option === "orders") {
-      navigate("/orders");
-    } else if (option === "returns") {
-      navigate("/returns");
+      return;
+    }
+
+    switch (option) {
+      case "profile":
+        navigate("/profile");
+        break;
+      case "orders":
+        navigate("/orders");
+        break;
+      case "resell":
+        navigate("/resell");
+        break;
+      case "logout":
+        localStorage.removeItem("token");
+        navigate("/login");
+        break;
+      default:
+        break;
     }
   };
 
@@ -50,38 +75,44 @@ const Header = ({ isLoggedIn = true, handleLogout }) => {
         <div className="slogan">
           Don’t just rent, buy '{slogans[index]}' on easy EMIs
         </div>
+
         <FaUserCircle size={28} onClick={toggleDropdown} className="userIcon" />
+
         <div className="cartBtn">
-          <Link to="/cart">
+          <span onClick={() => handleProtectedRoute("/cart")}>
             <FaShoppingCart className="cart-icon" size={22} />
-          </Link>
+          </span>
         </div>
+
         {dropdownOpen && (
           <div className="dropdown-menu">
-            <button onClick={() => handleOptionClick("profile")}>
-              Profile
-            </button>
-            <button onClick={() => handleOptionClick("orders")}>Orders</button>
-            <button onClick={() => handleOptionClick("returns")}>
-              Resold
-            </button>
-            <button onClick={() => handleOptionClick("logout")}>Logout</button>
+            {isLoggedIn ? (
+              <>
+                <button onClick={() => handleOptionClick("profile")}>Profile</button>
+                <button onClick={() => handleOptionClick("orders")}>Orders</button>
+                <button onClick={() => handleOptionClick("returns")}>Resold</button>
+                <button onClick={() => handleOptionClick("logout")}>Logout</button>
+              </>
+            ) : (
+              <button onClick={() => handleOptionClick("login")}>Login</button>
+            )}
           </div>
         )}
       </div>
 
-      {/* Second Header */}
+      {/* Bottom Header */}
       <div className="bottom-header">
         <nav className="nav-links">
-          <Link to="/">
+          <Link to="/home">
             <FaHome className="nav-icons" /> Home
           </Link>
           <Link to="/products">
             <FaBoxOpen className="nav-icons" /> Products
           </Link>
-          <Link to="/resell">
+          <span className="nav-link" onClick={() => handleProtectedRoute("/resell")}>
             <FaRecycle className="nav-icons" /> Resell
-          </Link>
+          </span>
+
           <Link to="/offers">
             <FaTags className="nav-icons" /> Offers
           </Link>
@@ -92,7 +123,9 @@ const Header = ({ isLoggedIn = true, handleLogout }) => {
 
         <div className="search-cart">
           <input type="text" placeholder="Search..." className="search-input" />
-          <h4 className="becomeSeller" onClick={() => navigate("/sellOptions")}>Sell Your Furniture</h4>
+          <h4 className="becomeSeller" onClick={() => navigate("/sellOptions")}>
+            Sell Your Furniture
+          </h4>
         </div>
       </div>
     </div>

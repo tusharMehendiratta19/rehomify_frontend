@@ -30,6 +30,7 @@ const MobileLogin = () => {
       const result = await res.json();
 
       if (result.status) {
+        localStorage.setItem("token", result.token); // ✅ Save token for session
         showSnackbar('Login successful!', true);
         setTimeout(() => {
           navigate(userType === 'Seller' ? '/sellerHub' : '/home');
@@ -115,7 +116,24 @@ const MobileLogin = () => {
       </div>
 
       {snackbar.show && (
-        <div className={`snackbar ${snackbar.success ? 'success' : 'error'}`}>
+        <div
+          className={`snackbar ${snackbar.success ? 'success' : 'error'}`}
+          style={{
+            position: 'fixed',
+            bottom: '20px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            padding: '12px 16px',
+            borderRadius: '8px',
+            fontSize: '14px',
+            maxWidth: '90%',
+            textAlign: 'center',
+            zIndex: 9999,
+            backgroundColor: snackbar.success ? '#4CAF50' : '#F44336',
+            color: '#fff',
+            boxShadow: '0 2px 10px rgba(0,0,0,0.2)',
+          }}
+        >
           {snackbar.message}
         </div>
       )}

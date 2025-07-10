@@ -199,7 +199,7 @@
   flex-direction: column;
 }
 
-.mobile-side-nav a {
+.mobile-side-nav a, .mobile-side-nav span {
   text-decoration: none;
   padding: 12px 0;
   color: #333;

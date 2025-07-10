@@ -83,7 +83,7 @@
   justify-content: space-between;
   /* background-color: yellow; */
 }
-.nav-links a {
+.nav-links a, .nav-links span {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -97,7 +97,7 @@
   /* background-color: yellow; */
   width: 20%;
 }
-.nav-links a:hover {
+.nav-links a:hover, .nav-links .nav-link:hover {
   color: #c94b33;
 }
 

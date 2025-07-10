@@ -32,7 +32,7 @@ const Returns = () => {
     <div>
       <Header />
       <div className="resell-main">
-        <h2>Return Orders</h2>
+        <h2>Resold Orders</h2>
         <div className="resell-container">
           {orders.map((order) => (
             <div className="resell-card" key={order.id}>

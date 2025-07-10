@@ -17,17 +17,17 @@ import SpecialFurnitureOffer from "../components/SpecialFurnitureOffer";
 const Home = ({ isLoggedIn }) => {
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const handleProtectedAction = (e) => {
-      if (!isLoggedIn && e.target.dataset.protected === "true") {
-        e.preventDefault();
-        navigate("/login");
-      }
-    };
+  // useEffect(() => {
+  //   const handleProtectedAction = (e) => {
+  //     if (!isLoggedIn && e.target.dataset.protected === "true") {
+  //       e.preventDefault();
+  //       navigate("/login");
+  //     }
+  //   };
 
-    document.addEventListener("click", handleProtectedAction);
-    return () => document.removeEventListener("click", handleProtectedAction);
-  }, [isLoggedIn, navigate]);
+  //   document.addEventListener("click", handleProtectedAction);
+  //   return () => document.removeEventListener("click", handleProtectedAction);
+  // }, [isLoggedIn, navigate]);
 
   return (
     <div className="page-wrapper">
