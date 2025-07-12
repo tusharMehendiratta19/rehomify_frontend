@@ -30,17 +30,20 @@ const OffersMobile = () => {
         <div className="mobile-offers-row">
           {offersData.map((offer) => (
             <div className="mobile-offer-card" key={offer.id}>
-              <div className="mobile-offer-top">
-                <span
-                  className="mobile-offer-code-box"
-                  onClick={() => copyToClipboard(offer.code)}
-                >
-                  {offer.code}
-                </span>
-                <img src={offer.image} alt={offer.type} className="mobile-offer-image" />
+              <img src={offer.image} alt={offer.type} className="mobile-offer-image" />
+              <div>
+                <div className="mobile-offer-top">
+                  <span
+                    className="mobile-offer-code-box"
+                    onClick={() => copyToClipboard(offer.code)}
+                  >
+                    {offer.code}
+                  </span>
+
+                </div>
+                <div className="mobile-offer-discount">{offer.description}</div>
+                {/* <div className="mobile-offer-tagline">{offer.description}</div> */}
               </div>
-              <div className="mobile-offer-discount">{offer.offerHead}</div>
-              <div className="mobile-offer-tagline">{offer.description}</div>
             </div>
           ))}
         </div>

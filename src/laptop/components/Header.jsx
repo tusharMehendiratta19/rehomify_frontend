@@ -109,7 +109,7 @@ const Header = () => {
           <Link to="/products">
             <FaBoxOpen className="nav-icons" /> Products
           </Link>
-          <span className="nav-link" onClick={() => handleProtectedRoute("/resell")}>
+          <span className="span-link" onClick={() => handleProtectedRoute("/resell")}>
             <FaRecycle className="nav-icons" /> Resell
           </span>
 

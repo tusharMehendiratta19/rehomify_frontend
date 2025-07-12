@@ -101,3 +101,31 @@
 .mobile-seller-image-btn:hover {
   background-color: #f0f0f0;
 }
+@media screen and (max-width: 389px) and (min-width: 350px) {
+  .mobile-seller-image-grid {
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 4px;
+    padding: 2px;
+  }
+
+  .mobile-topblogs h4 {
+    font-size: 0.7rem;
+    margin: 0 auto 0.8rem 4%;
+    padding: 4px 10px;
+  }
+
+  .mobile-seller-image-btn {
+    width: 75%;
+    font-size: 0.28rem;
+  }
+
+  .mobile-seller-image-card-6,
+  .mobile-seller-image-card-8 {
+    margin-top: -58px;
+  }
+
+  .mobile-seller-image-card-5,
+  .mobile-seller-image-card-7 {
+    margin-top: -8px;
+  }
+}

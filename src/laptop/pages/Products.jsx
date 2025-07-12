@@ -32,7 +32,7 @@ const Products = () => {
   const [selectedColor, setSelectedColor] = useState("");
   const [priceRange, setPriceRange] = useState([0, Infinity]);
   const [showFilters, setShowFilters] = useState(false);
-
+  const [selected, setSelected] = useState('New');
   const navigate = useNavigate();
 
   const handleProductClick = (id) => {
@@ -117,11 +117,32 @@ const Products = () => {
                   {showFilters ? "Hide Filters" : "Show Filters"}
                 </button>
               </div>
+
+              <div className="toggle-wrapper">
+                <div className="toggle-buttons">
+                  <button
+                    className={`toggle-btn ${selected === 'New' ? 'active' : ''}`}
+                    onClick={() => setSelected('New')}
+                  >
+                    New
+                  </button>
+                  <button
+                    className={`toggle-btn ${selected === 'Refurbished' ? 'active' : ''}`}
+                    onClick={() => setSelected('Refurbished')}
+                  >
+                    Refurbished
+                  </button>
+                </div>
+                <p className="toggle-status">
+                  Showing <span className="highlight">{selected}</span>
+                </p>
+              </div>
+
             </div>
 
             {showFilters && (
               <div className="laptop-filter-panel">
-                <div className="laptop-filter-group">
+                <div className="laptop-filter-group-1">
                   <label>Price Range:</label>
                   <select
                     onChange={(e) => {
@@ -140,7 +161,7 @@ const Products = () => {
                   </select>
                 </div>
 
-                <div className="laptop-filter-group">
+                <div className="laptop-filter-group-2">
                   <label>Color:</label>
                   <select
                     value={selectedColor}

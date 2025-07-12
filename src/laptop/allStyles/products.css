@@ -169,6 +169,8 @@
   gap: 10px;
   margin-bottom: 20px;
   width: 100%;
+  /* background-color: gray; */
+  height: 50px;
 }
 
 .laptop-category-heading {
@@ -180,10 +182,12 @@
 
 .laptop-filter-sort-controls {
   width: 40%;
-  margin-left: 43%;
+  margin-left: 25%;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-top: -7px;
+  /* background-color: yellow; */
 }
 
 .laptop-sort-select,
@@ -193,4 +197,92 @@
   border-radius: 4px;
   border: 1px solid #ccc;
   width: 48%;
+}
+
+.laptop-filter-panel {
+  display: flex;
+  /* background-color: gray; */
+  width: 60%;
+  justify-content: space-between;
+  border: 1px solid lightgrey;
+  padding: 10px 20px;
+  border-radius: 10px;
+}
+
+.laptop-filter-group-1 {
+  width: 40%;
+  text-align: center;
+  /* color: #b63e2b; */
+  /* background-color: yellow; */
+}
+.laptop-filter-group-2 {
+  width: 33%;
+  text-align: center;
+  /* color: #b63e2b; */
+  /* background-color: yellow; */
+}
+
+.laptop-filter-group-1 select {
+  /* background-color: yellow; */
+  border: 1px solid #b63e2b;
+  text-align: center;
+  width: 60%;
+  margin-left: 15px;
+  border-radius: 10px;
+  color: #b63e2b;
+}
+
+.laptop-filter-group-2 select {
+  /* background-color: yellow; */
+  border: 1px solid #b63e2b;
+  text-align: center;
+  width: 70%;
+  margin-left: 15px;
+  border-radius: 10px;
+  color: #b63e2b;
+}
+
+.toggle-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* background-color: green; */
+  width: 15%;
+  text-align: center;
+}
+
+.toggle-buttons {
+  display: flex;
+  border: 1px solid #b63e2b;
+  border-radius: 8px;
+  overflow: hidden;
+  /* margin-left: 10px; */
+  margin-top: 5px;
+  width: 100%;
+  /* background-color: yellow; */
+}
+
+.toggle-btn {
+  /* padding: 10px 20px; */
+  border: none;
+  background: none;
+  /* background-color: white; */
+  color: black;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.toggle-btn.active {
+  color: #b63e2b;
+}
+
+.toggle-status {
+  font-size: 12px;
+  font-weight: 700;
+  margin-top: 3px;
+}
+
+.toggle-status .highlight {
+  color: #b63e2b;
 }

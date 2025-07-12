@@ -16,13 +16,15 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  /* background-color: gray; */
+  background-color: white;
   align-items: flex-start;
   gap: 10px;
+  position: fixed;
+  top: 110px;
+  z-index: 10;
   margin-bottom: 16px;
   width: 100%;
-  padding: 5px;
-
+  padding: 10px 5px 5px 5px;
 }
 
 /* Horizontal scrollable category buttons */
@@ -60,9 +62,9 @@
   justify-content: space-evenly;
   gap: 10px;
   width: 32%;
-  margin-top: 10px;
+  /* margin-top: 10px; */
   border-left: 1px solid #b63e2b;
-  padding: 20px 0 20px 20px;
+  padding: 0px 0px 0px 20px;
   /* margin-top: 5px; */
 }
 
@@ -116,6 +118,8 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 12px;
+  position:relative;
+  top: 140px;
 }
 
 .mobile-product-card {
@@ -191,6 +195,31 @@
 
 .btn-primary:hover {
   background: #dd4d36;
+}
+
+.mobile-toggle-buttons {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-top: 5px;
+  width: 100px;
+  /* background-color: gray;*/
+}
+
+.mobile-toggle-btn {
+  /* padding: 10px 20px;s */
+  border: none;
+  background: none;
+  color: black;
+  font-weight: 400;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.mobile-toggle-btn.active {
+  color: #b63e2b;
 }
 
 /* Hide non-mobile versions */

@@ -32,7 +32,7 @@ const Products = () => {
   const [selectedColor, setSelectedColor] = useState("");
   const [priceRange, setPriceRange] = useState([0, Infinity]);
   const [showFilters, setShowFilters] = useState(false);
-
+  const [selected, setSelected] = useState('New');
   const navigate = useNavigate();
 
   const handleProductClick = (id) => {
@@ -96,6 +96,21 @@ const Products = () => {
             </div>
 
             <div className="mobile-filter-sort-controls">
+              <div className="mobile-toggle-buttons">
+                <button
+                  className={`mobile-toggle-btn ${selected === 'New' ? 'active' : ''}`}
+                  onClick={() => setSelected('New')}
+                >
+                  New
+                </button>
+                <button
+                  className={`mobile-toggle-btn ${selected === 'Refurbished' ? 'active' : ''}`}
+                  onClick={() => setSelected('Refurbished')}
+                >
+                  Refurbished
+                </button>
+              </div>
+
               <select
                 value={sortOrder}
                 onChange={(e) => setSortOrder(e.target.value)}
