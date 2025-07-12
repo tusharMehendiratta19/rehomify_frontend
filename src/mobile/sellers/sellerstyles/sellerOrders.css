@@ -1,77 +1,56 @@
-.seller-orders-wrapper {
-  display: flex;
-  flex-direction: column;
-  height: auto;
-  background-color: gray;
-}
+@media screen and (max-width: 768px) {
+  .seller-orders-wrapper {
+    position: static;
+    padding: 1rem;
+    width: 100%;
+    padding-top: 2rem;
+    background-color: white;
+  }
 
-.seller-orders-wrapper h2 {
-  position: fixed;
-  top: 8.8%;
-  width: 84%;
-  left: 16%;
-  /* margin: 1rem 0; */
-  color: black;
-  background-color: white;
-  font-size: 1.5rem;
-  text-align: left;
-  padding: 1rem 0  1rem 2.5rem;
-  z-index: 3;
-}
+  .seller-orders-wrapper h2 {
+    position: static;
+    width: 100%;
+    padding: 0.8rem 1rem;
+    font-size: 1.2rem;
+    background-color: transparent;
+    margin-bottom: 1rem;
+  }
 
-.orders-container {
-  padding: 2rem;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-  gap: 1.5rem;
-  position: absolute;
-  width: 84%;
-  top: 16%;
-  left: 15%;
-}
+  .orders-container {
+    position: static;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 0;
+    width: 100%;
+  }
 
-.order-card {
-  display: flex;
-  gap: 1rem;
-  padding: 1rem;
-  background: #fff6f5;
-  border: 1px solid #f5d0cc;
-  border-radius: 12px;
-  align-items: center;
-  transition: box-shadow 0.2s ease;
-}
+  .order-card {
+    display: flex;
+    align-items: flex-start;
+    padding: 0.8rem;
+  }
 
-.order-card:hover {
-  box-shadow: 0 2px 8px rgba(250, 128, 114, 0.2);
-}
+  .order-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
 
-.order-image {
-  width: 100px;
-  height: 100px;
-  object-fit: cover;
-  border-radius: 8px;
-  border: 1px solid #eee;
-}
+  .order-details {
+    margin-top: 0.5rem;
+    gap: 4px;
+  }
 
-.order-details {
-  display: flex;
-  flex-direction: column;
-}
+  .order-title {
+    font-size: 1rem;
+  }
 
-.order-title {
-  font-size: 1.1rem;
-  margin-bottom: 0.3rem;
-  color: #333;
-}
+  .order-info {
+    font-size: 0.9rem;
+  }
 
-.order-info {
-  margin: 2px 0;
-  font-size: 0.95rem;
-  color: #555;
-}
-
-.order-status {
-  font-weight: 600;
-  color: green;
-  margin-top: 0.3rem;
+  .order-status {
+    font-size: 0.9rem;
+  }
 }

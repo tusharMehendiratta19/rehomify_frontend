@@ -1,74 +1,54 @@
+@media screen and (max-width: 768px) {
 .seller-transaction-container {
-  position: absolute;
-  width: 84%;
-  top: 9%;
-  left: 16%;
-  /* margin-left: 20%; */
-  padding: 20px;
-  /* background-color: gray; */
-  /* border-radius: 12px; */
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-}
+    position: static;
+    width: 100%;
+    padding: 1rem;
+    margin-top: 70px; /* ensures spacing below fixed header if any */
+  }
 
-.seller-transaction-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-}
+  .seller-transaction-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.8rem;
+  }
 
-.seller-download-btn {
-  padding: 8px 14px;
-  background-color: #e36a6a;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: bold;
-  width: 30%;
-}
+  .seller-transaction-header h2 {
+    font-size: 1.2rem;
+    margin: 0;
+    color: #333;
+  }
 
-.seller-download-btn:hover {
-  background-color: #c25454;
-}
+  .seller-download-btn {
+    width: 50%;
+    font-size: 0.9rem;
+    padding: 10px;
+  }
 
-.seller-transaction-table {
-  width: 100%;
-  border-collapse: collapse;
-  table-layout: fixed;
-}
+  .seller-transaction-table {
+    width: 100%;
+    overflow-x: auto;
+    display: block;
+  }
 
-.seller-transaction-table th,
-.seller-transaction-table td {
-  width: 25%;
-  padding: 12px;
-  border: 1px solid #e0e0e0;
-  text-align: center;
-  word-wrap: break-word;
-}
+  .seller-transaction-table table {
+    min-width: 500px; /* horizontal scroll if needed */
+  }
 
-.seller-transaction-table th {
-  background-color: #fff0ee;
-  cursor: pointer;
-}
+  .seller-transaction-table th,
+  .seller-transaction-table td {
+    font-size: 0.85rem;
+    padding: 8px;
+  }
 
-.seller-pagination {
-  display: flex;
-  margin-top: 10px;
-  text-align: center;
-}
+  .seller-pagination {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+  }
 
-.seller-pagination button {
-  padding: 6px 12px;
-  margin: 0 6px;
-  background-color: #f78f8f;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.seller-pagination button:disabled {
-  background-color: #e0e0e0;
-  cursor: not-allowed;
+  .seller-pagination button {
+    width: 100px;
+    font-size: 0.85rem;
+  }
 }

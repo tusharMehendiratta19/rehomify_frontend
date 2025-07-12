@@ -16,10 +16,10 @@ const MobileSellerNav = ({ isOpen, toggleSidebar }) => {
   return (
     <div className={`mobile-seller-sidebar ${isOpen ? "open" : ""}`}>
       <nav className="mobile-seller-nav-main">
-        <Link to="/seller/home" onClick={toggleSidebar} className="mobile-nav-link">
+        {/* <Link to="/seller/home" onClick={toggleSidebar} className="mobile-nav-link">
           <Home size={18} className="mobile-nav-icon" />
           Home
-        </Link>
+        </Link> */}
         <Link to="/seller/dashboard" onClick={toggleSidebar} className="mobile-nav-link">
           <LayoutDashboard size={18} className="mobile-nav-icon" />
           Dashboard

@@ -47,7 +47,7 @@ const Signup = () => {
       if (result.status) {
         showSnackbar('Signup successful!', true);
         setTimeout(() => {
-          navigate(form.type === 'Seller' ? '/sellerHub' : '/');
+          navigate(form.type === 'seller' ? '/seller/dashboard' : '/home');
         }, 1500);
       } else {
         showSnackbar(result.result || 'Signup failed!', false);

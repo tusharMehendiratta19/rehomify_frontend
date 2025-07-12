@@ -1,39 +1,24 @@
-.seller-reviews-container {
-  padding: 20px;
-  background-color: #f9f9f9;
-  position: absolute;
-  top: 9%;
-  left: 16%;
-  width: 84%;
-}
+@media screen and (max-width: 768px) {
+  .seller-reviews-container {
+    position: static;
+    width: 100%;
+    padding: 1rem;
+    margin-top: 70px; /* adjust if header is fixed */
+  }
 
-.review-card {
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  padding: 15px;
-  margin-bottom: 15px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease-in-out;
-}
+  .review-card {
+    padding: 1rem;
+  }
 
-.review-card:hover {
-  transform: translateY(-5px);
-}
+  .review-card h4 {
+    font-size: 1rem;
+  }
 
-.review-card h4 {
-  font-size: 18px;
-  color: #333;
-  margin-bottom: 10px;
-}
+  .review-card p {
+    font-size: 0.9rem;
+  }
 
-.review-card p {
-  font-size: 14px;
-  color: #777;
-  margin: 5px 0;
-}
-
-.review-card .rating {
-  color: #f39c12;
-  font-size: 16px;
+  .review-card .rating {
+    font-size: 1rem;
+  }
 }

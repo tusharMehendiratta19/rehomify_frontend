@@ -107,11 +107,13 @@ const MobileSellerOrders = () => (
         {orders.map((o) => (
           <div key={o.id} className="order-card">
             <img src={o.image} alt={o.product} className="order-image" />
-            <div className="order-details">
-              <h4 className="order-title">{o.product}</h4>
-              <p className="order-info">Price: ₹{o.price}</p>
-              <p className="order-info">Order Date: {o.date}</p>
-              <p className="order-status">{o.status}</p>
+            <div>
+              <div className="order-details">
+                <h4 className="order-title">{o.product}</h4>
+                <p className="order-info">Price: ₹{o.price}</p>
+                <p className="order-info">Order Date: {o.date}</p>
+                <p className="order-status">{o.status}</p>
+              </div>
             </div>
           </div>
         ))}

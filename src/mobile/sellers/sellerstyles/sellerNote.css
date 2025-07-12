@@ -1,62 +1,30 @@
-.seller-note-wrapper {
-  display: flex;
-  flex-direction: column;
-  height: auto;
-  position: absolute;
-  top: 9%;
-  left: 16%;
-  width: 84%;
-}
+@media screen and (max-width: 768px) {
+  .seller-note-wrapper {
+    position: static;
+    width: 100%;
+    padding: 1rem;
+    padding-top: 2rem;
+  }
 
-.seller-note-form {
-  /* margin-left: 240px; Adjust based on sidebar width */
-  padding: 2rem;
-  max-width: 600px;
-}
+  .seller-note-form {
+    padding: 1rem;
+    max-width: 100%;
+  }
 
-.form-group {
-  margin-bottom: 1.5rem;
-  display: flex;
-  flex-direction: column;
-}
+  .form-group {
+    margin-bottom: 1rem;
+  }
 
-.form-label {
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-  color: #333;
-}
+  .form-input,
+  .form-textarea {
+    font-size: 0.9rem;
+    padding: 0.6rem;
+  }
 
-.form-input,
-.form-textarea {
-  padding: 0.75rem;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-family: inherit;
-  background-color: #fff6f5;
-}
-
-.form-input:focus,
-.form-textarea:focus {
-  outline: none;
-  border-color: #fa8072;
-  background-color: #fff;
-}
-
-.form-submit-btn {
-  background-color: #fa8072;
-  color: white;
-  border: none;
-  padding: 0.75rem 1.5rem;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: background 0.3s ease;
-  width: 30%;
-  margin-left: 35%;
-  font-size: medium;
-}
-
-.form-submit-btn:hover {
-  background-color: #e9655e;
+  .form-submit-btn {
+    width: 100%;
+    margin-left: 0;
+    font-size: 1rem;
+    padding: 0.7rem;
+  }
 }

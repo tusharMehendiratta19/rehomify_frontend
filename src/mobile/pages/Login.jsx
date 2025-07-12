@@ -11,9 +11,9 @@ const MobileLogin = () => {
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("userType:",userType)
 
     const payload =
       userType === 'Seller'
@@ -33,7 +33,7 @@ const MobileLogin = () => {
         localStorage.setItem("token", result.token); // ✅ Save token for session
         showSnackbar('Login successful!', true);
         setTimeout(() => {
-          navigate(userType === 'Seller' ? '/sellerHub' : '/home');
+          navigate(userType === 'Seller' ? '/seller/dashboard' : '/home');
         }, 1500);
       } else {
         showSnackbar(result.result || 'Login failed!', false);

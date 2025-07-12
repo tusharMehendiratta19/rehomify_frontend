@@ -1,64 +1,42 @@
-.sales-profit-container {
-  padding: 20px;
-  background-color: #f9f9f9;
-  position: absolute;
-  left: 16.75%;
-  top: 180%;
-  width: 82.5%;  
-}
+@media screen and (max-width: 768px) {
+  .sales-profit-container {
+    position: static;
+    width: 100%;
+    padding: 12px;
+    top: auto;
+    left: auto;
+    background-color: #fff;
+    margin-top: 30px;
+  }
 
-/* Container for the sales table */
-.sales-table-container {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  text-align: center;
-}
-.sales-table-container h2 {
-  margin-bottom: 20px;
-  font-size: 24px;
-  color: #333;
-}
-/* Table Styling */
-.sales-table table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 20px;
-}
+  .sales-table-container {
+    padding: 12px;
+    box-shadow: none;
+    border-radius: 8px;
+  }
 
-.sales-table th, .sales-table td {
-  padding: 10px;
-  text-align: center;
-  border: 1px solid #ddd;
-  width: auto;
-}
+  .sales-table-container h2 {
+    font-size: 1rem;
+    margin-bottom: 12px;
+  }
 
-.sales-table th {
-  background-color: #f2f2f2;
-  font-weight: bold;
-}
+  .sales-table {
+    overflow-x: auto;
+  }
 
-.sales-table tr:nth-child(even) {
-  background-color: #f9f9f9;
-}
+  .sales-table table {
+    min-width: 600px; /* allow horizontal scroll */
+    font-size: 0.75rem;
+  }
 
-/* Styling for Download PDF button */
-.download-pdf-btn {
-  padding: 10px 20px;
-  background-color: #4CAF50;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  font-size: 14px;
-  cursor: pointer;
-  margin-top: 20px;
-  display: block;
-  width: 200px;
-  margin-left: auto;
-  margin-right: auto;
-}
+  .sales-table th,
+  .sales-table td {
+    padding: 8px;
+  }
 
-.download-pdf-btn:hover {
-  background-color: #45a049;
+  .download-pdf-btn {
+    font-size: 0.75rem;
+    width: 150px;
+    padding: 8px 12px;
+  }
 }
