@@ -1,5 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect,useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import Carousel from "../components/Carousel";
 import ProductRow from "../components/ProductRow";
 import CategoryButtons from "../components/CategoryButtons";
@@ -17,17 +18,23 @@ import SpecialFurnitureOffer from "../components/SpecialFurnitureOffer";
 const Home = ({ isLoggedIn }) => {
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   const handleProtectedAction = (e) => {
-  //     if (!isLoggedIn && e.target.dataset.protected === "true") {
-  //       e.preventDefault();
-  //       navigate("/login");
-  //     }
-  //   };
-
-  //   document.addEventListener("click", handleProtectedAction);
-  //   return () => document.removeEventListener("click", handleProtectedAction);
-  // }, [isLoggedIn, navigate]);
+   const [products, setProducts] = useState([]);
+    const [reviews, setReviews] = useState([]);
+  
+    useEffect(() => {
+      const fetchHomepageData = async () => {
+        try {
+          const res = await axios.get('http://localhost:5000/v1/home/getHomePage');
+          // console.log("response: ",res.data.products)
+          setProducts(res.data.products);
+          setReviews(res.data.reviews);
+        } catch (err) {
+          console.error('Error fetching homepage data:', err);
+        }
+      };
+  
+      fetchHomepageData();
+    }, []);
 
   return (
     <div className="page-wrapper">
@@ -39,7 +46,7 @@ const Home = ({ isLoggedIn }) => {
 
       <div className="section product-row-wrapper">
         {/* <ProductRow title="Products of the day" type="Products of the day" /> */}
-        <ProductRow title="New Arrivals" type="New Arrivals" />
+        <ProductRow title="New Arrivals" type="New Arrivals" allproducts={products}/>
         <SpecialFurnitureOffer />
         <ExploreCategories />
       </div>
@@ -56,7 +63,7 @@ const Home = ({ isLoggedIn }) => {
         <Blogs />
       </div> */}
 
-        <Testimonials />
+        <Testimonials reviews={reviews} />
 
       {/* <div id="bulk-request" className="section">
         <h2>Bulk Request</h2>

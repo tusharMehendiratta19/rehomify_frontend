@@ -1,22 +1,30 @@
-import React from "react";
+import React,{useState,useEffect} from "react";
+import axios from "axios";
 import "../allStyles/offers.css";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import ExploreCategories from "../components/ExploreCategories";
 import SpecialFurnitureOffer from "../components/SpecialFurnitureOffer";
 
-const offersData = [
-  { id: 1, type: "Bank Offer", description: "Get 10% off with HDFC Credit Cards", code: "HDFC10", image: "offer1.jpeg", offerHead: "Get 10% OFF" },
-  { id: 2, type: "Bank Offer", description: "5% cashback on ICICI Debit Cards", code: "ICICI5", image: "offer2.jpeg", offerHead: "5% Cashback" },
-  { id: 3, type: "Bank Offer", description: "No Cost EMI on SBI Cards", code: "SBIEMI", image: "offer3.jpeg", offerHead: "No Cost EMI" },
-  { id: 4, type: "Wallet Offer", description: "Flat ₹100 off with Paytm Wallet", code: "PAYTM100", image: "offer4.jpeg", offerHead: "Flat ₹100 OFF" },
-  { id: 5, type: "Wallet Offer", description: "Extra ₹50 cashback with PhonePe", code: "PHONEPE50", image: "offer1.jpeg", offerHead: "Extra ₹50 Cashback" },
-  { id: 6, type: "Wallet Offer", description: "20% off using Amazon Pay", code: "AMZNPAY20", image: "offer2.jpeg", offerHead: "20% OFF" },
-  { id: 7, type: "New User Offer", description: "₹150 off for new users on first purchase", code: "FIRST150", image: "offer3.jpeg", offerHead: "₹150 OFF" },
-  { id: 8, type: "New User Offer", description: "Sign-up bonus of ₹200 for new users", code: "SIGNUP200", image: "offer4.jpeg", offerHead: "₹200 Sign-up Bonus" }
-];
-
 const OffersMobile = () => {
+  const [offers, setOffers] = useState([]);
+
+  useEffect(() => {
+    const fetchOffers = async () => {
+      try {
+        const res = await axios.get('http://localhost:5000/v1/offers/');
+        // console.log("response: ",res.data.products)
+        setOffers(res.data);
+      } catch (err) {
+        console.error('Error fetching homepage data:', err);
+      }
+    };
+
+    fetchOffers();
+  }, []);
+
+  const offersData = offers;
+
   const copyToClipboard = (code) => {
     navigator.clipboard.writeText(code);
     alert(`Copied code: ${code}`);

@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Carousel from "../components/Carousel";
 import ProductRow from "../components/ProductRow";
@@ -16,18 +17,23 @@ import SpecialFurnitureOffer from "../components/SpecialFurnitureOffer";
 
 const Home = ({ isLoggedIn }) => {
   const navigate = useNavigate();
+  const [products, setProducts] = useState([]);
+  const [reviews, setReviews] = useState([]);
 
-  // useEffect(() => {
-  //   const handleProtectedAction = (e) => {
-  //     if (!isLoggedIn && e.target.dataset.protected === "true") {
-  //       e.preventDefault();
-  //       navigate("/login");
-  //     }
-  //   };
+  useEffect(() => {
+    const fetchHomepageData = async () => {
+      try {
+        const res = await axios.get('http://localhost:5000/v1/home/getHomePage');
+        // console.log("response: ",res.data.products)
+        setProducts(res.data.products);
+        setReviews(res.data.reviews);
+      } catch (err) {
+        console.error('Error fetching homepage data:', err);
+      }
+    };
 
-  //   document.addEventListener("click", handleProtectedAction);
-  //   return () => document.removeEventListener("click", handleProtectedAction);
-  // }, [isLoggedIn, navigate]);
+    fetchHomepageData();
+  }, []);
 
   return (
     <div className="page-wrapper">
@@ -39,7 +45,7 @@ const Home = ({ isLoggedIn }) => {
 
       <div className="section product-row-wrapper">
         {/* <ProductRow title="Products of the day" type="Products of the day" /> */}
-        <ProductRow title="New Arrivals" type="New Arrivals" />
+        <ProductRow title="New Arrivals" type="New Arrivals" allproducts={products}/>
         <SpecialFurnitureOffer />
         <ExploreCategories />
       </div>
@@ -57,7 +63,7 @@ const Home = ({ isLoggedIn }) => {
       </div> */}
 
       <div className="section">
-        <Testimonials />
+        <Testimonials reviews={reviews} />
       </div>
 
       {/* <div id="bulk-request" className="section">

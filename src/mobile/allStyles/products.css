@@ -88,13 +88,14 @@
   width: 28%;
   position: fixed;
   right: 8px;
-  top: 230px;
+  top: 245px;
   gap: 12px;
   /* margin: 5px 10px; */
   padding:5px 10px;
   border: 1px solid #ddd;
   border-radius: 8px;
   background-color: #fefefe;
+  z-index: 10;
 }
 
 .mobile-filter-group label {
@@ -120,6 +121,7 @@
   gap: 12px;
   position:relative;
   top: 140px;
+  margin-bottom: 150px;
 }
 
 .mobile-product-card {

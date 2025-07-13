@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../components/Header";
+import axios from "axios";
 import Footer from "../components/Footer";
 import "../allStyles/products.css";
 import ProductPage from "../components/ProductPage";
@@ -13,17 +14,15 @@ const categories = [
   "Cup board",
   "Tables",
   "Chairs",
-  "Sofas",
 ];
 
 const categoryMap = {
   "All Products": "all",
   "Single Bed": "single_bed",
   "Double Bed": "double_bed",
-  "Cup board": "cupboard",
-  Tables: "table",
-  Chairs: "chair",
-  Sofas: "sofa",
+  "Cup board": "cup_board",
+  Tables: "tables",
+  Chairs: "chairs"
 };
 
 const Products = () => {
@@ -34,6 +33,22 @@ const Products = () => {
   const [showFilters, setShowFilters] = useState(false);
   const [selected, setSelected] = useState('New');
   const navigate = useNavigate();
+
+  const [allProducts, setAllProducts] = useState([]);
+
+  useEffect(() => {
+    const fetchproducts = async () => {
+      try {
+        const res = await axios.get('http://localhost:5000/v1/products/');
+        // console.log("response: ",res.data.products)
+        setAllProducts(res.data);
+      } catch (err) {
+        console.error('Error fetching homepage data:', err);
+      }
+    };
+
+    fetchproducts();
+  }, []);
 
   const handleProductClick = (id) => {
     navigate(`/product/${id}`);
@@ -46,7 +61,7 @@ const Products = () => {
   const getCategoryProducts = () => {
     const key = categoryMap[selectedCategory];
     let products =
-      key === "all" ? Object.values(dummyProducts).flat() : dummyProducts[key] || [];
+      key === "all" ? Object.values(allProducts).flat() : allProducts[key] || [];
 
     // Apply price filter
     products = products.filter((product) => {
