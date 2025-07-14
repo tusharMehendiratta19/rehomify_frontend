@@ -24,7 +24,7 @@ const Home = ({ isLoggedIn }) => {
     useEffect(() => {
       const fetchHomepageData = async () => {
         try {
-          const res = await axios.get('http://localhost:5000/v1/home/getHomePage');
+          const res = await axios.get('https://rehomify.in/v1/home/getHomePage');
           // console.log("response: ",res.data.products)
           setProducts(res.data.products);
           setReviews(res.data.reviews);

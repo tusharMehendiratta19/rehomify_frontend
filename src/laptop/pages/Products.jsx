@@ -39,7 +39,7 @@ const Products = () => {
   useEffect(() => {
     const fetchproducts = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/v1/products/');
+        const res = await axios.get('https://rehomify.in/v1/products/');
         // console.log("response: ",res.data.products)
         setAllProducts(res.data);
       } catch (err) {

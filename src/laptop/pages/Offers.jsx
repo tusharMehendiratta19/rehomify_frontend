@@ -13,7 +13,7 @@ const Offers = () => {
   useEffect(() => {
     const fetchOffers = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/v1/offers/');
+        const res = await axios.get('https://rehomify.in/v1/offers/');
         // console.log("response: ",res.data.products)
         setOffers(res.data);
       } catch (err) {
