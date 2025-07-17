@@ -34,13 +34,13 @@ const Footer = () => {
         <div className="social-media-column">
           <h4>Follow Us</h4><br />
           <div className="social-links">
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="social-icon">
+            <a href="https://instagram.com/re_homify/" target="_blank" rel="noopener noreferrer" className="social-icon">
               <FaInstagram size={20} />
             </a>
             <a href="https://x.com" target="_blank" rel="noopener noreferrer" className="social-icon">
               <FaXTwitter size={20} />
             </a>
-            <a href="https://pinterest.com" target="_blank" rel="noopener noreferrer" className="social-icon">
+            <a href="https://in.pinterest.com/Rehomify/" target="_blank" rel="noopener noreferrer" className="social-icon">
               <FaPinterest size={20} />
             </a>
             <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="social-icon">

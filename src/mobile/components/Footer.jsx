@@ -18,13 +18,13 @@ const Footer = () => {
         <div className="mobile-social-media-column">
           <h5>Follow Us</h5>
           <div className="mobile-social-links">
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="mobile-social-icon">
+            <a href="https://instagram.com/re_homify/" target="_blank" rel="noopener noreferrer" className="mobile-social-icon">
               <FaInstagram size={15} />
             </a>
             <a href="https://x.com" target="_blank" rel="noopener noreferrer" className="mobile-social-icon">
               <FaXTwitter size={15} />
             </a>
-            <a href="https://pinterest.com" target="_blank" rel="noopener noreferrer" className="mobile-social-icon">
+            <a href="https://in.pinterest.com/Rehomify/" target="_blank" rel="noopener noreferrer" className="mobile-social-icon">
               <FaPinterest size={15} />
             </a>
             <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="mobile-social-icon">
