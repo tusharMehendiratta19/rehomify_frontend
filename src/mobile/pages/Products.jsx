@@ -6,7 +6,9 @@ import "../allStyles/products.css";
 import ProductPage from "../components/ProductPage";
 import { useNavigate } from "react-router-dom";
 import dummyProducts from "../../data/dummyProductData";
-import { FaSortAmountDownAlt, FaFilter } from "react-icons/fa";
+import { FaHeart } from "react-icons/fa";     // Filled heart (Font Awesome)
+import { FiHeart } from "react-icons/fi";     // Outline heart (Feather Icons)
+
 
 const categories = [
   "All Products",
@@ -36,6 +38,10 @@ const Products = () => {
   const navigate = useNavigate();
 
   const [allProducts, setAllProducts] = useState([]);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [wishlist, setWishlist] = useState([]);
+
 
   useEffect(() => {
     const fetchproducts = async () => {
@@ -47,9 +53,115 @@ const Products = () => {
         console.error('Error fetching homepage data:', err);
       }
     };
+    const fetchWishlist = async () => {
+      try {
+        const response = await axios.post('http://localhost:5000/v1/wishlist/getWishlist', {
+          custId: localStorage.getItem("custId"),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+        setWishlist([...wishlist, response.data.id]);
+      } catch (error) {
+        console.error('Failed to fetch wishlist:', error);
+      }
+    };
 
     fetchproducts();
+    fetchWishlist();
   }, []);
+
+  const addToCart = async (productId) => {
+    try {
+      const response = await axios.post('http://localhost:5000/v1/cart/addToCart', {
+        custId: localStorage.getItem("custId"),
+        productId: productId,
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem("token")}`
+        }
+      });
+
+      if (response.status) {
+        showSnackbar("Added to Cart");
+      } else {
+        showSnackbar("Error adding to Cart");
+      }
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+      showSnackbar("Error adding to Cart");
+    }
+  }
+
+  const buyNow = async (productId) => {
+    try {
+      const response = await axios.post('http://localhost:5000/v1/cart/buyNow', {
+        custId: localStorage.getItem("custId"),
+        productId: productId,
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem("token")}`
+        }
+      });
+
+      if (response.status) {
+        navigate('/checkout');
+      } else {
+        showSnackbar("Error proceeding to Buy Now");
+      }
+    } catch (error) {
+      console.error('Error proceeding to Buy Now:', error);
+      showSnackbar("Error proceeding to Buy Now");
+    }
+  }
+
+  const addToWishlist = async (productId) => {
+    try {
+      const response = await axios.post('http://localhost:5000/v1/wishlist/addToWishlist', {
+        custId: localStorage.getItem("custId"),
+        productId: productId,
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem("token")}`
+        }
+      });
+
+      if (response.status) {
+        setWishlist([...wishlist, productId]);
+        showSnackbar("Added to Wishlist");
+      } else if (response.message == "wishlisted already") {
+        const removefromwishlist = await axios.post('http://localhost:5000/v1/wishlist/updateWishlist', {
+          custId: localStorage.getItem("custId"),
+          productId: productId,
+        }, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem("token")}`
+          }
+        });
+        if (removefromwishlist.status) {
+          setWishlist(wishlist.filter(item => item !== productId));
+          showSnackbar("Removed from Wishlist");
+        }
+      } else {
+        showSnackbar("Error adding to Wishlist");
+      }
+    } catch (error) {
+      console.error('Error adding to wishlist:', error);
+      showSnackbar("Error adding to Wishlist");
+    }
+
+  }
+
+  const showSnackbar = (message) => {
+    setSnackbarMessage(message);
+    setSnackbarOpen(true);
+    setTimeout(() => setSnackbarOpen(false), 3000); // auto hide in 3s
+  };
+
 
   const handleProductClick = (id) => {
     navigate(`/product/${id}`);
@@ -63,8 +175,8 @@ const Products = () => {
   const getCategoryProducts = () => {
     const key = categoryMap[selectedCategory];
     let products = key === "all"
-  ? Object.values(allProducts).flat()
-  : allProducts[key] || [];
+      ? Object.values(allProducts).flat()
+      : allProducts[key] || [];
 
 
     // Apply price filter
@@ -192,21 +304,49 @@ const Products = () => {
                 className="mobile-product-card"
                 onClick={() => handleProductClick(product.id)}
               >
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="mobile-product-image"
-                />
+                <div className="mobile-product-image-wrapper">
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="mobile-product-image"
+                  />
+                  <button
+                    className="wishlist-icon"
+                    onClick={(e) => {
+                      e.stopPropagation(); // ✅ stops card click
+                      addToWishlist(product.id);
+                    }}
+                  >
+                    {wishlist.includes(product.id) ? (
+                      <FaHeart color="red" />
+                    ) : (
+                      <FiHeart />
+                    )}
+                  </button>
+
+                </div>
+
                 <div className="mobile-product-info">
                   <h3 className="mobile-product-name">{product.name}</h3>
-                  <p className="mobile-product-description">
-                    {product.description}
-                  </p>
+                  <p className="mobile-product-description">{product.description}</p>
                   <p className="mobile-product-price">Price: ₹{product.price}</p>
                   <p className="mobile-product-color">Color: {product.color}</p>
-                  <p className="mobile-product-deliveryTime">
-                    Delivery Time: {product.deliveryTime} days
-                  </p>
+                  <div className="product-actions">
+                    <button className="btn-outline" onClick={(e) => {
+                      e.stopPropagation();
+                      addToCart(product.id);
+                    }}>
+                      Add To Cart
+                    </button>
+
+                    <button className="btn-primary" onClick={(e) => {
+                      e.stopPropagation();
+                      buyNow(product.id);
+                    }}>
+                      Buy Now
+                    </button>
+
+                  </div>
                 </div>
               </div>
             ))}
@@ -215,6 +355,12 @@ const Products = () => {
           <ProductPage products={filteredProducts} onProductClick={handleProductClick} />
         </main>
       </div>
+      {snackbarOpen && (
+        <div className="snackbar">
+          {snackbarMessage}
+        </div>
+      )}
+
       <Footer />
     </div>
   );

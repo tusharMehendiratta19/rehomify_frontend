@@ -31,6 +31,7 @@ const MobileLogin = () => {
 
       if (result.status) {
         localStorage.setItem("token", result.token); // ✅ Save token for session
+        localStorage.setItem("custId", result.user._id);
         showSnackbar('Login successful!', true);
         setTimeout(() => {
           navigate(userType === 'Seller' ? '/seller/dashboard' : '/home');

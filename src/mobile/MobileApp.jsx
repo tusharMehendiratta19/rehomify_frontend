@@ -26,6 +26,7 @@ import AboutUs from "./components/AboutUs";
 import Checkout from "./components/Checkout";
 import ExploreMoreProductsPage from "./components/ExploreMoreProductsPage";
 import SellOption from "./components/SellOption";
+import Wishlist from "./components/Wishlist";
 
 // Seller-related imports
 import MobileSellerHubLayout from "./sellers/components/MobileSellerHubLayout";
@@ -69,6 +70,7 @@ function MobileApp() {
         <Route path="/offers" element={<Offers />} />
         <Route path="/trends" element={<Trends />} />
         <Route path="/orders" element={<Orders />} />
+        <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/returns" element={<Returns />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/sellOptions" element={<SellOption />} />

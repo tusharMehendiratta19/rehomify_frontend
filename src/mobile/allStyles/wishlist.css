@@ -1,0 +1,136 @@
+.wishlist-container {
+  padding: 0.6rem;
+  background-color: #f8f8f8;
+  min-height: 100vh;
+  padding-top: 1rem;
+}
+
+.wishlist-header {
+  font-size: 1.3rem;
+  width: 60%;
+  margin-left: 20%;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: #b63e2b;
+  /* border: 1px solid #ddd; */
+  box-shadow: 1px 1px 5px #b63e2b;
+  text-align: center;
+  border-radius: 10px;
+}
+
+.wishlist-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.wishlist-card {
+  position: relative;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 0.4rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+}
+
+.wishlist-card:hover {
+  transform: translateY(-5px);
+}
+
+.wishlist-image {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.wishlist-details {
+  margin-top: 0.8rem;
+}
+
+.wishlist-name {
+  font-size: 1.2rem;
+  margin: 0.3rem 0;
+  color: #222;
+}
+
+.wishlist-category {
+  font-size: 0.9rem;
+  color: #777;
+}
+
+.wishlist-description {
+  font-size: 0.9rem;
+  margin: 0.4rem 0;
+  color: #555;
+}
+
+.wishlist-price {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #e91e63;
+  margin-bottom: 0.6rem;
+}
+
+.wishlist-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.wishlist-buttons button {
+  flex: 1;
+  padding: 4px 6px;
+  font-size: 0.8rem;
+  /* border: none; */
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: white;
+  color: #b63e2b;
+  border: 1px solid #b63e2b;
+  transition: background-color 0.2s;
+}
+
+.wishlist-buttons .buy-now {
+  background-color: #b63e2b;
+  color: white;
+  border: none;
+}
+.wishlist-heart {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 30px;
+  height: 30px;
+  color: red;
+}
+
+.heart-icon {
+  font-size: 22px;
+  color: gray;
+  cursor: pointer;
+}
+
+.heart-icon.filled {
+  color: red;
+}
+.snackbar {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #b63e2b;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 15px;
+  z-index: 1000;
+  font-size: 14px;
+  animation: fadeInOut 3s;
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { opacity: 0; }
+}

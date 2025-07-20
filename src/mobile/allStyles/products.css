@@ -174,7 +174,7 @@
 .btn-primary {
   flex: 1;
   padding: 6px;
-  font-size: 13px;
+  font-size: 9px;
   border-radius: 4px;
   cursor: pointer;
 }
@@ -223,6 +223,26 @@
 .mobile-toggle-btn.active {
   color: #b63e2b;
 }
+
+.mobile-product-image-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.wishlist-icon {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 30px;
+  height: 30px;
+  color: white;
+  background: transparent;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+
 
 /* Hide non-mobile versions */
 /* .sidebar,

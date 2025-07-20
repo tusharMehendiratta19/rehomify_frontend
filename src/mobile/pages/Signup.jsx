@@ -46,6 +46,8 @@ const Signup = () => {
 
       if (result.status) {
         showSnackbar('Signup successful!', true);
+        localStorage.setItem("token", result.token);
+        localStorage.setItem("custId", result.data._id);
         setTimeout(() => {
           navigate(form.type === 'seller' ? '/seller/dashboard' : '/home');
         }, 1500);

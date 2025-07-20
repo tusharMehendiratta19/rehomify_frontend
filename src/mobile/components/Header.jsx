@@ -52,6 +52,9 @@ const MobileHeader = () => {
       case "returns":
         navigate("/returns");
         break;
+      case "wishlist":
+        navigate("/wishlist");
+        break;
       case "logout":
         localStorage.removeItem("token");
         navigate("/login");
@@ -98,6 +101,7 @@ const MobileHeader = () => {
             <>
               <button onClick={() => handleOptionClick("profile")}>Profile</button>
               <button onClick={() => handleOptionClick("orders")}>Orders</button>
+              <button onClick={() => handleOptionClick("wishlist")}>Wishlist</button>
               <button onClick={() => handleOptionClick("returns")}>Resold</button>
               <button onClick={() => handleOptionClick("logout")}>Logout</button>
             </>
