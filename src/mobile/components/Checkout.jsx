@@ -1,51 +1,47 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../allStyles/checkout.css';
 import Header from './Header';
 import Footer from './Footer';
-
-const orderedProducts = [
-  {
-    id: 1,
-    name: "Modern Sofa",
-    price: "₹12,999",
-    description: "Comfortable 3-seater with soft fabric.",
-    image: "https://media.istockphoto.com/id/2089126618/photo/leather-sofa-with-an-empty-beige-wall-for-mockup.jpg?b=1&s=612x612&w=0&k=20&c=Nft5dLAbzxdKqmmlS7sKkdzZ8ZfKqyzAnDPWdT5kvPc=",
-  },
-  {
-    id: 2,
-    name: "Dining Table",
-    price: "₹7,499",
-    description: "4-seater wooden dining table set.",
-    image: "https://images.pexels.com/photos/2092058/pexels-photo-2092058.jpeg?auto=compress&cs=tinysrgb&w=600",
-  },
-  {
-    id: 3,
-    name: "Office Chair",
-    price: "₹5,999",
-    description: "Push-back recliner with padded armrest.",
-    image: "https://images.pexels.com/photos/1957477/pexels-photo-1957477.jpeg?auto=compress&cs=tinysrgb&w=600",
-  },
-];
+import { useLocation } from 'react-router-dom';
+import axios from 'axios';
 
 const Checkout = () => {
+  const location = useLocation();
+  const productId = location.state?.productId;
+
+  const [product, setProduct] = useState(null);
   const [showAddressForm, setShowAddressForm] = useState(false);
+
+  useEffect(() => {
+    if (productId) {
+      fetchProductDetails(productId);
+    }
+  }, [productId]);
+
+  const fetchProductDetails = async (id) => {
+    try {
+      const response = await axios.get(`http://localhost:5000/v1/products/${id}`);
+      setProduct(response.data);
+    } catch (error) {
+      console.error('Error fetching product:', error);
+    }
+  };
 
   return (
     <>
       <Header />
       <div className="mobile-checkout-layout">
-
         <h2 className="mobile-checkout-title">CHECK-OUT</h2>
 
         <div className="mobile-checkout-sidebar">
-          {orderedProducts.map((product) => (
-            <details key={product.id} className="mobile-product-accordion">
+          {product && (
+            <details className="mobile-product-accordion">
               <summary>{product.name}</summary>
               <img src={product.image} alt={product.name} className="mobile-accordion-image" />
-              <p><strong>Price:</strong> {product.price}</p>
+              <p><strong>Price:</strong> ₹{product.price}</p>
               <p>{product.description}</p>
             </details>
-          ))}
+          )}
         </div>
 
         <div className="mobile-checkout-container">
@@ -53,7 +49,7 @@ const Checkout = () => {
             <div className="mobile-checkout-section">
               <div className="mobile-checkout-section-header">LOGIN ✔</div>
               <div className="mobile-checkout-section-body">
-                <span>+919981058546</span>
+                <span>{localStorage.getItem('userPhone') || '+91XXXXXXXXXX'}</span>
                 <button className="mobile-change-btn">CHANGE</button>
               </div>
             </div>
@@ -94,38 +90,29 @@ const Checkout = () => {
 
           <div className="mobile-payment-section">
             <div className="mobile-checkout-section-header">PAYMENT OPTIONS</div>
-
-            <div className="mobile-payment-option">
-              <label>Pay with UPI</label>
-              <input type="radio" name="payment" />
-            </div>
-            <div className="mobile-payment-option">
-              <label>EMI</label>
-              <input type="radio" name="payment" />
-            </div>
-            <div className="mobile-payment-option">
-              <label>Debit/Credit Cards</label>
-              <input type="radio" name="payment" />
-            </div>
-            <div className="mobile-payment-option">
-              <label>Cash on Delivery</label>
-              <input type="radio" name="payment" />
-            </div>
+            <div className="mobile-payment-option"><label>Pay with UPI</label><input type="radio" name="payment" /></div>
+            <div className="mobile-payment-option"><label>EMI</label><input type="radio" name="payment" /></div>
+            <div className="mobile-payment-option"><label>Debit/Credit Cards</label><input type="radio" name="payment" /></div>
+            <div className="mobile-payment-option"><label>Cash on Delivery</label><input type="radio" name="payment" /></div>
           </div>
 
           <div className="mobile-order-summary">
             <h3>ORDER SUMMARY</h3>
             <p>Your Order will be delivered in 3–5 working days.</p>
             <p><strong>Estimated Delivery Date:</strong> 29 May 2025</p>
-            <div className="mobile-summary-details">
-              <div>
-                <label>Quantity:</label>
-                <input type="number" defaultValue="1" min="1" />
+
+            {product && (
+              <div className="mobile-summary-details">
+                <div>
+                  <label>Quantity:</label>
+                  <input type="number" defaultValue="1" min="1" />
+                </div>
+                <div className="mobile-summary-line"><span>Subtotal</span><span>₹{product.price}</span></div>
+                <div className="mobile-summary-line"><span>Shipping</span><span>Free shipping</span></div>
+                <div className="mobile-summary-line mobile-total"><span>Total</span><span>₹{product.price}</span></div>
               </div>
-              <div className="mobile-summary-line"><span>Subtotal</span><span>₹1,500.00</span></div>
-              <div className="mobile-summary-line"><span>Shipping</span><span>Free shipping</span></div>
-              <div className="mobile-summary-line mobile-total"><span>Total</span><span>₹1,500.00</span></div>
-            </div>
+            )}
+
             <button className="mobile-payment-btn">PROCEED TO PAYMENT</button>
           </div>
         </div>

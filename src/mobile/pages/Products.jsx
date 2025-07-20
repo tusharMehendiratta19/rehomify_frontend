@@ -36,6 +36,7 @@ const Products = () => {
   const [showFilters, setShowFilters] = useState(false);
   const [selected, setSelected] = useState('New');
   const navigate = useNavigate();
+  const isLoggedIn = !!localStorage.getItem("token") && !!localStorage.getItem("custId");
 
   const [allProducts, setAllProducts] = useState([]);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -72,6 +73,10 @@ const Products = () => {
   }, []);
 
   const addToCart = async (productId) => {
+    if (!isLoggedIn) {
+      showSnackbar("Please login to add items to cart");
+      return;
+    }
     try {
       const response = await axios.post('https://rehomify.in/v1/cart/addToCart', {
         custId: localStorage.getItem("custId"),
@@ -95,8 +100,12 @@ const Products = () => {
   }
 
   const buyNow = async (productId) => {
+    if (!isLoggedIn) {
+      showSnackbar("Please login to buy products");
+      return;
+    }
     try {
-      const response = await axios.post('https://rehomify.in/v1/cart/buyNow', {
+      const response = await axios.post('https://rehomify.in/v1/cart/addToCart', {
         custId: localStorage.getItem("custId"),
         productId: productId,
       }, {
@@ -107,7 +116,7 @@ const Products = () => {
       });
 
       if (response.status) {
-        navigate('/checkout');
+        navigate('/checkout', { state: { productId } });
       } else {
         showSnackbar("Error proceeding to Buy Now");
       }
@@ -118,6 +127,10 @@ const Products = () => {
   }
 
   const addToWishlist = async (productId) => {
+    if (!isLoggedIn) {
+      showSnackbar("Please login to add items to wishlist");
+      return;
+    }
     try {
       const response = await axios.post('https://rehomify.in/v1/wishlist/addToWishlist', {
         custId: localStorage.getItem("custId"),
