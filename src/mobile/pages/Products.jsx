@@ -55,7 +55,7 @@ const Products = () => {
     };
     const fetchWishlist = async () => {
       try {
-        const response = await axios.post('http://localhost:5000/v1/wishlist/getWishlist', {
+        const response = await axios.post('https://rehomify.in/v1/wishlist/getWishlist', {
           custId: localStorage.getItem("custId"),
           headers: {
             'Content-Type': 'application/json'
@@ -73,7 +73,7 @@ const Products = () => {
 
   const addToCart = async (productId) => {
     try {
-      const response = await axios.post('http://localhost:5000/v1/cart/addToCart', {
+      const response = await axios.post('https://rehomify.in/v1/cart/addToCart', {
         custId: localStorage.getItem("custId"),
         productId: productId,
       }, {
@@ -96,7 +96,7 @@ const Products = () => {
 
   const buyNow = async (productId) => {
     try {
-      const response = await axios.post('http://localhost:5000/v1/cart/buyNow', {
+      const response = await axios.post('https://rehomify.in/v1/cart/buyNow', {
         custId: localStorage.getItem("custId"),
         productId: productId,
       }, {
@@ -119,7 +119,7 @@ const Products = () => {
 
   const addToWishlist = async (productId) => {
     try {
-      const response = await axios.post('http://localhost:5000/v1/wishlist/addToWishlist', {
+      const response = await axios.post('https://rehomify.in/v1/wishlist/addToWishlist', {
         custId: localStorage.getItem("custId"),
         productId: productId,
       }, {
@@ -133,7 +133,7 @@ const Products = () => {
         setWishlist([...wishlist, productId]);
         showSnackbar("Added to Wishlist");
       } else if (response.message == "wishlisted already") {
-        const removefromwishlist = await axios.post('http://localhost:5000/v1/wishlist/updateWishlist', {
+        const removefromwishlist = await axios.post('https://rehomify.in/v1/wishlist/updateWishlist', {
           custId: localStorage.getItem("custId"),
           productId: productId,
         }, {

@@ -18,7 +18,7 @@ const CartCard = () => {
 
   const fetchCart = async () => {
     try {
-      const res = await axios.post("http://localhost:5000/v1/cart/getCartItems", {
+      const res = await axios.post("https://rehomify.in/v1/cart/getCartItems", {
         custId: localStorage.getItem("custId"),
       });
       setCartItems(res.data);
@@ -29,7 +29,7 @@ const CartCard = () => {
 
   const handleRemove = (id) => async () => {
     try {
-      await axios.post("http://localhost:5000/v1/cart/removeFromCart", {
+      await axios.post("https://rehomify.in/v1/cart/removeFromCart", {
         custId: localStorage.getItem("custId"),
         productId: id,
       });

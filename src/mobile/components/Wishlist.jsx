@@ -15,7 +15,7 @@ const Wishlist = () => {
 
     const fetchWishlist = async () => {
         try {
-            const response = await axios.post('http://localhost:5000/v1/wishlist/getWishlist', {
+            const response = await axios.post('https://rehomify.in/v1/wishlist/getWishlist', {
                 custId: localStorage.getItem("custId"),
                 headers: {
                     'Content-Type': 'application/json'
@@ -29,7 +29,7 @@ const Wishlist = () => {
 
     const removeItemFromWishlist = (productId) => async () => {
         try {
-            await axios.post('http://localhost:5000/v1/wishlist/updateWishlist', {
+            await axios.post('https://rehomify.in/v1/wishlist/updateWishlist', {
                 custId: localStorage.getItem("custId"),
                 productId: productId
             });
