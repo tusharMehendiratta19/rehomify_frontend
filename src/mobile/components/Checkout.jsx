@@ -8,7 +8,7 @@ import axios from 'axios';
 const Checkout = () => {
   const location = useLocation();
   const productId = location.state?.productId;
-
+  console.log("Product ID from location state:", productId);
   const [product, setProduct] = useState(null);
   const [showAddressForm, setShowAddressForm] = useState(false);
 
@@ -20,7 +20,7 @@ const Checkout = () => {
 
   const fetchProductDetails = async (id) => {
     try {
-      const response = await axios.get(`http://localhost:5000/v1/products/${id}`);
+      const response = await axios.get(`https://rehomify.in/v1/products/${id}`);
       setProduct(response.data);
     } catch (error) {
       console.error('Error fetching product:', error);
@@ -93,7 +93,6 @@ const Checkout = () => {
             <div className="mobile-payment-option"><label>Pay with UPI</label><input type="radio" name="payment" /></div>
             <div className="mobile-payment-option"><label>EMI</label><input type="radio" name="payment" /></div>
             <div className="mobile-payment-option"><label>Debit/Credit Cards</label><input type="radio" name="payment" /></div>
-            <div className="mobile-payment-option"><label>Cash on Delivery</label><input type="radio" name="payment" /></div>
           </div>
 
           <div className="mobile-order-summary">

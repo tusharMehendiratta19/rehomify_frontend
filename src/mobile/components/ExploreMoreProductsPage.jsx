@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "../allStyles/exploremoreproductspage.css";
+import { useNavigate } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
 
@@ -61,6 +62,7 @@ const dummyProducts = {
 
 const ExploreMoreProductsPage = () => {
     const [selectedCategory, setSelectedCategory] = useState("Product under 5000");
+    const navigate = useNavigate();
 
     return (
         <>

@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
+import axios from 'axios';
 import '../allStyles/productpage.css';
 import Header from './Header';
 import Footer from './Footer';
-import dummyProducts from '../../data/dummyProductData';
+// import dummyProducts from '../../data/dummyProductData';
 import EMIPanel from './EMIPanel';
+
 
 const ProductPage = () => {
   const { id } = useParams();
@@ -12,6 +14,9 @@ const ProductPage = () => {
   const [selectedImage, setSelectedImage] = useState('');
   const [selectedQuantity, setSelectedQuantity] = useState(1);
   const [showEMI, setShowEMI] = useState(false);
+
+  const location = useLocation();
+  const alltheproducts = location.state?.allProducts || [];
 
   const similarProducts = [
     { id: 1, name: 'Product A', price: 999, description: 'Description A', image: 'https://images.pexels.com/photos/7850509/pexels-photo-7850509.jpeg' },
@@ -25,18 +30,35 @@ const ProductPage = () => {
       'https://images.pexels.com/photos/7850509/pexels-photo-7850509.jpeg',
       'https://images.pexels.com/photos/1957477/pexels-photo-1957477.jpeg',
       'https://images.pexels.com/photos/7602930/pexels-photo-7602930.jpeg',
-      
+
     ]
   };
 
   useEffect(() => {
-    const allProducts = Object.values(dummyProducts).flat();
-    const found = allProducts.find((p) => p.id === parseInt(id));
-    if (found) {
-      setProduct(found);
-      setSelectedImage(found.image);
-    }
+    const fetchProduct = async () => {
+      try {
+        const res = await axios.get("https://rehomify.in/v1/products/");
+
+        // Flatten all products into one array
+        const allProducts = Object.values(res.data).flat();
+
+        // Find the product by ID (important: use `===` if both are strings)
+        const found = allProducts.find(p => p.id === id);
+
+        if (found) {
+          setProduct(found);
+          setSelectedImage(found.image);
+        } else {
+          console.warn("Product not found for id:", id);
+        }
+      } catch (error) {
+        console.error("Failed to fetch product:", error);
+      }
+    };
+
+    fetchProduct();
   }, [id]);
+
 
   if (!product) return <p></p>;
 

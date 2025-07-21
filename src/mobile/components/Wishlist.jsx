@@ -2,12 +2,17 @@ import React, { useEffect, useState } from 'react';
 import Headers from './Header';
 import Footer from './Footer';
 import '../allStyles/wishlist.css';
+import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { AiFillHeart } from 'react-icons/ai';
 
 const Wishlist = () => {
     const [wishlist, setWishlist] = useState([]);
     const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const navigate = useNavigate();
+    const isLoggedIn = !!localStorage.getItem("token") && !!localStorage.getItem("custId");
+    const [snackbarMessage, setSnackbarMessage] = useState("");
+
 
     useEffect(() => {
         fetchWishlist();
@@ -27,6 +32,12 @@ const Wishlist = () => {
         }
     };
 
+    const showSnackbar = (message) => {
+        setSnackbarMessage(message);
+        setSnackbarOpen(true);
+        setTimeout(() => setSnackbarOpen(false), 3000); // auto hide in 3s
+    };
+
     const removeItemFromWishlist = (productId) => async () => {
         try {
             await axios.post('https://rehomify.in/v1/wishlist/updateWishlist', {
@@ -41,18 +52,64 @@ const Wishlist = () => {
         }
     };
 
-    const handleAddToCart = async (productId) => {
-        try {
-            await axios.post('/api/cart', { productId, quantity: 1 });
-            alert('Added to cart');
-        } catch (err) {
-            alert('Error adding to cart');
-        }
-    };
+    const handleProductClick = (id) => {
+        console.log("Product clicked with ID:", id);
+        navigate(`/product/${id}`);
+    }
 
-    const handleBuyNow = (productId) => {
-        alert(`Initiating Buy Now for Product ID: ${productId}`);
-    };
+    const handleAddToCart = async (productId) => {
+        if (!isLoggedIn) {
+            showSnackbar("Please login to add items to cart");
+            return;
+        }
+        try {
+            const response = await axios.post('https://rehomify.in/v1/cart/addToCart', {
+                custId: localStorage.getItem("custId"),
+                productId: productId,
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem("token")}`
+                }
+            });
+
+            if (response.status) {
+                showSnackbar("Added to Cart");
+            } else {
+                showSnackbar("Error adding to Cart");
+            }
+        } catch (error) {
+            console.error('Error adding to cart:', error);
+            showSnackbar("Error adding to Cart");
+        }
+    }
+
+    const handleBuyNow = async (productId) => {
+        if (!isLoggedIn) {
+            showSnackbar("Please login to buy products");
+            return;
+        }
+        try {
+            const response = await axios.post('https://rehomify.in/v1/cart/addToCart', {
+                custId: localStorage.getItem("custId"),
+                productId: productId,
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem("token")}`
+                }
+            });
+
+            if (response.status) {
+                navigate('/checkout', { state: { productId } });
+            } else {
+                showSnackbar("Error proceeding to Buy Now");
+            }
+        } catch (error) {
+            console.error('Error proceeding to Buy Now:', error);
+            showSnackbar("Error proceeding to Buy Now");
+        }
+    }
 
     return (
         <>
@@ -65,9 +122,9 @@ const Wishlist = () => {
                             <div className="wishlist-heart" onClick={removeItemFromWishlist(item.id)}>
                                 <AiFillHeart className="wishlist-heart-icon" />
                             </div>
-                            <img src={item.imageUrl} alt={item.name} className="wishlist-image" />
+                            <img src={item.imageUrl} alt={item.name} className="wishlist-image" onClick={() => handleProductClick(item.id)} />
                             <div className="wishlist-details">
-                                <h4 className="wishlist-name">{item.name}</h4>
+                                <h4 className="wishlist-name" onClick={() => handleProductClick(item.id)}>{item.name}</h4>
                                 <p className="wishlist-category">{item.category}</p>
                                 <p className="wishlist-description">{item.description}</p>
                                 <p className="wishlist-price">₹{item.price}</p>

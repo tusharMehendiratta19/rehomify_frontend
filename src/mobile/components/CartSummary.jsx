@@ -117,17 +117,17 @@ const CartSummary = ({ items, showSnackbar, navigate }) => {
       <div className="price-details">
         <h5>Price Details</h5>
         <p>Product: ₹{subtotal}</p>
-        <p>Delivery: ₹{delivery}</p>
+        <p>Delivery: Free</p>
         {applied && (
           <p className="discount-text">Discount ({applied.code}): −₹{discount}</p>
         )}
         <p><strong>Total: ₹{total}</strong></p>
       </div>
-
+{/* 
       <div className="address-section">
         <label>Delivery Address</label>
         <textarea rows={3} placeholder="Enter your address" />
-      </div>
+      </div> */}
 
       <button className="payment-btn" onClick={() => navigate("/checkout")}>
         Continue to Payment

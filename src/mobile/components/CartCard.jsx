@@ -21,10 +21,15 @@ const CartCard = () => {
       const res = await axios.post("https://rehomify.in/v1/cart/getCartItems", {
         custId: localStorage.getItem("custId"),
       });
-      setCartItems(res.data);
+      setCartItems(res.data.result || []);
     } catch (err) {
       console.error("Error loading cart:", err);
     }
+  };
+
+  const handleProductClick = (id) => {
+    console.log("Product clicked with ID:", id);
+    navigate(`/product/${id}`);
   };
 
   const handleRemove = (id) => async () => {
@@ -72,9 +77,9 @@ const CartCard = () => {
       <div className="cart-wrapper">
         {cartItems.map(item => (
           <div className="cart-card" key={item.id}>
-            <img src={item.imageUrl} alt={item.name} />
+            <img src={item.imageUrl} alt={item.name} onClick={() => handleProductClick(item.id)} />
             <div className="cart-info">
-              <h4>{item.name}</h4>
+              <h4 onClick={() => handleProductClick(item.id)}>{item.name}</h4>
               <p>{item.description}</p>
               <p><strong>Price:</strong> ₹{item.price}</p>
 

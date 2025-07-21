@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import dummyProducts from "../../data/dummyProductData";
 import { FaHeart } from "react-icons/fa";     // Filled heart (Font Awesome)
 import { FiHeart } from "react-icons/fi";     // Outline heart (Feather Icons)
+import Loader from "../components/Loader";
 
 
 const categories = [
@@ -42,13 +43,14 @@ const Products = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [wishlist, setWishlist] = useState([]);
+  const [loading, setLoading] = useState(true); // initially true
 
 
   useEffect(() => {
     const fetchproducts = async () => {
       try {
         const res = await axios.get('https://rehomify.in/v1/products/');
-        // console.log("response: ",res.data.products)
+        console.log("response: ", res.data)
         setAllProducts(res.data);
       } catch (err) {
         console.error('Error fetching homepage data:', err);
@@ -177,6 +179,7 @@ const Products = () => {
 
 
   const handleProductClick = (id) => {
+    console.log("Product clicked with ID:", id);
     navigate(`/product/${id}`);
   };
 
@@ -343,7 +346,6 @@ const Products = () => {
                   <h3 className="mobile-product-name">{product.name}</h3>
                   <p className="mobile-product-description">{product.description}</p>
                   <p className="mobile-product-price">Price: ₹{product.price}</p>
-                  <p className="mobile-product-color">Color: {product.color}</p>
                   <div className="product-actions">
                     <button className="btn-outline" onClick={(e) => {
                       e.stopPropagation();
@@ -364,8 +366,6 @@ const Products = () => {
               </div>
             ))}
           </div>
-          {/* Product Page section */}
-          <ProductPage products={filteredProducts} onProductClick={handleProductClick} />
         </main>
       </div>
       {snackbarOpen && (
