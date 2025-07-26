@@ -21,7 +21,8 @@ const CartCard = () => {
       const res = await axios.post("https://rehomify.in/v1/cart/getCartItems", {
         custId: localStorage.getItem("custId"),
       });
-      setCartItems(res.data.result || []);
+      console.log("Cart items fetched:", res.data);
+      setCartItems(res.data || []);
     } catch (err) {
       console.error("Error loading cart:", err);
     }

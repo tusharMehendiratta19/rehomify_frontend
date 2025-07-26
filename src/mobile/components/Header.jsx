@@ -57,7 +57,11 @@ const MobileHeader = () => {
         break;
       case "logout":
         localStorage.removeItem("token");
-        navigate("/login");
+        localStorage.removeItem("custId");
+        window.dispatchEvent(new CustomEvent("snackbar", {
+          detail: { message: "Logged out successfully.", type: "success" }
+        }));
+        setTimeout(() => navigate("/login"), 1000);
         break;
       default:
         break;

@@ -36,6 +36,7 @@ const Products = () => {
   const [priceRange, setPriceRange] = useState([0, Infinity]);
   const [showFilters, setShowFilters] = useState(false);
   const [selected, setSelected] = useState('New');
+  const [cartItems, setCartItems] = useState([]);
   const navigate = useNavigate();
   const isLoggedIn = !!localStorage.getItem("token") && !!localStorage.getItem("custId");
 
@@ -50,29 +51,32 @@ const Products = () => {
     const fetchproducts = async () => {
       try {
         const res = await axios.get('https://rehomify.in/v1/products/');
-        console.log("response: ", res.data)
         setAllProducts(res.data);
       } catch (err) {
-        console.error('Error fetching homepage data:', err);
+        console.error('Error fetching products:', err);
       }
     };
-    const fetchWishlist = async () => {
+
+    const fetchCustomerDetails = async () => {
       try {
-        const response = await axios.post('https://rehomify.in/v1/wishlist/getWishlist', {
-          custId: localStorage.getItem("custId"),
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        });
-        setWishlist([...wishlist, response.data.id]);
-      } catch (error) {
-        console.error('Failed to fetch wishlist:', error);
+        const res = await axios.get(`http://localhost:5000/v1/auth/getCustomerDetails/${localStorage.getItem("custId")}`);
+        if (res.data?.status) {
+          const { cart = [], wishlist = [] } = res.data.data;
+          setCartItems(cart.map(p => p.productId));
+          setWishlist(wishlist.map(p => p.productId));
+          console.log("Customer wishlist:", wishlist);
+        }
+      } catch (err) {
+        console.error("Error fetching customer details:", err);
       }
     };
 
     fetchproducts();
-    fetchWishlist();
+    if (isLoggedIn) {
+      fetchCustomerDetails();
+    }
   }, []);
+
 
   const addToCart = async (productId) => {
     if (!isLoggedIn) {
@@ -92,6 +96,7 @@ const Products = () => {
 
       if (response.status) {
         showSnackbar("Added to Cart");
+        setCartItems(prev => [...prev, productId]);
       } else {
         showSnackbar("Error adding to Cart");
       }
@@ -118,7 +123,7 @@ const Products = () => {
       });
 
       if (response.status) {
-        navigate('/checkout', { state: { productId } });
+        navigate('/checkout', { state: { productId, fromCart: true } });
       } else {
         showSnackbar("Error proceeding to Buy Now");
       }
@@ -145,7 +150,7 @@ const Products = () => {
       });
 
       if (response.status) {
-        setWishlist([...wishlist, productId]);
+        setWishlist(prev => [...prev, productId]);
         showSnackbar("Added to Wishlist");
       } else if (response.message == "wishlisted already") {
         const removefromwishlist = await axios.post('https://rehomify.in/v1/wishlist/updateWishlist', {
@@ -347,12 +352,28 @@ const Products = () => {
                   <p className="mobile-product-description">{product.description}</p>
                   <p className="mobile-product-price">Price: ₹{product.price}</p>
                   <div className="product-actions">
-                    <button className="btn-outline" onClick={(e) => {
-                      e.stopPropagation();
-                      addToCart(product.id);
-                    }}>
-                      Add To Cart
-                    </button>
+                    {cartItems.includes(product.id) ? (
+                      <button
+                        className="btn-outline"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          navigate("/cart"); // ✅
+                        }}
+                      >
+                        Go To Cart
+                      </button>
+                    ) : (
+                      <button
+                        className="btn-outline"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          addToCart(product.id);
+                        }}
+                      >
+                        Add To Cart
+                      </button>
+                    )}
+
 
                     <button className="btn-primary" onClick={(e) => {
                       e.stopPropagation();

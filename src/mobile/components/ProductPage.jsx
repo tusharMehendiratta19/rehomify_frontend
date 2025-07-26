@@ -59,6 +59,62 @@ const ProductPage = () => {
     fetchProduct();
   }, [id]);
 
+  const addToCart = async (productId) => {
+    if (!localStorage.getItem("token") || !localStorage.getItem("custId")) {
+      window.dispatchEvent(new CustomEvent("snackbar", {
+        detail: { message: "Please login to add products to cart", type: "error" }
+      }));
+      return;
+    }
+    try {
+      const response = await axios.post('https://rehomify.in/v1/cart/addToCart', {
+        custId: localStorage.getItem("custId"),
+        productId: productId,
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem("token")}`
+        }
+      });
+
+      if (response.status) {
+        showSnackbar("Added to Cart");
+      } else {
+        showSnackbar("Error adding to Cart");
+      }
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+      showSnackbar("Error adding to Cart");
+    }
+  }
+
+  const buyNow = async (productId) => {
+    if (!isLoggedIn) {
+      showSnackbar("Please login to buy products");
+      return;
+    }
+    try {
+      const response = await axios.post('https://rehomify.in/v1/cart/addToCart', {
+        custId: localStorage.getItem("custId"),
+        productId: productId,
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem("token")}`
+        }
+      });
+
+      if (response.status) {
+        navigate('/checkout', { state: { productId, fromCart: true } });
+      } else {
+        showSnackbar("Error proceeding to Buy Now");
+      }
+    } catch (error) {
+      console.error('Error proceeding to Buy Now:', error);
+      showSnackbar("Error proceeding to Buy Now");
+    }
+  }
+
 
   if (!product) return <p></p>;
 
@@ -125,8 +181,14 @@ const ProductPage = () => {
             </div>
 
             <div className="mobile-action-buttons">
-              <button className="mobile-add-to-cart">Add to cart</button>
-              <button className="mobile-proceed-to-payment">Proceed to payment</button>
+              <button className="mobile-add-to-cart" onClick={(e) => {
+                e.stopPropagation();
+                addToCart(product.id);
+              }}>Add to cart</button>
+              <button className="mobile-proceed-to-payment" onClick={(e) => {
+                e.stopPropagation();
+                buyNow(product.id);
+              }}>Proceed to payment</button>
               <button className="mobile-easy-emis" onClick={() => setShowEMI(true)}>Easy EMIs</button>
             </div>
 

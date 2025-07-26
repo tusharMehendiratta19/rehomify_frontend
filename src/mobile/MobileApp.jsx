@@ -40,6 +40,7 @@ import MobileSellerTransactions from "./sellers/components/MobileSellerTransacti
 import MobileSellerReviews from "./sellers/components/MobileSellerReviews";
 import MobileSellerNote from "./sellers/components/MobileSellerNote";
 import MobileSellerOverview from "./sellers/components/MobileSellerOverview"; // if used elsewhere
+import Snackbar from "./components/Snackbar";
 
 function MobileApp() {
   const [userType, setUserType] = useState(null);
@@ -54,59 +55,62 @@ function MobileApp() {
   };
 
   return (
-    <Router>
-      <Routes>
-        {/* Public Routes */}
-        <Route path="/" element={<Home />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/products" element={<Products />} />
-        <Route path="/product/:id" element={<ProductPage />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/forgotPassword" element={<ForgotPassword />} />
-        <Route path="/cart" element={<CartCard />} />
-        <Route path="/checkout" element={<Checkout />} />
-        <Route path="/resell" element={<ResellOrders />} />
-        <Route path="/offers" element={<Offers />} />
-        <Route path="/trends" element={<Trends />} />
-        <Route path="/orders" element={<Orders />} />
-        <Route path="/wishlist" element={<Wishlist />} />
-        <Route path="/returns" element={<Returns />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/sellOptions" element={<SellOption />} />
-        <Route path="/faq" element={<FAQ />} />
-        <Route path="/aboutus" element={<AboutUs />} />
-        <Route path="/category/:categoryName" element={<ExploreMoreProductsPage />} />
+    <>
+      <Router>
+        <Routes>
+          {/* Public Routes */}
+          <Route path="/" element={<Home />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/products" element={<Products />} />
+          <Route path="/product/:id" element={<ProductPage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/forgotPassword" element={<ForgotPassword />} />
+          <Route path="/cart" element={<CartCard />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/resell" element={<ResellOrders />} />
+          <Route path="/offers" element={<Offers />} />
+          <Route path="/trends" element={<Trends />} />
+          <Route path="/orders" element={<Orders />} />
+          <Route path="/wishlist" element={<Wishlist />} />
+          <Route path="/returns" element={<Returns />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/sellOptions" element={<SellOption />} />
+          <Route path="/faq" element={<FAQ />} />
+          <Route path="/aboutus" element={<AboutUs />} />
+          <Route path="/category/:categoryName" element={<ExploreMoreProductsPage />} />
 
-        {/* Role-Based Redirect from /dashboard */}
-        <Route
-          path="/dashboard"
-          element={
-            userType === "seller" ? (
-              <Navigate to="/seller/dashboard" />
-            ) : userType === "customer" ? (
-              <Home />
-            ) : (
-              <Navigate to="/" />
-            )
-          }
-        />
+          {/* Role-Based Redirect from /dashboard */}
+          <Route
+            path="/dashboard"
+            element={
+              userType === "seller" ? (
+                <Navigate to="/seller/dashboard" />
+              ) : userType === "customer" ? (
+                <Home />
+              ) : (
+                <Navigate to="/" />
+              )
+            }
+          />
 
-        {/* Seller Routes under MobileSellerHubLayout */}
-        <Route path="/seller" element={<MobileSellerHubLayout />}>
-          <Route path="home" element={<MobileSellerHome />} />
-          <Route path="dashboard" element={<MobileSellerDashboard />} />
-          <Route path="products" element={<MobileSellerProducts />} />
-          <Route path="orders" element={<MobileSellerOrders />} />
-          <Route path="returns" element={<MobileSellerReturns />} />
-          <Route path="transactions" element={<MobileSellerTransactions />} />
-          <Route path="reviews" element={<MobileSellerReviews />} />
-          <Route path="note" element={<MobileSellerNote />} />
-          {/* Optional: If MobileSellerOverview is needed */}
-          <Route path="overview" element={<MobileSellerOverview />} />
-        </Route>
-      </Routes>
-    </Router>
+          {/* Seller Routes under MobileSellerHubLayout */}
+          <Route path="/seller" element={<MobileSellerHubLayout />}>
+            <Route path="home" element={<MobileSellerHome />} />
+            <Route path="dashboard" element={<MobileSellerDashboard />} />
+            <Route path="products" element={<MobileSellerProducts />} />
+            <Route path="orders" element={<MobileSellerOrders />} />
+            <Route path="returns" element={<MobileSellerReturns />} />
+            <Route path="transactions" element={<MobileSellerTransactions />} />
+            <Route path="reviews" element={<MobileSellerReviews />} />
+            <Route path="note" element={<MobileSellerNote />} />
+            {/* Optional: If MobileSellerOverview is needed */}
+            <Route path="overview" element={<MobileSellerOverview />} />
+          </Route>
+        </Routes>
+      </Router>
+      <Snackbar />
+    </>
   );
 }
 

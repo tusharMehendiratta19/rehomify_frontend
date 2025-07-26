@@ -75,7 +75,7 @@ const CartSummary = ({ items, showSnackbar, navigate }) => {
     },
   ];
   const subtotal = items.reduce((acc, i) => acc + i.price * i.quantity, 0);
-  const delivery = 40;
+  const delivery = 0;
   const discount = applied
     ? applied.amount ?? Math.round((subtotal * applied.percentage) / 100)
     : 0;
@@ -123,15 +123,23 @@ const CartSummary = ({ items, showSnackbar, navigate }) => {
         )}
         <p><strong>Total: ₹{total}</strong></p>
       </div>
-{/* 
+      {/* 
       <div className="address-section">
         <label>Delivery Address</label>
         <textarea rows={3} placeholder="Enter your address" />
       </div> */}
 
-      <button className="payment-btn" onClick={() => navigate("/checkout")}>
+      <button
+        className="payment-btn"
+        onClick={() => navigate("/checkout", {
+          state: {
+            fromCart: true
+          }
+        })}
+      >
         Continue to Payment
       </button>
+
     </div>
   );
 };

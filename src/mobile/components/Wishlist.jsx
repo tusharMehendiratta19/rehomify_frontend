@@ -59,7 +59,9 @@ const Wishlist = () => {
 
     const handleAddToCart = async (productId) => {
         if (!isLoggedIn) {
-            showSnackbar("Please login to add items to cart");
+            window.dispatchEvent(new CustomEvent("snackbar", {
+                detail: { message: "Please login to add products to cart", type: "error" }
+            }));
             return;
         }
         try {
@@ -74,19 +76,28 @@ const Wishlist = () => {
             });
 
             if (response.status) {
-                showSnackbar("Added to Cart");
+                window.dispatchEvent(new CustomEvent("snackbar", {
+                    detail: { message: "Added to Cart", type: "success" }
+                }));
             } else {
-                showSnackbar("Error adding to Cart");
+                window.dispatchEvent(new CustomEvent("snackbar", {
+                    detail: { message: "Error adding to Cart", type: "error" }
+                }));
+                console.error("Error adding to cart:", response.data);
             }
         } catch (error) {
             console.error('Error adding to cart:', error);
-            showSnackbar("Error adding to Cart");
+            window.dispatchEvent(new CustomEvent("snackbar", {
+                detail: { message: "Error adding to Cart", type: "error" }
+            }));
         }
     }
 
     const handleBuyNow = async (productId) => {
         if (!isLoggedIn) {
-            showSnackbar("Please login to buy products");
+            window.dispatchEvent(new CustomEvent("snackbar", {
+                detail: { message: "Please login to proceed with Buy Now", type: "error" }
+            }));
             return;
         }
         try {
@@ -101,13 +112,18 @@ const Wishlist = () => {
             });
 
             if (response.status) {
-                navigate('/checkout', { state: { productId } });
+                navigate('/checkout', { state: { productId, fromCart: true } });
             } else {
-                showSnackbar("Error proceeding to Buy Now");
+                window.dispatchEvent(new CustomEvent("snackbar", {
+                    detail: { message: "Error proceeding to Buy Now", type: "error" }
+                }));
+                console.error("Error proceeding to Buy Now:", response.data);
             }
         } catch (error) {
             console.error('Error proceeding to Buy Now:', error);
-            showSnackbar("Error proceeding to Buy Now");
+            window.dispatchEvent(new CustomEvent("snackbar", {
+                detail: { message: "Error proceeding to Buy Now", type: "error" }
+            }));
         }
     }
 
