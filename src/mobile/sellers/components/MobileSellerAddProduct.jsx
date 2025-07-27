@@ -54,7 +54,7 @@ const AddProductForm = () => {
         }
 
         try {
-            const res = await axios.post('http://localhost:5000/v1/products/addProduct', data, {
+            const res = await axios.post('https://rehomify.in/v1/products/addProduct', data, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
