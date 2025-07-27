@@ -20,6 +20,10 @@ const MobileSellerNav = ({ isOpen, toggleSidebar }) => {
           <Home size={18} className="mobile-nav-icon" />
           Home
         </Link> */}
+        <Link to="/seller/addProduct" onClick={toggleSidebar} className="mobile-nav-link">
+          <LayoutDashboard size={18} className="mobile-nav-icon" />
+          Add Product
+        </Link>
         <Link to="/seller/dashboard" onClick={toggleSidebar} className="mobile-nav-link">
           <LayoutDashboard size={18} className="mobile-nav-icon" />
           Dashboard

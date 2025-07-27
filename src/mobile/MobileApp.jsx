@@ -40,6 +40,7 @@ import MobileSellerTransactions from "./sellers/components/MobileSellerTransacti
 import MobileSellerReviews from "./sellers/components/MobileSellerReviews";
 import MobileSellerNote from "./sellers/components/MobileSellerNote";
 import MobileSellerOverview from "./sellers/components/MobileSellerOverview"; // if used elsewhere
+import MobileSellerAddProduct from "./sellers/components/MobileSellerAddProduct";
 import Snackbar from "./components/Snackbar";
 
 function MobileApp() {
@@ -97,6 +98,7 @@ function MobileApp() {
           {/* Seller Routes under MobileSellerHubLayout */}
           <Route path="/seller" element={<MobileSellerHubLayout />}>
             <Route path="home" element={<MobileSellerHome />} />
+            <Route path="addProduct" element={<MobileSellerAddProduct />} />
             <Route path="dashboard" element={<MobileSellerDashboard />} />
             <Route path="products" element={<MobileSellerProducts />} />
             <Route path="orders" element={<MobileSellerOrders />} />
