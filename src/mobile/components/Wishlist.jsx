@@ -12,10 +12,14 @@ const Wishlist = () => {
     const navigate = useNavigate();
     const isLoggedIn = !!localStorage.getItem("token") && !!localStorage.getItem("custId");
     const [snackbarMessage, setSnackbarMessage] = useState("");
+    const [cartItems, setCartItems] = useState([]);
 
 
     useEffect(() => {
         fetchWishlist();
+        if (isLoggedIn) {
+            fetchCustomerDetails();
+        }
     }, []);
 
     const fetchWishlist = async () => {
@@ -31,6 +35,75 @@ const Wishlist = () => {
             console.error('Failed to fetch wishlist:', error);
         }
     };
+
+    const fetchCustomerDetails = async () => {
+        try {
+            const res = await axios.get(`https://rehomify.in/v1/auth/getCustomerDetails/${localStorage.getItem("custId")}`);
+            if (res.data?.status) {
+                const { cart = [], wishlist = [] } = res.data.data;
+                setCartItems(cart.map(p => p.productId));
+                // setWishlist(wishlist.map(p => p.productId));
+                console.log("Customer wishlist:", wishlist);
+            }
+        } catch (err) {
+            console.error("Error fetching customer details:", err);
+        }
+    };
+
+    const addToCart = async (productId) => {
+        if (!isLoggedIn) {
+            showSnackbar("Please login to add items to cart");
+            return;
+        }
+        try {
+            const response = await axios.post('https://rehomify.in/v1/cart/addToCart', {
+                custId: localStorage.getItem("custId"),
+                productId: productId,
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem("token")}`
+                }
+            });
+
+            if (response.status) {
+                showSnackbar("Added to Cart");
+                setCartItems(prev => [...prev, productId]);
+            } else {
+                showSnackbar("Error adding to Cart");
+            }
+        } catch (error) {
+            console.error('Error adding to cart:', error);
+            showSnackbar("Error adding to Cart");
+        }
+    }
+
+    const buyNow = async (productId) => {
+        if (!isLoggedIn) {
+            showSnackbar("Please login to buy products");
+            return;
+        }
+        try {
+            const response = await axios.post('https://rehomify.in/v1/cart/addToCart', {
+                custId: localStorage.getItem("custId"),
+                productId: productId,
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem("token")}`
+                }
+            });
+
+            if (response.status) {
+                navigate('/checkout', { state: { productId, fromCart: true } });
+            } else {
+                showSnackbar("Error proceeding to Buy Now");
+            }
+        } catch (error) {
+            console.error('Error proceeding to Buy Now:', error);
+            showSnackbar("Error proceeding to Buy Now");
+        }
+    }
 
     const showSnackbar = (message) => {
         setSnackbarMessage(message);
@@ -145,8 +218,37 @@ const Wishlist = () => {
                                 <p className="wishlist-description">{item.description}</p>
                                 <p className="wishlist-price">₹{item.price}</p>
                                 <div className="wishlist-buttons">
-                                    <button onClick={() => handleAddToCart(item.id)}>Add to Cart</button>
-                                    <button className="buy-now" onClick={() => handleBuyNow(item.id)}>Buy Now</button>
+                                    {cartItems.includes(item.id) ? (
+                                        <button
+                                            className="btn-outline"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                navigate("/cart"); // ✅
+                                            }}
+                                        >
+                                            Go To Cart
+                                        </button>
+                                    ) : (
+                                        <button
+                                            className="btn-outline"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                addToCart(item.id);
+                                            }}
+                                        >
+                                            Add To Cart
+                                        </button>
+                                    )}
+
+
+                                    <button className="btn-primary" onClick={(e) => {
+                                        e.stopPropagation();
+                                        buyNow(item.id);
+                                    }}>
+                                        Buy Now
+                                    </button>
+                                    {/* <button onClick={() => handleAddToCart(item.id)}>Add to Cart</button>
+                                    <button className="buy-now" onClick={() => handleBuyNow(item.id)}>Buy Now</button> */}
                                 </div>
                             </div>
                         </div>

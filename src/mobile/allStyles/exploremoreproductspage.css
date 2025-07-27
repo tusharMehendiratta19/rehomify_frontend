@@ -159,6 +159,39 @@
   color: white;
 }
 
+.wishlist-icon {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.mobile-product-image-wrapper {
+  position: relative;
+}
+
+.mobile-add-to-cart-btn,
+.mobile-buy-now-btn {
+  padding: 4px 6px;
+  font-size: 12px;
+  border-radius: 4px;
+}
+
+.mobile-add-to-cart-btn {
+  border: 1px solid #555;
+  background: transparent;
+  color: #333;
+}
+
+.mobile-buy-now-btn {
+  background-color: #ff6347;
+  color: white;
+  border: none;
+}
+
 /* ✅ Mobile Responsive */
 @media (max-width: 768px) {
   .mobile-explore-layout {
@@ -232,5 +265,38 @@
 
   .mobile-category-sidebar::-webkit-scrollbar {
     display: none;
+  }
+
+  .wishlist-icon {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 2;
+  }
+
+  .mobile-product-image-wrapper {
+    position: relative;
+  }
+
+  .mobile-add-to-cart-btn,
+  .mobile-buy-now-btn {
+    padding: 4px 6px;
+    font-size: 12px;
+    border-radius: 4px;
+  }
+
+  .mobile-add-to-cart-btn {
+    border: 1px solid #555;
+    background: transparent;
+    color: #333;
+  }
+
+  .mobile-buy-now-btn {
+    background-color: #ff6347;
+    color: white;
+    border: none;
   }
 }

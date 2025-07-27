@@ -8,9 +8,9 @@
 .pr-mobile-product-cardproduct-row-title {
   font-size: 18px;
   color: #b63e2b;
-  /* margin-bottom: 12px; */
   border-left: 4px solid #b63e2b;
   padding-left: 10px;
+  margin-bottom: 10px;
 }
 
 .pr-mobile-product-cardscroll-btns {
@@ -20,6 +20,7 @@
   display: flex;
   justify-content: space-between;
   pointer-events: none;
+  z-index: 1;
 }
 
 .pr-mobile-product-cardscroll-btn {
@@ -34,6 +35,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
 }
 
 .pr-mobile-product-cardproduct-scroll-container {
@@ -48,64 +51,169 @@
   display: none;
 }
 
+.mobile-product-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 10px;
+}
+
+.mobile-product-name {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.mobile-product-description {
+  font-size: 12px;
+  color: #555;
+  margin: 0;
+}
+
+.mobile-product-price,
+.mobile-product-color {
+  font-size: 13px;
+  margin: 0;
+}
+
+.mobile-product-image-wrapper {
+  position: relative;
+  width: 100%;
+}
+
 .pr-mobile-product-cardproduct-card {
+  position: relative;
   flex: 0 0 auto;
-  width: 150px; /* reduced from 220px */
+  width: 160px;
   background-color: #fff;
   border: 1px solid #eee;
   border-radius: 10px;
   padding: 8px;
   box-shadow: 0 2px 6px rgba(152, 30, 30, 0.1);
   text-align: center;
+  transition: transform 0.2s ease;
+  cursor: pointer;
+}
+
+.pr-mobile-product-cardproduct-card:hover {
+  transform: translateY(-2px);
 }
 
 .pr-mobile-product-cardproduct-image {
   width: 100%;
-  height: 100px; /* reduced to match new card size */
+  height: 100px;
   object-fit: cover;
   border-radius: 6px;
 }
 
+.wishlist-icon {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 30px;
+  height: 30px;
+  background: transparent;
+  border: none;
+  color: red;
+  font-size: 18px;
+  z-index: 2;
+  cursor: pointer;
+}
+
 .pr-mobile-product-cardproduct-name {
-  font-size: 13px; /* slightly smaller */
+  font-size: 13px;
+  font-weight: 600;
   margin: 6px 0 2px;
+  color: #333;
 }
 
 .pr-mobile-product-cardproduct-description {
   font-size: 11px;
   color: #777;
   margin-bottom: 6px;
+  min-height: 30px;
+}
+
+.pr-mobile-product-cardproduct-price {
+  font-size: 12px;
+  font-weight: bold;
+  color: #222;
+  margin-bottom: 6px;
 }
 
 .pr-mobile-product-cardproduct-actions {
   display: flex;
   gap: 4px;
-  /* flex-direction: column; Stack buttons vertically for narrow card */
+  justify-content: center;
+  margin-top: 6px;
+  flex-wrap: wrap;
 }
-
-/* .pr-mobile-product-cardbtn-outline,
-.pr-mobile-product-cardbtn-primary {
-  padding: 5px;
-  font-size: 11px;
-} */
-
 
 .pr-mobile-product-cardbtn-outline {
   flex: 1;
   padding: 4px 6px;
-  font-size: x-small;
+  font-size: 10px;
   border: 1px solid #888;
   color: #555;
   background-color: transparent;
   border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.pr-mobile-product-cardbtn-outline:hover {
+  background-color: #f2f2f2;
 }
 
 .pr-mobile-product-cardbtn-primary {
   flex: 1;
   padding: 4px 6px;
-  font-size:x-small;
-  background-color: #ff6347;
+  font-size: 10px;
+  background-color: #e14d37;
   color: white;
   border: none;
   border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.pr-mobile-product-cardbtn-primary:hover {
+  background-color: #c23e2d;
+}
+
+/* Optional: Snackbar styling if you're using one */
+.snackbar {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #333;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 4px;
+  z-index: 9999;
+  font-size: 14px;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+@keyframes fadein {
+  from {
+    bottom: 0;
+    opacity: 0;
+  }
+  to {
+    bottom: 20px;
+    opacity: 1;
+  }
+}
+
+@keyframes fadeout {
+  from {
+    bottom: 20px;
+    opacity: 1;
+  }
+  to {
+    bottom: 0;
+    opacity: 0;
+  }
 }

@@ -5,6 +5,7 @@ import {
   FaShoppingCart,
   FaBars
 } from "react-icons/fa";
+import axios from "axios";
 import "../allstyles/header.css";
 
 const slogans = ["Table", "Chair", "Sofa", "Bed", "Cupboard"];
@@ -13,6 +14,9 @@ const MobileHeader = () => {
   const [index, setIndex] = useState(0);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [sideNavOpen, setSideNavOpen] = useState(false);
+  const [searchText, setSearchText] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+  const [allProducts, setAllProducts] = useState([]);
   const navigate = useNavigate();
 
   const isLoggedIn = !!localStorage.getItem("token");
@@ -22,6 +26,12 @@ const MobileHeader = () => {
       setIndex((prev) => (prev + 1) % slogans.length);
     }, 2000);
     return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    axios.get("https://rehomify.in/v1/products/all")
+      .then(res => setAllProducts(res.data.data || []))
+      .catch(err => console.error("Error fetching products:", err));
   }, []);
 
   const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
@@ -68,6 +78,33 @@ const MobileHeader = () => {
     }
   };
 
+  const handleSearchChange = (e) => {
+    const value = e.target.value;
+    setSearchText(value);
+    if (!value.trim()) {
+      setSuggestions([]);
+      return;
+    }
+    const filtered = allProducts.filter(
+      (product) =>
+        product.name?.toLowerCase().includes(value.toLowerCase()) ||
+        product.category?.toLowerCase().includes(value.toLowerCase())
+    );
+    setSuggestions(filtered.slice(0, 5));
+  };
+
+  const handleSearchSubmit = () => {
+    if (!searchText.trim()) return;
+    navigate(`/search?query=${encodeURIComponent(searchText.trim())}`);
+    setSuggestions([]);
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleSearchSubmit();
+    }
+  };
+
   return (
     <div className="mobile-header-container">
       {/* Side Navbar */}
@@ -106,7 +143,6 @@ const MobileHeader = () => {
               <button onClick={() => handleOptionClick("profile")}>Profile</button>
               <button onClick={() => handleOptionClick("orders")}>Orders</button>
               <button onClick={() => handleOptionClick("wishlist")}>Wishlist</button>
-              <button onClick={() => handleOptionClick("returns")}>Resold</button>
               <button onClick={() => handleOptionClick("logout")}>Logout</button>
             </>
           ) : (
@@ -116,23 +152,43 @@ const MobileHeader = () => {
       )}
 
       {/* Bottom Bar */}
-      <div className="mobile-bottom-bar">
+      <div className="mobile-bottom-bar" style={{ position: "relative" }}>
         <FaBars size={20} onClick={toggleSideNav} className="burger-icon" />
         <input
           type="text"
           placeholder="Search..."
           className="mobile-search-input"
+          value={searchText}
+          onChange={handleSearchChange}
+          onKeyDown={handleKeyDown}
         />
-        <button className="mobile-resell-button" onClick={() => navigate("/sellOptions")}>
-          {"RESELL".split("").map((char, i) => (
-            <span key={i} className="resell-letter" style={{ animationDelay: `${i * 0.1}s` }}>
-              {char}
-            </span>
-          ))}
-        </button>
+        <button className="mobile-resell-button" onClick={() => navigate("/sellOptions")}> {
+          "RESELL".split("").map((char, i) => (
+            <span key={i} className="resell-letter" style={{ animationDelay: `${i * 0.1}s` }}>{char}</span>
+          ))
+        }</button>
         <span onClick={() => handleProtectedRoute("/cart")} className="mobile-cart-link">
           <FaShoppingCart className="mobile-cart-icon" size={20} />
         </span>
+
+        {/* Suggestions Box */}
+        {searchText && suggestions.length > 0 && (
+          <div className="mobile-search-suggestions">
+            {suggestions.map(item => (
+              <div
+                key={item._id}
+                className="mobile-suggestion-item"
+                onClick={() => {
+                  navigate(`/product/${item._id}`);
+                  setSearchText("");
+                  setSuggestions([]);
+                }}
+              >
+                {item.name} – <span style={{ fontStyle: "italic", color: "#888" }}>{item.category}</span>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

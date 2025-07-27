@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import '../allStyles/checkout.css';
 import Header from './Header';
 import Footer from './Footer';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const Checkout = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const fromCart = location.state?.fromCart;
   console.log("From Cart:", fromCart);
   const productId = location.state?.productId;
@@ -53,7 +54,7 @@ const Checkout = () => {
     }
 
     try {
-      const response = await axios.get(`http://localhost:5000/v1/auth/getCustomerDetails/${custId}`);
+      const response = await axios.get(`https://rehomify.in/v1/auth/getCustomerDetails/${custId}`);
 
       if (response.data?.status) {
         const customer = response.data.data;
@@ -123,7 +124,7 @@ const Checkout = () => {
       return;
     }
     try {
-      const response = await axios.post("http://localhost:5000/v1/auth/saveCustomerAddress", {
+      const response = await axios.post("https://rehomify.in/v1/auth/saveCustomerAddress", {
         custId: localStorage.getItem("custId"),
         name,
         addressLine1,
@@ -160,6 +161,64 @@ const Checkout = () => {
       }));
     }
   };
+
+  const placingOrder = async () => {
+  const custId = localStorage.getItem("custId");
+
+  if (!custId) {
+    window.dispatchEvent(new CustomEvent("snackbar", {
+      detail: { message: "Please login to proceed", type: "error" }
+    }));
+    return;
+  } else if (!isAddressValid) {
+    window.dispatchEvent(new CustomEvent("snackbar", {
+      detail: { message: "Please add a valid address", type: "error" }
+    }));
+    return;
+  }
+
+  try {
+    // Handle both single product and multiple (from cart)
+    const productsToOrder = Array.isArray(product) ? product : [product];
+
+    for (const p of productsToOrder) {
+      const response = await axios.post("https://rehomify.in/v1/orders/addOrder", {
+        customerId: custId,
+        productId: p.id,
+        quantity: p.quantity || 1
+      });
+
+      if (response.data?.status) {
+        const result = await axios.post("https://rehomify.in/v1/auth/saveOrder", {
+          customerId: custId,
+          orderId: response.data.order._id
+        });
+
+        if (!result.data?.status) {
+          console.error("Failed to save order:", result.data);
+        }
+      } else {
+        window.dispatchEvent(new CustomEvent("snackbar", {
+          detail: { message: "Failed to place order for a product", type: "error" }
+        }));
+      }
+    }
+
+    window.dispatchEvent(new CustomEvent("snackbar", {
+      detail: { message: "Order placed successfully", type: "success" }
+    }));
+
+    navigate('/home'); // Redirect to success page
+
+    // Redirect or clear cart logic
+  } catch (error) {
+    console.error('Error placing order:', error);
+    window.dispatchEvent(new CustomEvent("snackbar", {
+      detail: { message: "Error placing order", type: "error" }
+    }));
+  }
+};
+
 
   return (
     <>
@@ -301,8 +360,8 @@ const Checkout = () => {
 
           <div className="mobile-order-summary">
             <h3>ORDER SUMMARY</h3>
-            <p>Your Order will be delivered in 3–5 working days.</p>
-            <p><strong>Estimated Delivery Date:</strong> 29 May 2025</p>
+            {/* <p>Your Order will be delivered in 3–5 working days.</p>
+            <p><strong>Estimated Delivery Date:</strong> 29 May 2025</p> */}
 
             {Array.isArray(product) && product.length > 0 ? (
               <div className="mobile-summary-details">
@@ -378,7 +437,7 @@ const Checkout = () => {
               </div>
             )}
 
-            <button className="mobile-payment-btn">PROCEED TO PAYMENT</button>
+            <button className="mobile-payment-btn" onClick={placingOrder}>PROCEED TO PAYMENT</button>
           </div>
 
         </div>

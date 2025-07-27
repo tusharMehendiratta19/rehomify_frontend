@@ -6,7 +6,7 @@ import "../allStyles/products.css";
 import ProductPage from "../components/ProductPage";
 import { useNavigate } from "react-router-dom";
 import dummyProducts from "../../data/dummyProductData";
-import { FaHeart } from "react-icons/fa";     // Filled heart (Font Awesome)
+import { AiFillHeart } from "react-icons/ai";    // Filled heart (Font Awesome)
 import { FiHeart } from "react-icons/fi";     // Outline heart (Feather Icons)
 import Loader from "../components/Loader";
 
@@ -59,7 +59,7 @@ const Products = () => {
 
     const fetchCustomerDetails = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/v1/auth/getCustomerDetails/${localStorage.getItem("custId")}`);
+        const res = await axios.get(`https://rehomify.in/v1/auth/getCustomerDetails/${localStorage.getItem("custId")}`);
         if (res.data?.status) {
           const { cart = [], wishlist = [] } = res.data.data;
           setCartItems(cart.map(p => p.productId));
@@ -323,9 +323,8 @@ const Products = () => {
               <div
                 key={product.id}
                 className="mobile-product-card"
-                onClick={() => handleProductClick(product.id)}
               >
-                <div className="mobile-product-image-wrapper">
+                <div className="mobile-product-image-wrapper" onClick={() => handleProductClick(product.id)}>
                   <img
                     src={product.image}
                     alt={product.name}
@@ -339,7 +338,7 @@ const Products = () => {
                     }}
                   >
                     {wishlist.includes(product.id) ? (
-                      <FaHeart color="red" />
+                      <AiFillHeart color="red" />
                     ) : (
                       <FiHeart />
                     )}
@@ -348,9 +347,9 @@ const Products = () => {
                 </div>
 
                 <div className="mobile-product-info">
-                  <h3 className="mobile-product-name">{product.name}</h3>
-                  <p className="mobile-product-description">{product.description}</p>
-                  <p className="mobile-product-price">Price: ₹{product.price}</p>
+                  <h3 className="mobile-product-name" onClick={() => handleProductClick(product.id)}>{product.name}</h3>
+                  <p className="mobile-product-description" onClick={() => handleProductClick(product.id)}>{product.description}</p>
+                  <p className="mobile-product-price" onClick={() => handleProductClick(product.id)}>Price: ₹{product.price}</p>
                   <div className="product-actions">
                     {cartItems.includes(product.id) ? (
                       <button

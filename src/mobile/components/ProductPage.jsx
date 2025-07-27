@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../allStyles/productpage.css';
 import Header from './Header';
@@ -14,8 +14,12 @@ const ProductPage = () => {
   const [selectedImage, setSelectedImage] = useState('');
   const [selectedQuantity, setSelectedQuantity] = useState(1);
   const [showEMI, setShowEMI] = useState(false);
-
+  const [cartItems, setCartItems] = useState([]);
+  const isLoggedIn = !!localStorage.getItem("token") && !!localStorage.getItem("custId");
+  const [wishlist, setWishlist] = useState([]);
   const location = useLocation();
+  const navigate = useNavigate();
+  const [mainImage, setMainImage] = useState('');
   const alltheproducts = location.state?.allProducts || [];
 
   const similarProducts = [
@@ -27,6 +31,7 @@ const ProductPage = () => {
 
   const products = {
     images: [
+      mainImage,
       'https://images.pexels.com/photos/7850509/pexels-photo-7850509.jpeg',
       'https://images.pexels.com/photos/1957477/pexels-photo-1957477.jpeg',
       'https://images.pexels.com/photos/7602930/pexels-photo-7602930.jpeg',
@@ -48,6 +53,7 @@ const ProductPage = () => {
         if (found) {
           setProduct(found);
           setSelectedImage(found.image);
+          setMainImage(found.image);
         } else {
           console.warn("Product not found for id:", id);
         }
@@ -56,8 +62,31 @@ const ProductPage = () => {
       }
     };
 
+    const fetchCustomerDetails = async () => {
+      try {
+        const res = await axios.get(`https://rehomify.in/v1/auth/getCustomerDetails/${localStorage.getItem("custId")}`);
+        if (res.data?.status) {
+          const { cart = [], wishlist = [] } = res.data.data;
+          setCartItems(cart.map(p => p.productId));
+          setWishlist(wishlist.map(p => p.productId));
+          console.log("Customer wishlist:", wishlist);
+        }
+      } catch (err) {
+        console.error("Error fetching customer details:", err);
+      }
+    };
+
     fetchProduct();
+    if (isLoggedIn) {
+      fetchCustomerDetails();
+    }
   }, [id]);
+
+  // const showSnackbar = (message) => {
+  //   setSnackbarMessage(message);
+  //   setSnackbarOpen(true);
+  //   setTimeout(() => setSnackbarOpen(false), 3000); // auto hide in 3s
+  // };
 
   const addToCart = async (productId) => {
     if (!localStorage.getItem("token") || !localStorage.getItem("custId")) {
@@ -78,19 +107,34 @@ const ProductPage = () => {
       });
 
       if (response.status) {
-        showSnackbar("Added to Cart");
+        window.dispatchEvent(new CustomEvent("snackbar", {
+          detail: { message: "Added to Cart", type: "success" }
+        }));
+        setTimeout(() => window.location.reload(), 1000); // reload to update cart
+        // showSnackbar("Added to Cart");
       } else {
-        showSnackbar("Error adding to Cart");
+        window.dispatchEvent(new CustomEvent("snackbar", {
+          detail: { message: "Error adding to Cart", type: "error" }
+        }));
+        //
+        // showSnackbar("Error adding to Cart");
       }
     } catch (error) {
       console.error('Error adding to cart:', error);
-      showSnackbar("Error adding to Cart");
+      window.dispatchEvent(new CustomEvent("snackbar", {
+        detail: { message: "Error adding to Cart", type: "error" }
+      }));
+      //
+      // showSnackbar("Error adding to Cart");
     }
   }
 
   const buyNow = async (productId) => {
     if (!isLoggedIn) {
-      showSnackbar("Please login to buy products");
+      window.dispatchEvent(new CustomEvent("snackbar", {
+        detail: { message: "Please login to buy products", type: "error" }
+      }));
+      // showSnackbar("Please login to buy products");
       return;
     }
     try {
@@ -107,11 +151,17 @@ const ProductPage = () => {
       if (response.status) {
         navigate('/checkout', { state: { productId, fromCart: true } });
       } else {
-        showSnackbar("Error proceeding to Buy Now");
+        window.dispatchEvent(new CustomEvent("snackbar", {
+          detail: { message: "Error proceeding to Buy Now", type: "error" }
+        }));
+        // showSnackbar("Error proceeding to Buy Now");
       }
     } catch (error) {
       console.error('Error proceeding to Buy Now:', error);
-      showSnackbar("Error proceeding to Buy Now");
+      window.dispatchEvent(new CustomEvent("snackbar", {
+        detail: { message: "Error proceeding to Buy Now", type: "error" }
+      }));
+      // showSnackbar("Error proceeding to Buy Now");
     }
   }
 
@@ -181,16 +231,42 @@ const ProductPage = () => {
             </div>
 
             <div className="mobile-action-buttons">
-              <button className="mobile-add-to-cart" onClick={(e) => {
-                e.stopPropagation();
-                addToCart(product.id);
-              }}>Add to cart</button>
-              <button className="mobile-proceed-to-payment" onClick={(e) => {
-                e.stopPropagation();
-                buyNow(product.id);
-              }}>Proceed to payment</button>
-              <button className="mobile-easy-emis" onClick={() => setShowEMI(true)}>Easy EMIs</button>
+              {cartItems.includes(product.id) ? (
+                <button
+                  className="mobile-add-to-cart"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    navigate("/cart");
+                  }}
+                >
+                  Go To Cart
+                </button>
+              ) : (
+                <button
+                  className="mobile-add-to-cart"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    addToCart(product.id);
+                  }}
+                >
+                  Add to cart
+                </button>
+              )}
+
+              <button
+                className="mobile-proceed-to-payment"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  buyNow(product.id);
+                }}
+              >
+                Proceed to payment
+              </button>
+              <button className="mobile-easy-emis" onClick={() => setShowEMI(true)}>
+                Easy EMIs
+              </button>
             </div>
+
 
             <div className="mobile-ratings-section">
               <h4>Ratings & Reviews</h4>

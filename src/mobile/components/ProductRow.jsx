@@ -1,13 +1,45 @@
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import "../allStyles/productrow.css";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { AiFillHeart } from "react-icons/ai";
+import { FiHeart } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
-
+import axios from "axios";
 
 const ProductRow = ({ title, type, allproducts }) => {
   const scrollContainerRef = useRef(null);
   const products = allproducts || [];
   const navigate = useNavigate();
+
+  const [wishlist, setWishlist] = useState([]);
+  const [cartItems, setCartItems] = useState([]);
+  const [snackbar, setSnackbar] = useState({ open: false, message: "" });
+
+  const isLoggedIn = !!localStorage.getItem("token") && !!localStorage.getItem("custId");
+
+  useEffect(() => {
+    const fetchCustomerDetails = async () => {
+      try {
+        const res = await axios.get(`https://rehomify.in/v1/auth/getCustomerDetails/${localStorage.getItem("custId")}`);
+        if (res.data?.status) {
+          const { cart = [], wishlist = [] } = res.data.data;
+          setCartItems(cart.map(p => p.productId));
+          setWishlist(wishlist.map(p => p.productId));
+        }
+      } catch (err) {
+        console.error("Error fetching customer details:", err);
+      }
+    };
+
+    if (isLoggedIn) {
+      fetchCustomerDetails();
+    }
+  }, []);
+
+  const showSnackbar = (message) => {
+    setSnackbar({ open: true, message });
+    setTimeout(() => setSnackbar({ open: false, message: "" }), 3000);
+  };
 
   const handleScroll = (direction) => {
     const container = scrollContainerRef.current;
@@ -21,8 +53,97 @@ const ProductRow = ({ title, type, allproducts }) => {
   };
 
   const handleProductClick = (id) => {
-    console.log("Product clicked with ID:", id);
     navigate(`/product/${id}`);
+  };
+
+  const addToCart = async (productId) => {
+    if (!isLoggedIn) return showSnackbar("Please login to add items to cart");
+    try {
+      const res = await axios.post("https://rehomify.in/v1/cart/addToCart", {
+        custId: localStorage.getItem("custId"),
+        productId
+      }, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+
+      if (res.status) {
+        setCartItems(prev => [...prev, productId]);
+        showSnackbar("Added to Cart");
+      }
+    } catch (err) {
+      console.error("Add to cart failed:", err);
+      showSnackbar("Error adding to Cart");
+    }
+  };
+
+  const buyNow = async (productId) => {
+    if (!isLoggedIn) return showSnackbar("Please login to proceed");
+
+    try {
+      await axios.post("https://rehomify.in/v1/cart/addToCart", {
+        custId: localStorage.getItem("custId"),
+        productId
+      }, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+
+      navigate("/checkout", { state: { productId, fromCart: true } });
+    } catch (err) {
+      console.error("Buy Now failed:", err);
+      showSnackbar("Error proceeding to Buy Now");
+    }
+  };
+
+  const toggleWishlist = async (productId) => {
+    if (!isLoggedIn) return showSnackbar("Please login to wishlist");
+
+    if (wishlist.includes(productId)) {
+      try {
+        const res = await axios.post("https://rehomify.in/v1/wishlist/updateWishlist", {
+          custId: localStorage.getItem("custId"),
+          productId,
+        }, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+
+        if (res.status) {
+          setWishlist(wishlist.filter(id => id !== productId));
+          showSnackbar("Removed from Wishlist");
+        }
+      } catch (err) {
+        console.error("Remove from wishlist error:", err);
+        showSnackbar("Error removing from Wishlist");
+      }
+    } else {
+      try {
+        const res = await axios.post("https://rehomify.in/v1/wishlist/addToWishlist", {
+          custId: localStorage.getItem("custId"),
+          productId,
+        }, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+
+        if (res.status) {
+          setWishlist(prev => [...prev, productId]);
+          showSnackbar("Added to Wishlist");
+        }
+      } catch (err) {
+        console.error("Add to wishlist error:", err);
+        showSnackbar("Error adding to Wishlist");
+      }
+    }
   };
 
   return (
@@ -40,19 +161,45 @@ const ProductRow = ({ title, type, allproducts }) => {
 
       <div className="pr-mobile-product-cardproduct-scroll-container" ref={scrollContainerRef}>
         {products.map((product) => (
-          <div key={product.id} className="pr-mobile-product-cardproduct-card"
-            onClick={() => handleProductClick(product._id)}
-          >
-            <img src={product.image} alt={product.name} className="pr-mobile-product-cardproduct-image" />
-            <h3 className="pr-mobile-product-cardproduct-name">{product.name}</h3>
-            <p className="pr-mobile-product-cardproduct-description">{product.description}</p>
-            <div className="pr-mobile-product-cardproduct-actions">
-              <button className="pr-mobile-product-cardbtn-outline">Add to Cart</button>
-              <button className="pr-mobile-product-cardbtn-primary">Buy Now</button>
+          <div key={product._id} className="pr-mobile-product-cardproduct-card">
+            <div className="mobile-product-image-wrapper" onClick={() => handleProductClick(product._id)}>
+              <img src={product.image} alt={product.name} className="pr-mobile-product-cardproduct-image" />
+              <button
+                className="wishlist-icon"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  toggleWishlist(product._id);
+                }}
+              >
+                {wishlist.includes(product._id) ? <AiFillHeart color="red" /> : <FiHeart />}
+              </button>
+            </div>
+
+            <div className="mobile-product-info">
+              <h3 className="mobile-product-name" onClick={() => handleProductClick(product._id)}>{product.name}</h3>
+              <p className="mobile-product-description" onClick={() => handleProductClick(product._id)}>{product.description}</p>
+              <p className="mobile-product-price" onClick={() => handleProductClick(product._id)}>Price: ₹{product.price}</p>
+              <div className="product-actions">
+                {cartItems.includes(product._id) ? (
+                  <button className="btn-outline" onClick={(e) => { e.stopPropagation(); navigate("/cart"); }}>
+                    Go To Cart
+                  </button>
+                ) : (
+                  <button className="btn-outline" onClick={(e) => { e.stopPropagation(); addToCart(product._id); }}>
+                    Add To Cart
+                  </button>
+                )}
+
+                <button className="btn-primary" onClick={(e) => { e.stopPropagation(); buyNow(product._id); }}>
+                  Buy Now
+                </button>
+              </div>
             </div>
           </div>
         ))}
       </div>
+
+      {snackbar.open && <div className="snackbar">{snackbar.message}</div>}
     </div>
   );
 };

@@ -19,7 +19,7 @@ const Profile = () => {
 
     const fetchCustomer = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/v1/auth/getCustomerDetails/${custId}`);
+        const res = await axios.get(`https://rehomify.in/v1/auth/getCustomerDetails/${custId}`);
         if (res.data?.status) {
           setUser(res.data.data);
         } else {
@@ -49,7 +49,7 @@ const Profile = () => {
     }
     try {
       setEditMode(false);
-      const res = await axios.post("http://localhost:5000/v1/auth/saveCustomerDetails", {
+      const res = await axios.post("https://rehomify.in/v1/auth/saveCustomerDetails", {
         id: localStorage.getItem("custId"),
         name: user.name,
         email: user.email,
