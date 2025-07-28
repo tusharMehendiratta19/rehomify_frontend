@@ -21,7 +21,7 @@ const MobileSellerProducts = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/v1/products/");
+        const res = await axios.get("https://rehomify.in/v1/products/");
         const productsByCategory = res.data;
 
         // Flatten all products into one array with added 'tag' field
