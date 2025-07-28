@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import '../sellerstyles/sellerAddProduct.css'; // Adjust the path as necessary
+import '../sellerstyles/sellerAddProduct.css';
 
 const AddProductForm = () => {
     const [formData, setFormData] = useState({
@@ -18,6 +18,15 @@ const AddProductForm = () => {
 
     const [image, setImage] = useState(null);
     const [status, setStatus] = useState('');
+
+    const colorOptions = [
+        "Natural Wood", "Walnut", "Mahogany", "Teak", "Oak",
+        "Espresso", "Black", "White", "Gray"
+    ];
+
+    const categoryOptions = [
+        "Table", "Chair", "Single Bed", "Double Bed", "Cupboard"
+    ];
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -38,14 +47,12 @@ const AddProductForm = () => {
 
         const data = new FormData();
 
-        // Exclude sellerId from the loop
         Object.entries(formData).forEach(([key, value]) => {
             if (key !== 'sellerId') {
                 data.append(key, value);
             }
         });
 
-        // Add sellerId explicitly from localStorage
         const sellerId = localStorage.getItem('custId');
         if (sellerId) data.append('sellerId', sellerId);
 
@@ -66,7 +73,6 @@ const AddProductForm = () => {
         }
     };
 
-
     return (
         <div className="add-product-container">
             <h2>Add New Product</h2>
@@ -75,15 +81,31 @@ const AddProductForm = () => {
                 <input type="text" name="name" placeholder="Product Name" value={formData.name} onChange={handleChange} required />
                 <textarea name="description" placeholder="Description" value={formData.description} onChange={handleChange} required />
                 <input type="number" name="price" placeholder="Price" value={formData.price} onChange={handleChange} required />
-                <input type="text" name="category" placeholder="Category" value={formData.category} onChange={handleChange} required />
-                <input type="text" name="color" placeholder="Color" value={formData.color} onChange={handleChange} required />
+
+                {/* Category Dropdown */}
+                <select name="category" value={formData.category} onChange={handleChange} required>
+                    <option value="">Select Category</option>
+                    {categoryOptions.map((option) => (
+                        <option key={option} value={option}>{option}</option>
+                    ))}
+                </select>
+
+                {/* Color Dropdown */}
+                <select name="color" value={formData.color} onChange={handleChange} required>
+                    <option value="">Select Color</option>
+                    {colorOptions.map((option) => (
+                        <option key={option} value={option}>{option}</option>
+                    ))}
+                </select>
+
                 <label className='isRefurbished'>
                     <input type="checkbox" name="isRefurbished" checked={formData.isRefurbished} onChange={handleChange} />
                     Refurbished
                 </label>
-                <input type="number" name="width" placeholder="Width (cm)" value={formData.width} onChange={handleChange} required />
-                <input type="number" name="length" placeholder="Length (cm)" value={formData.length} onChange={handleChange} required />
-                <input type="number" name="height" placeholder="Height (cm)" value={formData.height} onChange={handleChange} required />
+
+                <input type="number" name="width" placeholder="Width (in foot)" value={formData.width} onChange={handleChange} required />
+                <input type="number" name="length" placeholder="Length (in foot)" value={formData.length} onChange={handleChange} required />
+                <input type="number" name="height" placeholder="Height (in foot)" value={formData.height} onChange={handleChange} required />
                 <input type="text" name="woodMaterial" placeholder="Wood Material" value={formData.woodMaterial} onChange={handleChange} required />
 
                 <button type="submit">Add Product</button>
