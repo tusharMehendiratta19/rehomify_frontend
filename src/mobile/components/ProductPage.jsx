@@ -20,6 +20,7 @@ const ProductPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [mainImage, setMainImage] = useState('');
+  const [optionalImages, setOptionalImages] = useState([]);
   const alltheproducts = location.state?.allProducts || [];
 
   const similarProducts = [
@@ -32,10 +33,7 @@ const ProductPage = () => {
   const products = {
     images: [
       mainImage,
-      'https://images.pexels.com/photos/7850509/pexels-photo-7850509.jpeg',
-      'https://images.pexels.com/photos/1957477/pexels-photo-1957477.jpeg',
-      'https://images.pexels.com/photos/7602930/pexels-photo-7602930.jpeg',
-
+      ...optionalImages.map(img => img.url || img)
     ]
   };
 
@@ -54,6 +52,7 @@ const ProductPage = () => {
           setProduct(found);
           setSelectedImage(found.image);
           setMainImage(found.image);
+          setOptionalImages(found.optionalImages || []);
         } else {
           console.warn("Product not found for id:", id);
         }

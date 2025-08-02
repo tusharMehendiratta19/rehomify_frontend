@@ -16,7 +16,8 @@ const AddProductForm = () => {
         woodMaterial: '',
     });
 
-    const [image, setImage] = useState(null);
+    const [mainImage, setMainImage] = useState(null);
+    const [optionalImages, setOptionalImages] = useState([]);
     const [status, setStatus] = useState('');
 
     const colorOptions = [
@@ -30,15 +31,19 @@ const AddProductForm = () => {
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
-
         setFormData((prevData) => ({
             ...prevData,
             [name]: type === 'checkbox' ? checked : value,
         }));
     };
 
-    const handleImageChange = (e) => {
-        setImage(e.target.files[0]);
+    const handleMainImageChange = (e) => {
+        setMainImage(e.target.files[0]);
+    };
+
+    const handleOptionalImagesChange = (e) => {
+        const files = Array.from(e.target.files).slice(0, 4); // max 4
+        setOptionalImages(files);
     };
 
     const handleSubmit = async (e) => {
@@ -46,7 +51,6 @@ const AddProductForm = () => {
         setStatus('Submitting...');
 
         const data = new FormData();
-
         Object.entries(formData).forEach(([key, value]) => {
             if (key !== 'sellerId') {
                 data.append(key, value);
@@ -56,9 +60,13 @@ const AddProductForm = () => {
         const sellerId = localStorage.getItem('custId');
         if (sellerId) data.append('sellerId', sellerId);
 
-        if (image) {
-            data.append('image', image);
+        if (mainImage) {
+            data.append('mainImage', mainImage);
         }
+
+        optionalImages.forEach((img, index) => {
+            data.append('optionalImages', img);
+        });
 
         try {
             const res = await axios.post('https://rehomify.in/v1/products/addProduct', data, {
@@ -77,12 +85,16 @@ const AddProductForm = () => {
         <div className="add-product-container">
             <h2>Add New Product</h2>
             <form onSubmit={handleSubmit} className="add-product-form" encType="multipart/form-data">
-                <input type="file" accept="image/*" onChange={handleImageChange} required />
+                <label>Main Image</label>
+                <input type="file" accept="image/*" onChange={handleMainImageChange} required />
+
+                <label>Optional Images (max 4)</label>
+                <input type="file" accept="image/*" multiple onChange={handleOptionalImagesChange} />
+
                 <input type="text" name="name" placeholder="Product Name" value={formData.name} onChange={handleChange} required />
                 <textarea name="description" placeholder="Description" value={formData.description} onChange={handleChange} required />
                 <input type="number" name="price" placeholder="Price" value={formData.price} onChange={handleChange} required />
 
-                {/* Category Dropdown */}
                 <select name="category" value={formData.category} onChange={handleChange} required>
                     <option value="">Select Category</option>
                     {categoryOptions.map((option) => (
@@ -90,7 +102,6 @@ const AddProductForm = () => {
                     ))}
                 </select>
 
-                {/* Color Dropdown */}
                 <select name="color" value={formData.color} onChange={handleChange} required>
                     <option value="">Select Color</option>
                     {colorOptions.map((option) => (
