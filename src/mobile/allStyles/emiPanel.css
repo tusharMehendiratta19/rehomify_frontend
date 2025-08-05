@@ -1,0 +1,113 @@
+.mobile-emi-panel {
+  position: fixed;
+  top: 15%;
+  right: 0;
+  width: 100vw;
+  max-width: 360px;
+  height: 80vh;
+  background-color: white;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
+  z-index: 999;
+  animation: mobile-slideIn 0.3s ease forwards;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  overflow-y: auto;
+}
+
+@keyframes mobile-slideIn {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.mobile-emi-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mobile-close-btn {
+  background: none;
+  border: none;
+  width: 30px;
+  height: 30px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.mobile-emi-content {
+  margin-top: 16px;
+}
+
+.mobile-emi-content label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.mobile-bank-select {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 16px;
+  font-size: 14px;
+}
+
+.mobile-emi-breakdown p {
+  font-size: 14px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+.mobile-emi-breakdown ul {
+  list-style: none;
+  padding: 0;
+}
+
+.mobile-emi-breakdown li {
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+
+.mobile-emi-disclaimer {
+  font-size: 12px;
+  color: gray;
+  margin-top: 10px;
+}
+
+.mobile-continue-btn {
+  margin-top: 20px;
+  background-color: black;
+  color: white;
+  padding: 10px;
+  width: 100%;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 4px;
+}
+
+/* Optional: ensure it looks clean on small devices */
+@media (max-width: 360px) {
+  .mobile-emi-panel {
+    height: 70vh;
+    padding: 12px;
+  }
+
+  .mobile-close-btn {
+    font-size: 22px;
+  }
+
+  .mobile-bank-select,
+  .mobile-continue-btn {
+    font-size: 13px;
+  }
+
+  .mobile-emi-breakdown p,
+  .mobile-emi-breakdown li {
+    font-size: 13px;
+  }
+}

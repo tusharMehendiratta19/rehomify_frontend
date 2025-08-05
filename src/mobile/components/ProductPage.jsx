@@ -53,6 +53,7 @@ const ProductPage = () => {
           setSelectedImage(found.image);
           setMainImage(found.image);
           setOptionalImages(found.optionalImages || []);
+          console.log("found>>",found)
         } else {
           console.warn("Product not found for id:", id);
         }
@@ -188,14 +189,14 @@ const ProductPage = () => {
           </div>
 
           <div className="mobile-product-info-column">
-            <h2 className="mobile-product-title">{product.name}</h2>
+            <h3 className="mobile-product-title">{product.name}</h3>
             <p className="mobile-product-description">{product.description}</p>
 
             <div className="mobile-price-section">
-              <p className="mobile-original-price">Price: <s>₹6999</s></p>
+              <p className="mobile-original-price">Price: <s>₹{product.price + 2000}</s></p>
               <p className="mobile-offer-price">Offer Price: ₹{product.price}</p>
               <span className="mobile-limited-deal-tag">Limited time deal</span>
-              <p className="mobile-vendor">Vendor: <strong>Rober Enterprises</strong> <span className="mobile-vendor-rating">★ 4</span></p>
+              {/* <p className="mobile-vendor">Vendor: <strong>Rober Enterprises</strong> <span className="mobile-vendor-rating">★ 4</span></p> */}
             </div>
 
             <div className="mobile-quantity-section">
@@ -206,26 +207,27 @@ const ProductPage = () => {
                 onChange={(e) => setSelectedQuantity(e.target.value)}
                 className="mobile-quantity-select"
               >
-                {[1, 2, 3, 4, 5].map(qty => <option key={qty} value={qty}>{qty}</option>)}
+                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(qty => <option key={qty} value={qty}>{qty}</option>)}
               </select>
             </div>
 
-            <div className="mobile-offers-section">
+            {/* <div className="mobile-offers-section">
               <h4>Available Offers</h4>
               <ul>
                 <li>Special Price: Get extra ₹500 off</li>
                 <li>Special Price: Get extra ₹350 off</li>
                 <li>Get at ₹{product.price}</li>
               </ul>
-            </div>
+            </div> */}
 
             <div className="mobile-highlights-section">
               <h4>Product Highlights</h4>
               <ul>
-                <li><strong>Primary Material</strong>: Engineered Wood</li>
-                <li><strong>Dimensions</strong>: 75 cm x 183 cm</li>
-                <li><strong>Doors</strong>: 2</li>
-                <li><strong>Shelves</strong>: 2</li>
+                <li><strong>Primary Material</strong>: {product.woodMaterial}</li>
+                <li><strong>Width</strong>: {product.width} foot</li>
+                <li><strong>Length</strong>: {product.length} foot</li>
+                <li><strong>Height</strong>: {product.height} foot</li>
+                <li><strong>Color</strong>: {product.color}</li>
               </ul>
             </div>
 

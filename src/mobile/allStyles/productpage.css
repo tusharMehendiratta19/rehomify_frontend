@@ -52,21 +52,28 @@
 }
 
 .mobile-product-title {
-  font-size: 1.5rem;
+  /* font-size: 1.5rem; */
   margin-bottom: 0.5rem;
+}
+.mobile-original-price{
+  margin-top: 10px;
 }
 
 .mobile-offer-price {
   font-weight: bold;
   color: #b63e2b;
+  /* margin-top: 6px; */
+  margin-bottom: 10px;
 }
 
 .mobile-limited-deal-tag {
   background-color: #ffe4b5;
   color: #b63e2b;
-  padding: 4px 8px;
+  padding: 5px 8px;
   font-size: 0.875rem;
   display: inline-block;
+  width: 40%;
+  text-align: center;
   margin: 5px 0;
   border-radius: 4px;
 }
@@ -82,8 +89,19 @@
   display: flex;
   align-items: center;
   gap: 10px;
+  margin-top: 6px;
+  margin-bottom: 6px;
   /* background-color: gray; */
   width: 40%;
+}
+
+.mobile-highlights-section{
+  /* border: 1px solid grey; */
+  padding: 8px;
+  border-radius: 6px;
+  background-color: bisque;
+  margin-top: 15px;
+  box-shadow: 1px 1px 3px #3e3e3e;
 }
 
 .mobile-quantity-select {
@@ -94,12 +112,17 @@
   font-size: 0.9rem;
 }
 
+.mobile-highlights-section ul li{
+  list-style-type: none;
+}
+
 .mobile-action-buttons button {
   padding: 10px 5px;
   font-size: 0.7rem;
   border: none;
   border-radius: 6px;
   font-weight: bold;
+  box-shadow: 1px 1px 3px grey;
   cursor: pointer;
 }
 

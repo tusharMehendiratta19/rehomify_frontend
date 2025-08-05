@@ -2,8 +2,8 @@
   position: fixed;
   top: 35px; /* height of header */
   left: -100%;
-  width: 50%;
-  height: 50%;
+  width: 54%;
+  /* height: 50%; */
   background-color: #fff;
   border-right: 1px solid #ddd;
   border-bottom: 1px solid #ddd;
