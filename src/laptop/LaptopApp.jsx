@@ -38,6 +38,7 @@ import SellerTransactions from "./sellers/components/SellerTransactions";
 import SellerReviews from "./sellers/components/SellerReviews";
 import SellerNote from "./sellers/components/SellerNote";
 import SellerOverview from "./sellers/components/SellerOverview"; // if used elsewhere
+import AddProductForm from "./sellers/components/SellerAddProduct";
 
 function LaptopApp() {
   const [userType, setUserType] = useState(null);
@@ -91,6 +92,7 @@ function LaptopApp() {
 
         {/* Seller Routes under SellerHubLayout */}
         <Route path="/seller" element={<SellerHubLayout />}>
+          <Route path="addProduct" element={<AddProductForm />} />
           <Route path="home" element={<SellerHome />} />
           <Route path="dashboard" element={<SellerDashboard />} />
           <Route path="products" element={<SellerProducts />} />

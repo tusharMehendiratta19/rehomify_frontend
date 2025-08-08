@@ -41,7 +41,7 @@ const Login = () => {
         // localStorage.setItem('token', result.token);
 
         setTimeout(() => {
-          navigate(userType === 'Seller' ? '/sellerHub' : '/home');
+          navigate(userType === 'Seller' ? '/seller/home' : '/home');
         }, 1500);
       } else {
         showSnackbar(result.result || 'Login failed', false);

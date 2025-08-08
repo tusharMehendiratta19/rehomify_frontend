@@ -18,9 +18,9 @@ const SellerNav = () => {
     <div className="seller-layout">
       <aside className="seller-sidebar">
         <nav className="seller-nav-main">
-          <Link to="/seller/home" className="nav-link">
+          <Link to="/seller/addProduct" className="nav-link">
             <Home size={18} className="nav-icon" />
-            Home
+            Add Product
           </Link>
           <Link to="/seller/dashboard" className="nav-link">
             <LayoutDashboard size={18} className="nav-icon" />
