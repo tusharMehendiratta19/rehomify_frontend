@@ -5,12 +5,12 @@ import "../sellerstyles/sellerProducts.css";
 const categories = ["All", "Chair", "Table", "Single Bed", "Double Bed", "Cupboard"];
 
 const categoryMapping = {
-  Chair: ["chairs"],
-  Table: ["tables", "table"],
-  Sofa: ["sofas"],
+  Chair: ["chair"],
+  Table: ["table"],
+  Sofa: ["sofa"],
   "Single Bed": ["single_bed"],
   "Double Bed": ["double_bed"],
-  Cupboard: ["cup_board"],
+  Cupboard: ["cupboard"],
 };
 
 const MobileSellerProducts = () => {
