@@ -20,8 +20,6 @@ const MobileSellerProducts = () => {
   const [editModalVisible, setEditModalVisible] = useState(false);
   const [editProduct, setEditProduct] = useState(null);
 
-  // const sellerId = localStorage.getItem("custId");
-
   const colorOptions = [
     "Natural Wood", "Walnut", "Mahogany", "Teak", "Oak",
     "Espresso", "Black", "White", "Gray"
@@ -30,7 +28,6 @@ const MobileSellerProducts = () => {
   const categoryOptions = [
     "Table", "Chair", "Single Bed", "Double Bed", "Cupboard"
   ];
-
 
   const fetchProducts = async () => {
     try {
@@ -41,7 +38,6 @@ const MobileSellerProducts = () => {
         ([key, items]) => items.map((item) => ({ ...item, tag: key }))
       );
 
-      // const myProducts = flatProducts.filter(p => p.sellerId === sellerId);
       setAllProducts(flatProducts);
     } catch (err) {
       console.error("Error fetching products:", err);
@@ -57,7 +53,7 @@ const MobileSellerProducts = () => {
 
     try {
       await axios.get(`https://rehomify.in/v1/products/delete/${productId}`);
-      await fetchProducts(); // Refresh product list after deletion
+      await fetchProducts();
     } catch (err) {
       console.error("Delete failed:", err.message);
     }
@@ -65,8 +61,8 @@ const MobileSellerProducts = () => {
 
   const handleEdit = async (product) => {
     try {
-      const res = await axios.get(`https://rehomify.in/v1/products/edit/${product.id}`);
-      setEditProduct(res.data); // assuming product data is in res.data.data
+      const res = await axios.get(`http://localhost:5000/v1/products/edit/${product.id}`);
+      setEditProduct(res.data);
       setEditModalVisible(true);
     } catch (err) {
       console.error("Failed to fetch product for edit:", err.message);
@@ -81,37 +77,45 @@ const MobileSellerProducts = () => {
     }));
   };
 
+  const handleVarietyChange = (index, field, value) => {
+    setEditProduct(prev => {
+      const updated = [...prev.varieties];
+      updated[index] = { ...updated[index], [field]: value };
+      return { ...prev, varieties: updated };
+    });
+  };
+
   const handleUpdate = async () => {
     try {
       const {
         id,
         name,
         description,
-        price,
         category,
         color,
         width,
         length,
         height,
-        woodMaterial
+        woodMaterial,
+        varieties
       } = editProduct;
 
       const payload = {
         name,
         description,
-        price,
         category,
         color,
         width,
         length,
         height,
-        woodMaterial
+        woodMaterial,
+        varieties
       };
 
-      await axios.post(`https://rehomify.in/v1/products/updatedProduct/${id}`, payload);
+      await axios.post(`http://localhost:5000/v1/products/updatedProduct/${id}`, payload);
       setEditModalVisible(false);
       setEditProduct(null);
-      await fetchProducts(); // Refresh products
+      await fetchProducts();
     } catch (err) {
       console.error("Update failed:", err.message);
     }
@@ -163,7 +167,12 @@ const MobileSellerProducts = () => {
             <h3>{p.name}</h3>
             <p>{p.description}</p>
             <p style={{ color: "#777" }}>{p.color}</p>
-            <p>₹{p.price}</p>
+            <p>
+              Price: ₹
+              {p.varieties && p.varieties.length > 0
+                ? p.varieties[0].price
+                : p.price}
+            </p>
 
             <div className="laptop-card-actions">
               <button className="laptop-edit-btn" onClick={() => handleEdit(p)}>Edit</button>
@@ -193,8 +202,23 @@ const MobileSellerProducts = () => {
                 </div>
 
                 <div className="edit-input">
-                  <label>Price:</label>
-                  <input type="number" name="price" value={editProduct.price} onChange={handleInputChange} />
+                  <label>Varieties:</label>
+                  {editProduct.varieties?.map((v, i) => (
+                    <div className="variety-row" key={i}>
+                      <input
+                        type="text"
+                        placeholder="Variety Name"
+                        value={v.name}
+                        onChange={(e) => handleVarietyChange(i, "name", e.target.value)}
+                      />
+                      <input
+                        type="number"
+                        placeholder="Price"
+                        value={v.price}
+                        onChange={(e) => handleVarietyChange(i, "price", e.target.value)}
+                      />
+                    </div>
+                  ))}
                 </div>
 
                 <div className="edit-input">

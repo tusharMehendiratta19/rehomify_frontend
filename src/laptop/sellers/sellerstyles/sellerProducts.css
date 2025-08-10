@@ -23,6 +23,17 @@
   top: 70px;
 }
 
+.variety-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.variety-row input {
+  flex: 1;
+  min-width: 60px;
+}
+
+
 .laptop-seller-nav-btn {
   padding: 8px 0;
   background-color: #fff;
