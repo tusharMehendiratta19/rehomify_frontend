@@ -22,6 +22,8 @@ const ProductPage = () => {
   const [mainImage, setMainImage] = useState('');
   const [optionalImages, setOptionalImages] = useState([]);
   const alltheproducts = location.state?.allProducts || [];
+  const [selectedVariety, setSelectedVariety] = useState(null);
+
 
   const similarProducts = [
     { id: 1, name: 'Product A', price: 999, description: 'Description A', image: 'https://images.pexels.com/photos/7850509/pexels-photo-7850509.jpeg' },
@@ -41,11 +43,7 @@ const ProductPage = () => {
     const fetchProduct = async () => {
       try {
         const res = await axios.get("https://rehomify.in/v1/products/");
-
-        // Flatten all products into one array
         const allProducts = Object.values(res.data).flat();
-
-        // Find the product by ID (important: use `===` if both are strings)
         const found = allProducts.find(p => p.id === id);
 
         if (found) {
@@ -53,7 +51,11 @@ const ProductPage = () => {
           setSelectedImage(found.image);
           setMainImage(found.image);
           setOptionalImages(found.optionalImages || []);
-          console.log("found>>",found)
+
+          // ✅ Default to first variety if price is null
+          if (found.varieties && found.varieties.length > 0) {
+            setSelectedVariety(found.varieties[0]);
+          }
         } else {
           console.warn("Product not found for id:", id);
         }
@@ -64,12 +66,13 @@ const ProductPage = () => {
 
     const fetchCustomerDetails = async () => {
       try {
-        const res = await axios.get(`https://rehomify.in/v1/auth/getCustomerDetails/${localStorage.getItem("custId")}`);
+        const res = await axios.get(
+          `https://rehomify.in/v1/auth/getCustomerDetails/${localStorage.getItem("custId")}`
+        );
         if (res.data?.status) {
           const { cart = [], wishlist = [] } = res.data.data;
           setCartItems(cart.map(p => p.productId));
           setWishlist(wishlist.map(p => p.productId));
-          console.log("Customer wishlist:", wishlist);
         }
       } catch (err) {
         console.error("Error fetching customer details:", err);
@@ -81,6 +84,7 @@ const ProductPage = () => {
       fetchCustomerDetails();
     }
   }, [id]);
+
 
   // const showSnackbar = (message) => {
   //   setSnackbarMessage(message);
@@ -193,11 +197,16 @@ const ProductPage = () => {
             <p className="mobile-product-description">{product.description}</p>
 
             <div className="mobile-price-section">
-              <p className="mobile-original-price">Price: <s>₹{product.price + 2000}</s></p>
-              <p className="mobile-offer-price">Offer Price: ₹{product.price}</p>
+              <p className="mobile-original-price">
+                Price: <s>₹{(selectedVariety?.price || 0) + 2000}</s>
+              </p>
+              <p className="mobile-offer-price">
+                Offer Price: ₹{selectedVariety?.price || 0}
+              </p>
               <span className="mobile-limited-deal-tag">Limited time deal</span>
-              {/* <p className="mobile-vendor">Vendor: <strong>Rober Enterprises</strong> <span className="mobile-vendor-rating">★ 4</span></p> */}
             </div>
+
+
 
             <div className="mobile-quantity-section">
               <label htmlFor="quantity">Quantity:</label>
@@ -210,6 +219,25 @@ const ProductPage = () => {
                 {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(qty => <option key={qty} value={qty}>{qty}</option>)}
               </select>
             </div>
+
+            {product.varieties && product.varieties.length > 0 && (
+              <div className="mobile-variety-section">
+                <label>Variety:</label>
+                <div className="variety-buttons">
+                  {product.varieties.map((v, idx) => (
+                    <button
+                      key={idx}
+                      className={`variety-btn ${selectedVariety?.name === v.name ? 'active' : ''}`}
+                      onClick={() => setSelectedVariety(v)}
+                    >
+                      {v.name}
+                    </button>
+                  ))}
+                </div>
+
+              </div>
+            )}
+
 
             {/* <div className="mobile-offers-section">
               <h4>Available Offers</h4>

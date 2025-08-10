@@ -6,10 +6,10 @@ import "../allStyles/products.css";
 import ProductPage from "../components/ProductPage";
 import { useNavigate } from "react-router-dom";
 import dummyProducts from "../../data/dummyProductData";
-import { AiFillHeart } from "react-icons/ai";    // Filled heart (Font Awesome)
-import { FiHeart } from "react-icons/fi";     // Outline heart (Feather Icons)
+import { AiFillHeart } from "react-icons/ai";    // Filled heart
+import { FiHeart } from "react-icons/fi";     // Outline heart
 import Loader from "../components/Loader";
-
+import AddProductForm from "../sellers/components/MobileSellerAddProduct";
 
 const categories = [
   "All Products",
@@ -34,6 +34,7 @@ const Products = () => {
   const [sortOrder, setSortOrder] = useState("");
   const [selectedColor, setSelectedColor] = useState("");
   const [priceRange, setPriceRange] = useState([0, Infinity]);
+  const [showFormPopup, setShowFormPopup] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
   const [selected, setSelected] = useState('New');
   const [cartItems, setCartItems] = useState([]);
@@ -44,8 +45,7 @@ const Products = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [wishlist, setWishlist] = useState([]);
-  const [loading, setLoading] = useState(true); // initially true
-
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchproducts = async () => {
@@ -64,7 +64,6 @@ const Products = () => {
           const { cart = [], wishlist = [] } = res.data.data;
           setCartItems(cart.map(p => p.productId));
           setWishlist(wishlist.map(p => p.productId));
-          console.log("Customer wishlist:", wishlist);
         }
       } catch (err) {
         console.error("Error fetching customer details:", err);
@@ -76,7 +75,6 @@ const Products = () => {
       fetchCustomerDetails();
     }
   }, []);
-
 
   const addToCart = async (productId) => {
     if (!isLoggedIn) {
@@ -173,24 +171,20 @@ const Products = () => {
       console.error('Error adding to wishlist:', error);
       showSnackbar("Error adding to Wishlist");
     }
-
   }
 
   const showSnackbar = (message) => {
     setSnackbarMessage(message);
     setSnackbarOpen(true);
-    setTimeout(() => setSnackbarOpen(false), 3000); // auto hide in 3s
+    setTimeout(() => setSnackbarOpen(false), 3000);
   };
 
-
   const handleProductClick = (id) => {
-    console.log("Product clicked with ID:", id);
     navigate(`/product/${id}`);
   };
 
   const handleCategoryClick = (category) => {
     setSelectedCategory(category);
-    console.log(selectedCategory)
   };
 
   const getCategoryProducts = () => {
@@ -199,14 +193,11 @@ const Products = () => {
       ? Object.values(allProducts).flat()
       : allProducts[key] || [];
 
-
-    // Apply price filter
     products = products.filter((product) => {
       const price = product?.price ?? 0;
       return price >= priceRange[0] && price <= priceRange[1];
     });
 
-    // Apply color filter
     if (selectedColor) {
       products = products.filter(
         (product) =>
@@ -214,7 +205,6 @@ const Products = () => {
       );
     }
 
-    // Apply sorting
     products.sort((a, b) => {
       if (sortOrder === "plh") return a.price - b.price;
       if (sortOrder === "phl") return b.price - a.price;
@@ -318,12 +308,10 @@ const Products = () => {
               </div>
             </div>
           )}
+
           <div className="mobile-product-list">
-            {getCategoryProducts().map((product) => (
-              <div
-                key={product.id}
-                className="mobile-product-card"
-              >
+            {filteredProducts.map((product) => (
+              <div key={product.id} className="mobile-product-card">
                 <div className="mobile-product-image-wrapper" onClick={() => handleProductClick(product.id)}>
                   <img
                     src={product.image}
@@ -333,7 +321,7 @@ const Products = () => {
                   <button
                     className="wishlist-icon"
                     onClick={(e) => {
-                      e.stopPropagation(); // ✅ stops card click
+                      e.stopPropagation();
                       addToWishlist(product.id);
                     }}
                   >
@@ -343,20 +331,28 @@ const Products = () => {
                       <FiHeart />
                     )}
                   </button>
-
                 </div>
 
                 <div className="mobile-product-info">
                   <h3 className="mobile-product-name" onClick={() => handleProductClick(product.id)}>{product.name}</h3>
                   <p className="mobile-product-description" onClick={() => handleProductClick(product.id)}>{product.description}</p>
-                  <p className="mobile-product-price" onClick={() => handleProductClick(product.id)}>Price: ₹{product.price}</p>
+
+                  {/* Updated price display */}
+                  <p className="mobile-product-price" onClick={() => handleProductClick(product.id)}>
+                    Price: ₹
+                    {product.varieties && product.varieties.length > 0
+                      ? product.varieties[0].price
+                      : product.price}
+                  </p>
+
+
                   <div className="product-actions">
                     {cartItems.includes(product.id) ? (
                       <button
                         className="btn-outline"
                         onClick={(e) => {
                           e.stopPropagation();
-                          navigate("/cart"); // ✅
+                          navigate("/cart");
                         }}
                       >
                         Go To Cart
@@ -373,24 +369,37 @@ const Products = () => {
                       </button>
                     )}
 
-
                     <button className="btn-primary" onClick={(e) => {
                       e.stopPropagation();
                       buyNow(product.id);
                     }}>
                       Buy Now
                     </button>
-
                   </div>
                 </div>
               </div>
             ))}
           </div>
+
+          <div className="addnewbycx">
+            <span>Add Your Own Product: </span>
+            <div className="mobile-add-product-btn" title="Add your own product" onClick={() => setShowFormPopup(true)}>
+              +
+            </div>
+          </div>
         </main>
       </div>
+
       {snackbarOpen && (
-        <div className="snackbar">
-          {snackbarMessage}
+        <div className="snackbar">{snackbarMessage}</div>
+      )}
+
+      {showFormPopup && (
+        <div className="mobile-form-popup-overlay" onClick={() => setShowFormPopup(false)}>
+          <div className="mobile-form-popup" onClick={(e) => e.stopPropagation()}>
+            <button className="mobile-popup-close" onClick={() => setShowFormPopup(false)}>×</button>
+            <AddProductForm />
+          </div>
         </div>
       )}
 

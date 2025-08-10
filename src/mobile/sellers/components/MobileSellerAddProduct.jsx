@@ -6,7 +6,6 @@ const AddProductForm = () => {
     const [formData, setFormData] = useState({
         name: '',
         description: '',
-        price: '',
         category: '',
         color: '',
         isRefurbished: false,
@@ -14,6 +13,8 @@ const AddProductForm = () => {
         length: '',
         height: '',
         woodMaterial: '',
+        varietyCount: 1,
+        varieties: [{ name: '', price: '' }]
     });
 
     const [mainImage, setMainImage] = useState(null);
@@ -31,10 +32,28 @@ const AddProductForm = () => {
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
-        setFormData((prevData) => ({
-            ...prevData,
-            [name]: type === 'checkbox' ? checked : value,
-        }));
+
+        if (name === 'varietyCount') {
+            const count = parseInt(value, 10);
+            setFormData((prevData) => ({
+                ...prevData,
+                varietyCount: count,
+                varieties: Array.from({ length: count }, (_, i) => prevData.varieties[i] || { name: '', price: '' })
+            }));
+        } else {
+            setFormData((prevData) => ({
+                ...prevData,
+                [name]: type === 'checkbox' ? checked : value,
+            }));
+        }
+    };
+
+    const handleVarietyChange = (index, field, value) => {
+        setFormData((prevData) => {
+            const updatedVarieties = [...prevData.varieties];
+            updatedVarieties[index][field] = value;
+            return { ...prevData, varieties: updatedVarieties };
+        });
     };
 
     const handleMainImageChange = (e) => {
@@ -42,7 +61,7 @@ const AddProductForm = () => {
     };
 
     const handleOptionalImagesChange = (e) => {
-        const files = Array.from(e.target.files).slice(0, 4); // max 4
+        const files = Array.from(e.target.files).slice(0, 4);
         setOptionalImages(files);
     };
 
@@ -52,7 +71,12 @@ const AddProductForm = () => {
 
         const data = new FormData();
         Object.entries(formData).forEach(([key, value]) => {
-            if (key !== 'sellerId') {
+            if (Array.isArray(value)) {
+                value.forEach((v, i) => {
+                    data.append(`${key}[${i}][name]`, v.name);
+                    data.append(`${key}[${i}][price]`, v.price);
+                });
+            } else {
                 data.append(key, value);
             }
         });
@@ -64,7 +88,7 @@ const AddProductForm = () => {
             data.append('mainImage', mainImage);
         }
 
-        optionalImages.forEach((img, index) => {
+        optionalImages.forEach((img) => {
             data.append('optionalImages', img);
         });
 
@@ -93,7 +117,34 @@ const AddProductForm = () => {
 
                 <input type="text" name="name" placeholder="Product Name" value={formData.name} onChange={handleChange} required />
                 <textarea name="description" placeholder="Description" value={formData.description} onChange={handleChange} required />
-                <input type="number" name="price" placeholder="Price" value={formData.price} onChange={handleChange} required />
+
+                {/* Dropdown for variety count */}
+                <label>Number of Varieties</label>
+                <select name="varietyCount" value={formData.varietyCount} onChange={handleChange}>
+                    {[1, 2, 3, 4, 5].map(num => (
+                        <option key={num} value={num}>{num}</option>
+                    ))}
+                </select>
+
+                {/* Variety Name + Price inputs */}
+                {formData.varieties.map((v, index) => (
+                    <div key={index} className="variety-row">
+                        <input
+                            type="text"
+                            placeholder={`Variety-${index + 1}`}
+                            value={v.name}
+                            onChange={(e) => handleVarietyChange(index, 'name', e.target.value)}
+                            required
+                        />
+                        <input
+                            type="number"
+                            placeholder={`Price-${index + 1}`}
+                            value={v.price}
+                            onChange={(e) => handleVarietyChange(index, 'price', e.target.value)}
+                            required
+                        />
+                    </div>
+                ))}
 
                 <select name="category" value={formData.category} onChange={handleChange} required>
                     <option value="">Select Category</option>

@@ -57,6 +57,23 @@
   background-color: #8e2d1f;
 }
 
+.variety-row {
+  display: flex;
+  gap: 10px; /* space between inputs */
+  align-items: center;
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.variety-row input {
+  flex: 1; /* makes both inputs stretch equally */
+  min-width: 100px; /* prevents them from becoming too small */
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+
 /* ✅ Mobile-specific styles */
 @media (max-width: 768px) {
   .add-product-container {
