@@ -222,7 +222,7 @@ const ProductPage = () => {
 
             {product.varieties && product.varieties.length > 0 && (
               <div className="mobile-variety-section">
-                <label>Variety:</label>
+                <label>Size:</label>
                 <div className="variety-buttons">
                   {product.varieties.map((v, idx) => (
                     <button
@@ -252,9 +252,9 @@ const ProductPage = () => {
               <h4>Product Highlights</h4>
               <ul>
                 <li><strong>Primary Material</strong>: {product.woodMaterial}</li>
-                <li><strong>Width</strong>: {product.width} foot</li>
+                {/* <li><strong>Width</strong>: {product.width} foot</li>
                 <li><strong>Length</strong>: {product.length} foot</li>
-                <li><strong>Height</strong>: {product.height} foot</li>
+                <li><strong>Height</strong>: {product.height} foot</li> */}
                 <li><strong>Color</strong>: {product.color}</li>
               </ul>
             </div>
@@ -300,12 +300,12 @@ const ProductPage = () => {
             <div className="mobile-ratings-section">
               <h4>Ratings & Reviews</h4>
               <p><strong>4★</strong> (2,007 Ratings & 301 Reviews)</p>
-              <div className="mobile-rating-breakdown">
+              {/* <div className="mobile-rating-breakdown">
                 <div>Quality: 4.0</div>
                 <div>Design: 4.2</div>
                 <div>Storage: 4.1</div>
                 <div>Service: 4.0</div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

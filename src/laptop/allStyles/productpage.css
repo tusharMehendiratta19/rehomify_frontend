@@ -230,3 +230,37 @@
   background-color: #ffa500;
   color: white;
 }
+
+.variety-section {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* space between label and dropdown */
+  margin: 10px 0;
+}
+
+.variety-section label {
+  font-weight: bold;
+  font-size: 14px;
+  color: #333;
+  min-width: 60px; /* keeps label aligned if content changes */
+}
+
+.variety-section select {
+  padding: 6px 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: white;
+  color: #333;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.variety-section select:hover {
+  border-color: #888;
+}
+
+.variety-section select:focus {
+  border-color: #555;
+  outline: none;
+}
