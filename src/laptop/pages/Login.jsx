@@ -35,6 +35,7 @@ const Login = () => {
       if (result.status) {
         showSnackbar('Login successful!', true);
         localStorage.setItem("token", result.token); // or your own logic
+        localStorage.setItem("custId", result.user._id);
 
 
         // Optionally: store token or user info

@@ -6,6 +6,8 @@ const SellerHeader = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("custId");
     // logout logic
     navigate('/login');
   };

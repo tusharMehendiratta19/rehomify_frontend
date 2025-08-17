@@ -60,6 +60,7 @@ const Header = () => {
         break;
       case "logout":
         localStorage.removeItem("token");
+        localStorage.removeItem("custId");
         navigate("/login");
         break;
       default:
