@@ -61,7 +61,7 @@ const LaptopSellerProducts = () => {
 
   const handleEdit = async (product) => {
     try {
-      const res = await axios.get(`http://localhost:5000/v1/products/edit/${product.id}`);
+      const res = await axios.get(`https://rehomify.in/v1/products/edit/${product.id}`);
       setEditProduct({
         ...res.data,
         optionalImages: res.data.optionalImages || [] // ensure array
@@ -135,7 +135,7 @@ const LaptopSellerProducts = () => {
       }
 
       await axios.post(
-        `http://localhost:5000/v1/products/updatedProduct/${id}`,
+        `https://rehomify.in/v1/products/updatedProduct/${id}`,
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
