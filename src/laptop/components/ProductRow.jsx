@@ -45,7 +45,8 @@ const ProductRow = ({ title, type, allproducts }) => {
               className="product-image"
             />
             <h3 className="product-name">{product.name}</h3>
-            <p className="product-description">{product.description}</p>
+            <p className="product-description">Price: {product.price}</p>
+            <p className="product-description">Color: {product.color}</p>
             <div className="product-actions">
               <button className="btn-outline" data-protected="true">
                 Add to Cart

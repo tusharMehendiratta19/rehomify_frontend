@@ -55,8 +55,8 @@ const Header = () => {
       case "orders":
         navigate("/orders");
         break;
-      case "resell":
-        navigate("/resell");
+      case "wishlist":
+        navigate("/wishlist");
         break;
       case "logout":
         localStorage.removeItem("token");
@@ -91,7 +91,7 @@ const Header = () => {
               <>
                 <button onClick={() => handleOptionClick("profile")}>Profile</button>
                 <button onClick={() => handleOptionClick("orders")}>Orders</button>
-                <button onClick={() => handleOptionClick("returns")}>Resold</button>
+                <button onClick={() => handleOptionClick("wishlist")}>Wishlist</button>
                 <button onClick={() => handleOptionClick("logout")}>Logout</button>
               </>
             ) : (

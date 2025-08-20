@@ -26,6 +26,7 @@ import AboutUs from "./components/AboutUs";
 import Checkout from "./components/Checkout";
 import ExploreMoreProductsPage from "./components/ExploreMoreProductsPage";
 import SellOption from "./components/SellOption";
+import Wishlist from "./components/Wishlist";
 
 // Seller-related imports
 import SellerHubLayout from "./sellers/components/SellerHubLayout";
@@ -66,6 +67,7 @@ function LaptopApp() {
         <Route path="/cart" element={<CartCard />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/resell" element={<ResellOrders />} />
+        <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/offers" element={<Offers />} />
         <Route path="/trends" element={<Trends />} />
         <Route path="/orders" element={<Orders />} />

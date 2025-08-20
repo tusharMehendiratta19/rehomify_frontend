@@ -7,7 +7,7 @@
 .laptop-sidebar {
   width: 240px;
   position: sticky;
-  top: 135px;
+  top: 140px;
   height: fit-content;
   background-color: #f9f9f9;
   padding: 20px;
@@ -84,7 +84,7 @@
 .laptop-product-image {
   width: 100%;
   height: 150px;
-  object-fit: cover;
+  object-fit: fill;
   border-radius: 6px;
   margin-bottom: 10px;
 }
@@ -93,8 +93,22 @@
   flex-grow: 1;
   display: flex;
   flex-direction: column;
+  justify-content: space-between; /* ensures description at top, price+btns at bottom */
   gap: 6px;
-  margin-bottom: 10px;
+}
+
+.laptop-product-description {
+  display: -webkit-box;
+  -webkit-line-clamp: 5; /* limit to 2 lines */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 11px;
+  margin-bottom: 8px;
+}
+
+.laptop-price-color {
+  margin-top: auto; /* pushes price+color down */
 }
 
 .laptop-product-name {
@@ -102,12 +116,6 @@
   font-weight: 600;
   margin: 0;
 }
-
-/* .product-description {
-  font-size: 14px;
-  color: #666;
-  margin: 0;
-} */
 
 .laptop-product-price,
 .laptop-product-color {
@@ -120,7 +128,7 @@
   display: flex;
   justify-content: space-between;
   gap: 8px;
-  margin-top: auto;
+  margin-top: 10px;
 }
 
 .laptop-btn-outline,
@@ -128,8 +136,9 @@
   flex: 1;
   padding: 8px;
   font-size: 14px;
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: pointer;
+  transition: all 0.2s ease-in-out;
 }
 
 .laptop-btn-outline {
@@ -155,7 +164,7 @@
 .laptopfilterandsort {
   width: 100%;
   position: sticky;
-  top: 112px;
+  top: 117px;
   z-index: 2;
   background-color: white;
   padding: 40px 10px 0px 10px;
@@ -206,6 +215,7 @@
   justify-content: space-between;
   border: 1px solid lightgrey;
   padding: 10px 20px;
+  /* padding-bottom: 20px; */
   border-radius: 10px;
 }
 
@@ -285,4 +295,101 @@
 
 .toggle-status .highlight {
   color: #b63e2b;
+}
+
+.laptop-wishlist-icon {
+  position: absolute;
+  top: 12px; /* More spacing for desktop cards */
+  right: 12px;
+  width: 38px; /* Bigger than mobile */
+  height: 38px;
+  color: #333; /* Darker color for visibility on laptop UI */
+  background: #fff; /* White background for contrast */
+  border: 1px solid #ddd;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex; /* Center icon */
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease-in-out;
+}
+
+.laptop-wishlist-icon:hover {
+  background: #f5f5f5; /* Slight hover effect */
+  border-color: #bbb;
+}
+
+.laptop-addnewbycx {
+  width: 26%;
+  display: flex;
+  margin-left: 37%;
+  border-radius: 20px;
+  margin-top: 20px;
+  /* height: 50px; */
+  padding: 10px 10px;
+  background-color: white;
+  box-shadow: 1px 1px 3px grey;
+  justify-content: space-between;
+}
+
+.laptop-addnewbycx span {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  color: #b63e2b;
+  /* background-color: gray; */
+  margin-top: 10px;
+  width: 82%;
+}
+
+/* + Button */
+.laptop-add-product-btn {
+  width: 44px;
+  height: 44px;
+  padding-bottom: 5px;
+  background-color: white;
+  border: 1px solid #b63e2b;
+  color: #b63e2b;
+  font-size: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* margin: 20px auto; */
+  cursor: pointer;
+  box-shadow: 1px 1px 10px #b63e2b;
+}
+
+/* Popup Overlay */
+.laptop-form-popup-overlay {
+  position: fixed;
+  top: 120px;
+  left: 0;
+  width: 100%;
+  height: 90%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-y: scroll;
+  z-index: 2000;
+  padding-top: 350px;
+}
+
+.laptop-form-popup {
+  background: white;
+  padding: 20px;
+  width: 90%;
+  max-width: 360px;
+  border-radius: 8px;
+  position: relative;
+  overflow-y: scroll;
+}
+
+.laptop-popup-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
 }

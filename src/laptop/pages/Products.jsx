@@ -6,6 +6,9 @@ import "../allStyles/products.css";
 import ProductPage from "../components/ProductPage";
 import { useNavigate } from "react-router-dom";
 import dummyProducts from "../../data/dummyProductData";
+import { AiFillHeart } from "react-icons/ai";
+import { FiHeart } from "react-icons/fi";
+import AddProductForm from "../sellers/components/SellerAddProduct";
 
 const categories = [
   "All Products",
@@ -22,7 +25,7 @@ const categoryMap = {
   "Double Bed": "double_bed",
   "Cup board": "cup_board",
   Tables: "tables",
-  Chairs: "chairs"
+  Chairs: "chairs",
 };
 
 const Products = () => {
@@ -31,24 +34,183 @@ const Products = () => {
   const [selectedColor, setSelectedColor] = useState("");
   const [priceRange, setPriceRange] = useState([0, Infinity]);
   const [showFilters, setShowFilters] = useState(false);
-  const [selected, setSelected] = useState('New');
-  const navigate = useNavigate();
+  const [selected, setSelected] = useState("New");
+  const [expanded, setExpanded] = useState({}); // description toggle per product
 
+  // --- Added from mobile ---
+  const [showFormPopup, setShowFormPopup] = useState(false);
+  const [cartItems, setCartItems] = useState([]);
+  const [wishlist, setWishlist] = useState([]);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const isLoggedIn =
+    !!localStorage.getItem("token") && !!localStorage.getItem("custId");
+  // -------------------------
+
+  const navigate = useNavigate();
   const [allProducts, setAllProducts] = useState([]);
+
+  const toggleDescription = (id) => {
+    setExpanded((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
+  };
 
   useEffect(() => {
     const fetchproducts = async () => {
       try {
-        const res = await axios.get('https://rehomify.in/v1/products/');
-        // console.log("response: ",res.data.products)
+        const res = await axios.get("https://rehomify.in/v1/products/");
         setAllProducts(res.data);
       } catch (err) {
-        console.error('Error fetching homepage data:', err);
+        console.error("Error fetching homepage data:", err);
+      }
+    };
+
+    const fetchCustomerDetails = async () => {
+      try {
+        const res = await axios.get(
+          `https://rehomify.in/v1/auth/getCustomerDetails/${localStorage.getItem(
+            "custId"
+          )}`
+        );
+        if (res.data?.status) {
+          const { cart = [], wishlist = [] } = res.data.data || {};
+          setCartItems(cart.map((p) => p.productId));
+          setWishlist(wishlist.map((p) => p.productId));
+        }
+      } catch (err) {
+        console.error("Error fetching customer details:", err);
       }
     };
 
     fetchproducts();
-  }, []);
+    if (isLoggedIn) {
+      fetchCustomerDetails();
+    }
+  }, [isLoggedIn]);
+
+  // --- Actions brought from mobile ---
+  const showSnackbar = (message) => {
+    setSnackbarMessage(message);
+    setSnackbarOpen(true);
+    setTimeout(() => setSnackbarOpen(false), 3000);
+  };
+
+  const addToCart = async (productId) => {
+    if (!isLoggedIn) {
+      showSnackbar("Please login to add items to cart");
+      return;
+    }
+    try {
+      const response = await axios.post(
+        "https://rehomify.in/v1/cart/addToCart",
+        {
+          custId: localStorage.getItem("custId"),
+          productId: productId,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
+      if (response.status) {
+        showSnackbar("Added to Cart");
+        setCartItems((prev) => (prev.includes(productId) ? prev : [...prev, productId]));
+      } else {
+        showSnackbar("Error adding to Cart");
+      }
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+      showSnackbar("Error adding to Cart");
+    }
+  };
+
+  const buyNow = async (productId) => {
+    if (!isLoggedIn) {
+      showSnackbar("Please login to buy products");
+      return;
+    }
+    try {
+      const response = await axios.post(
+        "https://rehomify.in/v1/cart/addToCart",
+        {
+          custId: localStorage.getItem("custId"),
+          productId: productId,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
+      if (response.status) {
+        navigate("/checkout", { state: { productId, fromCart: true } });
+      } else {
+        showSnackbar("Error proceeding to Buy Now");
+      }
+    } catch (error) {
+      console.error("Error proceeding to Buy Now:", error);
+      showSnackbar("Error proceeding to Buy Now");
+    }
+  };
+
+  const addToWishlist = async (productId) => {
+    if (!isLoggedIn) {
+      showSnackbar("Please login to add items to wishlist");
+      return;
+    }
+    try {
+      const response = await axios.post(
+        "https://rehomify.in/v1/wishlist/addToWishlist",
+        {
+          custId: localStorage.getItem("custId"),
+          productId: productId,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
+      if (response.status) {
+        setWishlist((prev) => (prev.includes(productId) ? prev : [...prev, productId]));
+        showSnackbar("Added to Wishlist");
+      } else if (response.message === "wishlisted already") {
+        // toggle off
+        const remove = await axios.post(
+          "https://rehomify.in/v1/wishlist/updateWishlist",
+          {
+            custId: localStorage.getItem("custId"),
+            productId: productId,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        if (remove.status) {
+          setWishlist((prev) => prev.filter((id) => id !== productId));
+          showSnackbar("Removed from Wishlist");
+        }
+      } else {
+        showSnackbar("Error adding to Wishlist");
+      }
+    } catch (error) {
+      console.error("Error adding to wishlist:", error);
+      showSnackbar("Error adding to Wishlist");
+    }
+  };
+  // -----------------------------------
 
   const handleProductClick = (id) => {
     navigate(`/product/${id}`);
@@ -65,7 +227,10 @@ const Products = () => {
 
     // Apply price filter
     products = products.filter((product) => {
-      const price = product?.price ?? 0;
+      const price =
+        (product?.varieties && product.varieties[0]?.price) ??
+        product?.price ??
+        0;
       return price >= priceRange[0] && price <= priceRange[1];
     });
 
@@ -79,8 +244,13 @@ const Products = () => {
 
     // Apply sorting
     products.sort((a, b) => {
-      if (sortOrder === "plh") return a.price - b.price;
-      if (sortOrder === "phl") return b.price - a.price;
+      const aPrice =
+        (a?.varieties && a.varieties[0]?.price) ?? a?.price ?? 0;
+      const bPrice =
+        (b?.varieties && b.varieties[0]?.price) ?? b?.price ?? 0;
+
+      if (sortOrder === "plh") return aPrice - bPrice;
+      if (sortOrder === "phl") return bPrice - aPrice;
       if (sortOrder === "dtlm") return (a.deliveryTime ?? 0) - (b.deliveryTime ?? 0);
       if (sortOrder === "dlml") return (b.deliveryTime ?? 0) - (a.deliveryTime ?? 0);
       return 0;
@@ -101,7 +271,9 @@ const Products = () => {
               <li
                 key={cat}
                 onClick={() => handleCategoryClick(cat)}
-                className={`laptop-category-item ${selectedCategory === cat ? "laptop-active-category" : ""}`}
+                className={`laptop-category-item ${
+                  selectedCategory === cat ? "laptop-active-category" : ""
+                }`}
               >
                 {cat}
               </li>
@@ -136,14 +308,16 @@ const Products = () => {
               <div className="toggle-wrapper">
                 <div className="toggle-buttons">
                   <button
-                    className={`toggle-btn ${selected === 'New' ? 'active' : ''}`}
-                    onClick={() => setSelected('New')}
+                    className={`toggle-btn ${selected === "New" ? "active" : ""}`}
+                    onClick={() => setSelected("New")}
                   >
                     New
                   </button>
                   <button
-                    className={`toggle-btn ${selected === 'Refurbished' ? 'active' : ''}`}
-                    onClick={() => setSelected('Refurbished')}
+                    className={`toggle-btn ${
+                      selected === "Refurbished" ? "active" : ""
+                    }`}
+                    onClick={() => setSelected("Refurbished")}
                   >
                     Refurbished
                   </button>
@@ -152,7 +326,6 @@ const Products = () => {
                   Showing <span className="highlight">{selected}</span>
                 </p>
               </div>
-
             </div>
 
             {showFilters && (
@@ -195,33 +368,164 @@ const Products = () => {
 
           {/* Product Listing */}
           <div className="laptop-product-list">
-            {getCategoryProducts().map((product) => (
-              <div
-                key={product.id}
-                className="laptop-product-card"
-                onClick={() => handleProductClick(product.id)}
-              >
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="laptop-product-image"
-                />
-                <div className="laptop-product-info">
-                  <h3 className="laptop-product-name">{product.name}</h3>
-                  <p className="laptop-product-description">
-                    {product.description}
-                  </p>
-                  <p className="laptop-product-price">Price: ₹{product.price}</p>
-                  <p className="laptop-product-color">Color: {product.color}</p>
-                  <p className="laptop-product-deliveryTime">
-                    Delivery Time: {product.deliveryTime} days
-                  </p>
+            {getCategoryProducts().map((product) => {
+              const displayPrice =
+                (product?.varieties && product.varieties[0]?.price) ??
+                product?.price ??
+                0;
+
+              return (
+                <div
+                  key={product.id}
+                  className="laptop-product-card"
+                  onClick={() => handleProductClick(product.id)}
+                >
+                  {/* image + wishlist */}
+                  <div
+                    className="laptop-product-image-wrapper"
+                    onClick={() => handleProductClick(product.id)}
+                  >
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className="laptop-product-image"
+                    />
+                    <button
+                      className="laptop-wishlist-icon"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        addToWishlist(product.id);
+                      }}
+                      title={
+                        wishlist.includes(product.id)
+                          ? "Remove from Wishlist"
+                          : "Add to Wishlist"
+                      }
+                    >
+                      {wishlist.includes(product.id) ? (
+                        <AiFillHeart color="red" />
+                      ) : (
+                        <FiHeart />
+                      )}
+                    </button>
+                  </div>
+
+                  <div className="laptop-product-info">
+                    <h3
+                      className="laptop-product-name"
+                      onClick={() => handleProductClick(product.id)}
+                    >
+                      {product.name}
+                    </h3>
+
+                    {/* Description with Read More (60 chars default) */}
+                    <p
+                      className="laptop-product-description"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      {expanded[product.id]
+                        ? product.description
+                        : product.description.length > 60
+                        ? product.description.substring(0, 60) + "... "
+                        : product.description}
+
+                      {product.description.length > 60 && (
+                        <span
+                          className="read-more"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            toggleDescription(product.id);
+                          }}
+                          style={{ color: "blue", cursor: "pointer" }}
+                        >
+                          {expanded[product.id] ? " Show Less" : " Read More"}
+                        </span>
+                      )}
+                    </p>
+
+                    {/* Price + Color */}
+                    <div className="laptop-price-color">
+                      <p className="laptop-product-price">Price: ₹{displayPrice}</p>
+                      <p className="laptop-product-color">Color: {product.color}</p>
+                    </div>
+
+                    {/* Buttons */}
+                    <div className="laptop-product-actions">
+                      {cartItems.includes(product.id) ? (
+                        <button
+                          className="laptop-btn-outline"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            navigate("/cart");
+                          }}
+                        >
+                          Go To Cart
+                        </button>
+                      ) : (
+                        <button
+                          className="laptop-btn-outline"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            addToCart(product.id);
+                          }}
+                        >
+                          Add to Cart
+                        </button>
+                      )}
+
+                      <button
+                        className="laptop-btn-primary"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          buyNow(product.id);
+                        }}
+                      >
+                        Buy Now
+                      </button>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
+          </div>
+
+          {/* Add Your Own Product (from mobile, styled for laptop) */}
+          <div className="laptop-addnewbycx">
+            <span>Add Your Own Product:</span>
+            <div
+              className="laptop-add-product-btn"
+              title="Add your own product"
+              onClick={() => setShowFormPopup(true)}
+            >
+              +
+            </div>
           </div>
         </main>
       </div>
+
+      {/* Snackbar */}
+      {snackbarOpen && <div className="snackbar">{snackbarMessage}</div>}
+
+      {/* Add Product Popup */}
+      {showFormPopup && (
+        <div
+          className="laptop-form-popup-overlay"
+          onClick={() => setShowFormPopup(false)}
+        >
+          <div
+            className="laptop-form-popup"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              className="laptop-popup-close"
+              onClick={() => setShowFormPopup(false)}
+            >
+              ×
+            </button>
+            <AddProductForm />
+          </div>
+        </div>
+      )}
 
       <Footer />
       <ProductPage />

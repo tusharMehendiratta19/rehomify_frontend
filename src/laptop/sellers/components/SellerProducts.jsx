@@ -13,7 +13,7 @@ const categoryMapping = {
   Cupboard: ["cupboard"],
 };
 
-const MobileSellerProducts = () => {
+const LaptopSellerProducts = () => {
   const [activeBtn, setActiveBtn] = useState("All");
   const [allProducts, setAllProducts] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -62,7 +62,10 @@ const MobileSellerProducts = () => {
   const handleEdit = async (product) => {
     try {
       const res = await axios.get(`http://localhost:5000/v1/products/edit/${product.id}`);
-      setEditProduct(res.data);
+      setEditProduct({
+        ...res.data,
+        optionalImages: res.data.optionalImages || [] // ensure array
+      });
       setEditModalVisible(true);
     } catch (err) {
       console.error("Failed to fetch product for edit:", err.message);
@@ -70,11 +73,20 @@ const MobileSellerProducts = () => {
   };
 
   const handleInputChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setEditProduct(prev => ({
-      ...prev,
-      [name]: type === "checkbox" ? checked : value,
-    }));
+    const { name, value, type, files } = e.target;
+
+    if (name === "optionalImages") {
+      const fileArray = Array.from(files);
+      setEditProduct((prev) => ({
+        ...prev,
+        optionalImages: [...(prev.optionalImages || []), ...fileArray]
+      }));
+    } else {
+      setEditProduct(prev => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
   };
 
   const handleVarietyChange = (index, field, value) => {
@@ -97,22 +109,37 @@ const MobileSellerProducts = () => {
         length,
         height,
         woodMaterial,
-        varieties
+        varieties,
+        optionalImages
       } = editProduct;
 
-      const payload = {
-        name,
-        description,
-        category,
-        color,
-        width,
-        length,
-        height,
-        woodMaterial,
-        varieties
-      };
+      const formData = new FormData();
+      formData.append("name", name);
+      formData.append("description", description);
+      formData.append("category", category);
+      formData.append("color", color);
+      formData.append("width", width);
+      formData.append("length", length);
+      formData.append("height", height);
+      formData.append("woodMaterial", woodMaterial);
 
-      await axios.post(`http://localhost:5000/v1/products/updatedProduct/${id}`, payload);
+      varieties.forEach((v, idx) => {
+        formData.append(`varieties[${idx}][name]`, v.name);
+        formData.append(`varieties[${idx}][price]`, v.price);
+      });
+
+      if (optionalImages && optionalImages.length > 0) {
+        optionalImages.forEach((file, idx) => {
+          formData.append("optionalImages", file);
+        });
+      }
+
+      await axios.post(
+        `http://localhost:5000/v1/products/updatedProduct/${id}`,
+        formData,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
+
       setEditModalVisible(false);
       setEditProduct(null);
       await fetchProducts();
@@ -261,6 +288,12 @@ const MobileSellerProducts = () => {
                   <input type="text" name="woodMaterial" value={editProduct.woodMaterial} onChange={handleInputChange} />
                 </div>
 
+                {/* Optional Images */}
+                <div className="edit-input">
+                  <label>Optional Images:</label>
+                  <input type="file" name="optionalImages" multiple onChange={handleInputChange} />
+                </div>
+
                 <div className="modal-btns">
                   <button onClick={handleUpdate}>Update</button>
                   <button className="cancel-btn" onClick={handleCancelEdit}>Cancel</button>
@@ -270,9 +303,8 @@ const MobileSellerProducts = () => {
           </div>
         </div>
       )}
-
     </div>
   );
 };
 
-export default MobileSellerProducts;
+export default LaptopSellerProducts;
