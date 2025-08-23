@@ -118,22 +118,36 @@
     margin-bottom: 150px;
   }
 
-  .mobile-product-card {
-    width: 100%;
-    padding: 10px;
-    font-size: 13px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    background-color: #fff;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  .mobile-main-product-card{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    gap: 6px;
+    /* height: 300px; */
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #fff;
+    padding: 10px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+  }
+
+  .mobile-main-product-card-upper {
+    width: 100%;
+    font-size: 13px;
+    /* padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05); */
+    display: flex;
+    flex-direction: column;
+    /* justify-content: space-between; */
   }
 
   .mobile-product-image {
     width: 100%;
-    height: 120px;
+    height: 200px;
     object-fit: cover;
     border-radius: 6px;
     margin-bottom: 10px;
@@ -143,13 +157,16 @@
     display: flex;
     flex-direction: column;
     gap: 4px;
-    margin-bottom: 10px;
+    text-align: center;
+    /* margin-bottom: 10px; */
   }
 
-  .mobile-product-name {
+  .mobile-main-product-name {
     font-size: 15px;
     font-weight: 600;
     margin: 0;
+    position: relative;
+    top: 0;
   }
 
   .mobile-product-price,
@@ -219,6 +236,10 @@
   .mobile-product-image-wrapper {
     position: relative;
     width: 100%;
+  }
+  .mobile-product-card-bottom{
+    /* background-color: gray; */
+    text-align: center;
   }
 
   .wishlist-icon {

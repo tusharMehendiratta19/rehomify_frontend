@@ -162,6 +162,7 @@ const ProductRow = ({ title, type, allproducts }) => {
       <div className="pr-mobile-product-cardproduct-scroll-container" ref={scrollContainerRef}>
         {products.map((product) => (
           <div key={product._id} className="pr-mobile-product-cardproduct-card">
+            <div className="pr-mobile-product-cardproduct-card-upper">
             <div className="mobile-product-image-wrapper" onClick={() => handleProductClick(product._id)}>
               <img src={product.image} alt={product.name} className="pr-mobile-product-cardproduct-image" />
               <button
@@ -174,10 +175,11 @@ const ProductRow = ({ title, type, allproducts }) => {
                 {wishlist.includes(product._id) ? <AiFillHeart color="red" /> : <FiHeart />}
               </button>
             </div>
+            <h3 className="mobile-product-name" onClick={() => handleProductClick(product._id)}>{product.name}</h3>
+            </div>
 
             <div className="mobile-product-info">
-              <h3 className="mobile-product-name" onClick={() => handleProductClick(product._id)}>{product.name}</h3>
-              <p className="mobile-product-description" onClick={() => handleProductClick(product._id)}>{product.description}</p>
+              <p className="mobile-product-description" onClick={() => handleProductClick(product._id)}>Color: {product.color}</p>
               <p className="mobile-product-price" onClick={() => handleProductClick(product._id)}>Price: ₹{product.price}</p>
               <div className="product-actions">
                 {cartItems.includes(product._id) ? (

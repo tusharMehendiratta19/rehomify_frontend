@@ -15,7 +15,7 @@ const categories = [
   "All Products",
   "Single Bed",
   "Double Bed",
-  "Cup board",
+  "Cupboard",
   "Tables",
   "Chairs",
 ];
@@ -24,7 +24,7 @@ const categoryMap = {
   "All Products": "all",
   "Single Bed": "single_bed",
   "Double Bed": "double_bed",
-  "Cup board": "cup_board",
+  "Cupboard": "cupboard",
   Tables: "tables",
   Chairs: "chairs"
 };
@@ -311,41 +311,44 @@ const Products = () => {
 
           <div className="mobile-product-list">
             {filteredProducts.map((product) => (
-              <div key={product.id} className="mobile-product-card">
-                <div className="mobile-product-image-wrapper" onClick={() => handleProductClick(product.id)}>
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="mobile-product-image"
-                  />
-                  <button
-                    className="wishlist-icon"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      addToWishlist(product.id);
-                    }}
-                  >
-                    {wishlist.includes(product.id) ? (
-                      <AiFillHeart color="red" />
-                    ) : (
-                      <FiHeart />
-                    )}
-                  </button>
+              <div key={product.id} className="mobile-main-product-card">
+                <div className="mobile-main-product-card-upper">
+                  <div className="mobile-product-image-wrapper" onClick={() => handleProductClick(product.id)}>
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className="mobile-product-image"
+                    />
+                    <button
+                      className="wishlist-icon"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        addToWishlist(product.id);
+                      }}
+                    >
+                      {wishlist.includes(product.id) ? (
+                        <FiHeart />
+                      ) : (
+                        <AiFillHeart color="red" />
+                      )}
+                    </button>
+                  </div>
+
+                  <div className="mobile-product-info">
+                    <h3 className="mobile-main-product-name" onClick={() => handleProductClick(product.id)}>{product.name}</h3>
+                    <p className="mobile-product-description" onClick={() => handleProductClick(product.id)}>{product.description}</p>
+
+                    {/* Updated price display */}
+
+                  </div>
                 </div>
-
-                <div className="mobile-product-info">
-                  <h3 className="mobile-product-name" onClick={() => handleProductClick(product.id)}>{product.name}</h3>
-                  <p className="mobile-product-description" onClick={() => handleProductClick(product.id)}>{product.description}</p>
-
-                  {/* Updated price display */}
+                <div className="mobile-product-card-bottom">
                   <p className="mobile-product-price" onClick={() => handleProductClick(product.id)}>
                     Price: ₹
                     {product.varieties && product.varieties.length > 0
                       ? product.varieties[0].price
                       : product.price}
                   </p>
-
-
                   <div className="product-actions">
                     {cartItems.includes(product.id) ? (
                       <button
