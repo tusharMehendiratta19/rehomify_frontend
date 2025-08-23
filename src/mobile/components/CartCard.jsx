@@ -76,7 +76,7 @@ const CartCard = () => {
     <>
       <Header />
       <div className="cart-wrapper">
-        {cartItems.map(item => (
+        {Array.isArray(cartItems) ? cartItems.map(item => (
           <div className="cart-card" key={item.id}>
             <img src={item.imageUrl} alt={item.name} onClick={() => handleProductClick(item.id)} />
             <div className="cart-info">
@@ -95,7 +95,7 @@ const CartCard = () => {
               </button>
             </div>
           </div>
-        ))}
+        )) : <div>Your Cart is Empty</div>}
 
         {/* Summary and coupon section */}
         <CartSummary items={cartItems} showSnackbar={showSnackbar} navigate={navigate} />

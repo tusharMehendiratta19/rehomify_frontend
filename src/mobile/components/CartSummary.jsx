@@ -74,7 +74,10 @@ const CartSummary = ({ items, showSnackbar, navigate }) => {
       amount: 500,
     },
   ];
-  const subtotal = items.reduce((acc, i) => acc + i.price * i.quantity, 0);
+  const subtotal = Array.isArray(items)
+  ? items.reduce((acc, i) => acc + (i.price || 0) * (i.quantity || 1), 0)
+  : 0;
+
   const delivery = 0;
   const discount = applied
     ? applied.amount ?? Math.round((subtotal * applied.percentage) / 100)
@@ -89,58 +92,61 @@ const CartSummary = ({ items, showSnackbar, navigate }) => {
   };
 
   return (
-    <div className="cart-additional">
-      <div className="apply-offer">
-        <label>Apply Offer Code</label>
-        <input
-          value={selectedCode}
-          onChange={e => setSelectedCode(e.target.value)}
-          onFocus={() => setCouponVisible(true)}
-          onBlur={() => setTimeout(() => setCouponVisible(false), 200)}
-          placeholder="Enter coupon code"
-        />
-        {couponVisible && (
-          <ul className="coupon-list">
-            {coupons.map(c => (
-              <li
-                key={c.code}
-                onClick={() => applyCoupon(c.code)}
-                className="coupon-item"
-              >
-                <strong>{c.code}</strong> – {c.description}
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
+    <>
+      {subtotal > 0 && (
+        <div className="cart-additional">
+          <div className="apply-offer">
+            <label>Apply Offer Code</label>
+            <input
+              value={selectedCode}
+              onChange={e => setSelectedCode(e.target.value)}
+              onFocus={() => setCouponVisible(true)}
+              onBlur={() => setTimeout(() => setCouponVisible(false), 200)}
+              placeholder="Enter coupon code"
+            />
+            {couponVisible && (
+              <ul className="coupon-list">
+                {coupons.map(c => (
+                  <li
+                    key={c.code}
+                    onClick={() => applyCoupon(c.code)}
+                    className="coupon-item"
+                  >
+                    <strong>{c.code}</strong> – {c.description}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
 
-      <div className="price-details">
-        <h5>Price Details</h5>
-        <p>Product: ₹{subtotal}</p>
-        <p>Delivery: Free</p>
-        {applied && (
-          <p className="discount-text">Discount ({applied.code}): −₹{discount}</p>
-        )}
-        <p><strong>Total: ₹{total}</strong></p>
-      </div>
-      {/* 
-      <div className="address-section">
-        <label>Delivery Address</label>
-        <textarea rows={3} placeholder="Enter your address" />
-      </div> */}
+          <div className="price-details">
+            <h5>Price Details</h5>
+            <p>Product: ₹{subtotal}</p>
+            <p>Delivery: Free</p>
+            {applied && (
+              <p className="discount-text">Discount ({applied.code}): −₹{discount}</p>
+            )}
+            <p><strong>Total: ₹{total}</strong></p>
+          </div>
+          {/* 
+          <div className="address-section">
+            <label>Delivery Address</label>
+            <textarea rows={3} placeholder="Enter your address" />
+          </div> */}
 
-      <button
-        className="payment-btn"
-        onClick={() => navigate("/checkout", {
-          state: {
-            fromCart: true
-          }
-        })}
-      >
-        Continue to Payment
-      </button>
-
-    </div>
+          <button
+            className="payment-btn"
+            onClick={() => navigate("/checkout", {
+              state: {
+                fromCart: true
+              }
+            })}
+          >
+            Continue to Payment
+          </button>
+        </div>
+      )}
+    </>
   );
 };
 

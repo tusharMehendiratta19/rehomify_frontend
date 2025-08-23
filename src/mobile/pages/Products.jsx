@@ -327,9 +327,9 @@ const Products = () => {
                       }}
                     >
                       {wishlist.includes(product.id) ? (
-                        <FiHeart />
-                      ) : (
                         <AiFillHeart color="red" />
+                      ) : (
+                        <FiHeart />
                       )}
                     </button>
                   </div>
