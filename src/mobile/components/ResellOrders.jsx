@@ -9,7 +9,7 @@ const ResellOrders = () => {
 
   useEffect(() => {
     const custId = localStorage.getItem("custId");
-    let result = axios.get(`http://localhost:5000/v1/orders/${custId}`);
+    let result = axios.get(`https://rehomify.in/v1/orders/${custId}`);
 
     if (result) {
       result.then((res) => {
