@@ -156,12 +156,7 @@ const AddProductForm = () => {
                     ))}
                 </select>
 
-                <select name="color" value={formData.color} onChange={handleChange} required>
-                    <option value="">Select Color</option>
-                    {colorOptions.map((option) => (
-                        <option key={option} value={option}>{option}</option>
-                    ))}
-                </select>
+                <input type="text" name="color" list="colorOptions" placeholder="Color" value={formData.color} onChange={handleChange} required />
 
                 <label className='isRefurbished'>
                     <input type="checkbox" name="isRefurbished" checked={formData.isRefurbished} onChange={handleChange} />

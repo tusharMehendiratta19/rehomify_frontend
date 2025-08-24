@@ -300,13 +300,13 @@
     left: 0;
     width: 100%;
     height: 90%;
-    background: rgba(0,0,0,0.5);
+    background: rgba(158, 156, 156, 0.5);
     display: flex;
     align-items: center;
     justify-content: center;
     overflow-y: scroll;
     z-index: 2000;
-    padding-top: 350px;
+    padding-top: 50px;
   }
 
   .mobile-form-popup {
@@ -316,14 +316,17 @@
     max-width: 360px;
     border-radius: 8px;
     position: relative;
-    overflow-y: scroll;
+    /* overflow-y: scroll; */
   }
 
   .mobile-popup-close {
     position: absolute;
     top: 8px;
-    right: 8px;
+    /* right: 52px; */
+    width: 20%;
+    margin-left: 35%;
     background: none;
+    /* border-radius: 20px; */
     border: none;
     font-size: 24px;
     cursor: pointer;

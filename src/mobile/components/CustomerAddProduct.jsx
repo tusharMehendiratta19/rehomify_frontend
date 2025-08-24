@@ -1,20 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import '../sellerstyles/sellerAddProduct.css';
+import '../allStyles/customerAddProduct.css';
 
-const AddProductForm = () => {
+const CustomerAddProductForm = () => {
     const [formData, setFormData] = useState({
         name: '',
         description: '',
         category: '',
-        color: '',
-        isRefurbished: false,
-        width: '',
-        length: '',
-        height: '',
-        woodMaterial: '',
-        varietyCount: 1,
-        varieties: [{ name: '', price: '' }]
+        suggestion: true,
     });
 
     const [mainImage, setMainImage] = useState(null);
@@ -33,19 +26,11 @@ const AddProductForm = () => {
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
 
-        if (name === 'varietyCount') {
-            const count = parseInt(value, 10);
-            setFormData((prevData) => ({
-                ...prevData,
-                varietyCount: count,
-                varieties: Array.from({ length: count }, (_, i) => prevData.varieties[i] || { name: '', price: '' })
-            }));
-        } else {
-            setFormData((prevData) => ({
-                ...prevData,
-                [name]: type === 'checkbox' ? checked : value,
-            }));
-        }
+        setFormData((prevData) => ({
+            ...prevData,
+            [name]: type === 'checkbox' ? checked : value,
+        }));
+
     };
 
     const handleVarietyChange = (index, field, value) => {
@@ -93,7 +78,7 @@ const AddProductForm = () => {
         });
 
         try {
-            const res = await axios.post('https://rehomify.in/v1/products/addProduct', data, {
+            const res = await axios.post('http://localhost:5000/v1/products/addCustomerProduct', data, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
@@ -118,33 +103,6 @@ const AddProductForm = () => {
                 <input type="text" name="name" placeholder="Product Name" value={formData.name} onChange={handleChange} required />
                 <textarea name="description" placeholder="Description" value={formData.description} onChange={handleChange} required />
 
-                {/* Dropdown for variety count */}
-                <label>Number of Varieties</label>
-                <select name="varietyCount" value={formData.varietyCount} onChange={handleChange}>
-                    {[1, 2, 3, 4, 5].map(num => (
-                        <option key={num} value={num}>{num}</option>
-                    ))}
-                </select>
-
-                {/* Variety Name + Price inputs */}
-                {formData.varieties.map((v, index) => (
-                    <div key={index} className="variety-row">
-                        <input
-                            type="text"
-                            placeholder={`Variety-${index + 1}`}
-                            value={v.name}
-                            onChange={(e) => handleVarietyChange(index, 'name', e.target.value)}
-                            required
-                        />
-                        <input
-                            type="number"
-                            placeholder={`Price-${index + 1}`}
-                            value={v.price}
-                            onChange={(e) => handleVarietyChange(index, 'price', e.target.value)}
-                            required
-                        />
-                    </div>
-                ))}
 
                 <select name="category" value={formData.category} onChange={handleChange} required>
                     <option value="">Select Category</option>
@@ -153,18 +111,6 @@ const AddProductForm = () => {
                     ))}
                 </select>
 
-                <input type="text" name="color" list="colorOptions" placeholder="Color" value={formData.color} onChange={handleChange} required />
-
-                <label className='isRefurbished'>
-                    <input type="checkbox" name="isRefurbished" checked={formData.isRefurbished} onChange={handleChange} />
-                    Refurbished
-                </label>
-
-                <input type="number" name="width" placeholder="Width (in foot)" value={formData.width} onChange={handleChange} required />
-                <input type="number" name="length" placeholder="Length (in foot)" value={formData.length} onChange={handleChange} required />
-                <input type="number" name="height" placeholder="Height (in foot)" value={formData.height} onChange={handleChange} required />
-                <input type="text" name="woodMaterial" placeholder="Wood Material" value={formData.woodMaterial} onChange={handleChange} required />
-
                 <button type="submit">Add Product</button>
             </form>
             <p>{status}</p>
@@ -172,4 +118,4 @@ const AddProductForm = () => {
     );
 };
 
-export default AddProductForm;
+export default CustomerAddProductForm;

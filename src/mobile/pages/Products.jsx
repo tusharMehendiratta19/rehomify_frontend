@@ -9,15 +9,16 @@ import dummyProducts from "../../data/dummyProductData";
 import { AiFillHeart } from "react-icons/ai";    // Filled heart
 import { FiHeart } from "react-icons/fi";     // Outline heart
 import Loader from "../components/Loader";
-import AddProductForm from "../sellers/components/MobileSellerAddProduct";
+// import AddProductForm from "../sellers/components/MobileSellerAddProduct";
+import CustomerAddProductForm from "../components/CustomerAddProduct";
 
 const categories = [
   "All Products",
   "Single Bed",
   "Double Bed",
   "Cupboard",
-  "Tables",
-  "Chairs",
+  "Table",
+  "Chair",
 ];
 
 const categoryMap = {
@@ -25,8 +26,8 @@ const categoryMap = {
   "Single Bed": "single_bed",
   "Double Bed": "double_bed",
   "Cupboard": "cupboard",
-  Tables: "tables",
-  Chairs: "chairs"
+  Table: "table",
+  Chair: "chair"
 };
 
 const Products = () => {
@@ -401,7 +402,7 @@ const Products = () => {
         <div className="mobile-form-popup-overlay" onClick={() => setShowFormPopup(false)}>
           <div className="mobile-form-popup" onClick={(e) => e.stopPropagation()}>
             <button className="mobile-popup-close" onClick={() => setShowFormPopup(false)}>×</button>
-            <AddProductForm />
+            <CustomerAddProductForm />
           </div>
         </div>
       )}

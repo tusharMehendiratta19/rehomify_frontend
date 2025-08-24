@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 const categories = [
   {
-    title: "Product under 5000",
+    title: "Product under 5k",
     image: "Product under 5000(2).png",
     buttonText: "Shop Now",
   },
