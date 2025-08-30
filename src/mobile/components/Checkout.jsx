@@ -232,8 +232,8 @@ const Checkout = () => {
               <details key={index} className="mobile-product-accordion">
                 <summary>{p.name}</summary>
                 <img src={p.image} alt={p.name} className="mobile-accordion-image" />
+                <p><strong>Color:</strong> {p.color}</p>
                 <p><strong>Price:</strong> ₹{p.price}</p>
-                <p>{p.description}</p>
               </details>
             ))
           ) : (
@@ -369,7 +369,7 @@ const Checkout = () => {
                   <div key={index} className="mobile-summary-product">
                     <p><strong>{item.name}</strong></p>
                     <div>
-                      <label>Quantity:</label>
+                      {/* <label>Quantity:</label>
                       <input
                         type="number"
                         defaultValue={1}
@@ -380,11 +380,12 @@ const Checkout = () => {
                           updated[index].quantity = parseInt(e.target.value, 10) || 1;
                           setProduct(updated);
                         }}
-                      />
+                        disabled
+                      /> */}
                     </div>
                     <div className="mobile-summary-line">
                       <span>Price</span>
-                      <span>₹{item.price}</span>
+                      <span>₹{item.price} * 1</span>
                     </div>
                     <hr />
                   </div>

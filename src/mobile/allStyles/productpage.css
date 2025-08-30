@@ -107,7 +107,7 @@
 }
 
 .mobile-quantity-section option {
-  background-color: red;
+  background-color: white;
   height: 10px;
 }
 
@@ -260,17 +260,18 @@
 }
 
 .variety-buttons {
-  display: flex;
+  display: grid;
   justify-content: space-evenly;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 4px;
+  height: 20px;
   flex-wrap: wrap;
   /* background-color: gray; */
   /* margin-top: 10px; */
 }
 
 .variety-btn {
-  padding: 6px 12px;
+  /* padding: 6px 12px; */
   width: 50px;
   border: 1px solid #ccc;
   background: white;
@@ -285,7 +286,7 @@
 }
 .sizeAndQty {
   display: flex;
-  margin: 10px 0;
+  margin: 15px 0;
   /* background-color: yellow; */
 }
 .hgltsAndAction {

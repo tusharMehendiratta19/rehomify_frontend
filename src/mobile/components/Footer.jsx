@@ -46,7 +46,7 @@ const Footer = () => {
 
           <div className="mobile-footer-section">
             <h5>Contact Us</h5>
-            <p>support@rehomify.com</p>
+            <p>admin@rehomify.in</p>
           </div>
 
         </div>

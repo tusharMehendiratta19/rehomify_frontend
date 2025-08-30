@@ -237,22 +237,6 @@ const ProductPage = () => {
               <span className="mobile-limited-deal-tag">Limited time deal</span>
             </div>
 
-
-
-
-
-
-            {/* <div className="mobile-offers-section">
-              <h4>Available Offers</h4>
-              <ul>
-                <li>Special Price: Get extra ₹500 off</li>
-                <li>Special Price: Get extra ₹350 off</li>
-                <li>Get at ₹{product.price}</li>
-              </ul>
-            </div> */}
-
-
-
             <div className="mobile-action-buttons">
               {cartItems.includes(product.id) ? (
                 <button

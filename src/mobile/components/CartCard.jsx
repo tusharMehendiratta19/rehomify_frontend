@@ -80,7 +80,7 @@ const CartCard = () => {
           <div className="cart-card" key={item.id}>
             <img src={item.imageUrl} alt={item.name} onClick={() => handleProductClick(item.id)} />
             <div className="cart-info">
-              <h4 onClick={() => handleProductClick(item.id)}>{item.name}</h4>
+              <h5 onClick={() => handleProductClick(item.id)}>{item.name}</h5>
               <br></br>
               {/* <p>{item.description}</p> */}
               <p><strong>Price:</strong> ₹{item.price}</p>
