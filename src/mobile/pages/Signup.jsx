@@ -38,7 +38,7 @@ const Signup = () => {
         password: form.password,
       };
 
-      const res = await fetch('http://localhost:5000/v1/auth/signup', {
+      const res = await fetch('https://rehomify.in/v1/auth/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
@@ -48,7 +48,7 @@ const Signup = () => {
 
       if (result.status) {
         // ✅ Call sendOtp API
-        await fetch('http://localhost:5000/v1/auth/sendOtp', {
+        await fetch('https://rehomify.in/v1/auth/sendOtp', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ mobileNo: form.number }),
@@ -66,7 +66,7 @@ const Signup = () => {
 
   const handleOtpSubmit = async () => {
     try {
-      const res = await fetch('http://localhost:5000/v1/auth/verifyOtp', {
+      const res = await fetch('https://rehomify.in/v1/auth/verifyOtp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ mobileNo: form.number, otp: otpValue }),
