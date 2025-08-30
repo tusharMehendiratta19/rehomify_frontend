@@ -196,6 +196,37 @@ const ProductPage = () => {
             <h3 className="mobile-product-title">{product.name}</h3>
             <p className="mobile-product-description">{product.description}</p>
 
+            <div className='sizeAndQty'>
+              {product.varieties && product.varieties.length > 0 && (
+                <div className="mobile-variety-section">
+                  <label>Size:</label>
+                  <div className="variety-buttons">
+                    {product.varieties.map((v, idx) => (
+                      <button
+                        key={idx}
+                        className={`variety-btn ${selectedVariety?.name === v.name ? 'active' : ''}`}
+                        onClick={() => setSelectedVariety(v)}
+                      >
+                        {v.name}
+                      </button>
+                    ))}
+                  </div>
+
+                </div>
+              )}
+              <div className="mobile-quantity-section">
+                <label htmlFor="quantity">Quantity:</label>
+                <select
+                  id="quantity"
+                  value={selectedQuantity}
+                  onChange={(e) => setSelectedQuantity(e.target.value)}
+                  className="mobile-quantity-select"
+                >
+                  {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(qty => <option key={qty} value={qty}>{qty}</option>)}
+                </select>
+              </div>
+            </div>
+
             <div className="mobile-price-section">
               <p className="mobile-original-price">
                 Price: <s>₹{(selectedVariety?.price || 0) + 2000}</s>
@@ -208,35 +239,7 @@ const ProductPage = () => {
 
 
 
-            <div className="mobile-quantity-section">
-              <label htmlFor="quantity">Quantity:</label>
-              <select
-                id="quantity"
-                value={selectedQuantity}
-                onChange={(e) => setSelectedQuantity(e.target.value)}
-                className="mobile-quantity-select"
-              >
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(qty => <option key={qty} value={qty}>{qty}</option>)}
-              </select>
-            </div>
 
-            {product.varieties && product.varieties.length > 0 && (
-              <div className="mobile-variety-section">
-                <label>Size:</label>
-                <div className="variety-buttons">
-                  {product.varieties.map((v, idx) => (
-                    <button
-                      key={idx}
-                      className={`variety-btn ${selectedVariety?.name === v.name ? 'active' : ''}`}
-                      onClick={() => setSelectedVariety(v)}
-                    >
-                      {v.name}
-                    </button>
-                  ))}
-                </div>
-
-              </div>
-            )}
 
 
             {/* <div className="mobile-offers-section">
@@ -248,16 +251,7 @@ const ProductPage = () => {
               </ul>
             </div> */}
 
-            <div className="mobile-highlights-section">
-              <h4>Product Highlights</h4>
-              <ul>
-                <li><strong>Primary Material</strong>: {product.woodMaterial}</li>
-                {/* <li><strong>Width</strong>: {product.width} foot</li>
-                <li><strong>Length</strong>: {product.length} foot</li>
-                <li><strong>Height</strong>: {product.height} foot</li> */}
-                <li><strong>Color</strong>: {product.color}</li>
-              </ul>
-            </div>
+
 
             <div className="mobile-action-buttons">
               {cartItems.includes(product.id) ? (
@@ -292,10 +286,25 @@ const ProductPage = () => {
                 Proceed to payment
               </button>
               <button className="mobile-easy-emis" onClick={() => setShowEMI(true)}>
-                Easy EMIs
+                EMIs
               </button>
             </div>
 
+            <div className='hgltsAndAction'>
+              <div className="mobile-highlights-section">
+                <h4>Product Highlights</h4>
+                <ul>
+                  <li><strong>Primary Material</strong>: {product.woodMaterial}</li>
+                  {/* <li><strong>Width</strong>: {product.width} foot</li>
+                <li><strong>Length</strong>: {product.length} foot</li>
+                <li><strong>Height</strong>: {product.height} foot</li> */}
+                  <li><strong>Color</strong>: {product.color}</li>
+                </ul>
+              </div>
+              <div className='offerImage'>
+                <img src='../buyBack.jpeg' />
+              </div>
+            </div>
 
             <div className="mobile-ratings-section">
               <h4>Ratings & Reviews</h4>

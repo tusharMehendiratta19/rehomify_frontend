@@ -87,12 +87,28 @@
 
 .mobile-quantity-section {
   display: flex;
-  align-items: center;
+  /* align-items: center; */
   gap: 10px;
-  margin-top: 6px;
-  margin-bottom: 6px;
+  margin-left: 5px;
+  padding: 0 5px;
+  /* margin-top: 6px;
+  margin-bottom: 6px; */
   /* background-color: gray; */
-  width: 40%;
+  width: 30%;
+}
+
+.mobile-quantity-section label {
+  font-size: small;
+}
+
+.mobile-quantity-section select {
+  width: 40px;
+  background-color: white;
+}
+
+.mobile-quantity-section option {
+  background-color: red;
+  height: 10px;
 }
 
 .mobile-highlights-section {
@@ -100,7 +116,8 @@
   padding: 8px;
   border-radius: 6px;
   background-color: bisque;
-  margin-top: 15px;
+  width: 60%;
+  /* margin-top: 15px; */
   box-shadow: 1px 1px 3px #3e3e3e;
 }
 
@@ -114,6 +131,7 @@
 
 .mobile-highlights-section ul li {
   list-style-type: none;
+  font-size: small;
 }
 
 .mobile-action-buttons button {
@@ -229,26 +247,55 @@
   gap: 10px;
 }
 .mobile-variety-section {
-  margin: 10px 0;
+  /* margin: 10px 0; */
+  display: flex;
+  /* background-color: white; */
+}
+
+.mobile-variety-section label{
+  font-size: small;
+  /* background-color: rgb(212, 212, 43); */
+  width: 15%;
+  align-items: center;
 }
 
 .variety-buttons {
-  display: grid;
+  display: flex;
+  justify-content: space-evenly;
   grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
+  gap: 4px;
   flex-wrap: wrap;
-  margin-top: 10px;
+  /* background-color: gray; */
+  /* margin-top: 10px; */
 }
 
 .variety-btn {
   padding: 6px 12px;
+  width: 50px;
   border: 1px solid #ccc;
   background: white;
   cursor: pointer;
   border-radius: 4px;
+  font-size: small;
 }
 
 .variety-btn.active {
   border-color: #000;
   background: #eee;
+}
+.sizeAndQty {
+  display: flex;
+  margin: 10px 0;
+  /* background-color: yellow; */
+}
+.hgltsAndAction {
+  display: flex;
+  /* background-color: yellowgreen; */
+}
+.offerImage{
+  width: 38%;
+  margin-left: 2%;
+}
+.offerImage img{
+  border-radius: 15px;
 }

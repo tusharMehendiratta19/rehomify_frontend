@@ -81,10 +81,11 @@ const CartCard = () => {
             <img src={item.imageUrl} alt={item.name} onClick={() => handleProductClick(item.id)} />
             <div className="cart-info">
               <h4 onClick={() => handleProductClick(item.id)}>{item.name}</h4>
-              <p>{item.description}</p>
+              <br></br>
+              {/* <p>{item.description}</p> */}
               <p><strong>Price:</strong> ₹{item.price}</p>
 
-              <div className="quantity-control">
+              <div className="mobile-quantity-control">
                 <button onClick={() => updateQuantity(item.id, -1)}>−</button>
                 <span>{item.quantity}</span>
                 <button onClick={() => updateQuantity(item.id, +1)}>+</button>

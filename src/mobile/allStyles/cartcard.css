@@ -23,20 +23,22 @@
   flex: 1;
 }
 
-.quantity-control {
+.mobile-quantity-control {
   display: flex;
   align-items: center;
   gap: 1rem;
   margin-top: 0.5rem;
-  width: 5%;
+  width: 65px;
   /* background-color: gray; */
 }
 
-.quantity-control button {
-  width: 2%;
-  height: 2%;
+.mobile-quantity-control button {
+  width: 40px;
+  /* height: 30px; */
   font-weight: bold;
   border: 1px solid #ccc;
+  padding: 5px;
+  border-radius: 10px;
   background: #f5f5f5;
   cursor: pointer;
 }

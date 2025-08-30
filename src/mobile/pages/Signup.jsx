@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../allStyles/signup.css'; // Make sure this path is correct
+import '../allStyles/signup.css';
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -14,6 +14,8 @@ const Signup = () => {
   });
 
   const [snackbar, setSnackbar] = useState({ show: false, message: '', success: true });
+  const [showOtpModal, setShowOtpModal] = useState(false);
+  const [otpValue, setOtpValue] = useState('');
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -29,14 +31,14 @@ const Signup = () => {
 
     try {
       const payload = {
-        name: form.name,
-        mobileNo: form.number, // ✅ Corrected field name
-        email: form.email,
+        name: form.name.trim(),
+        mobileNo: form.number.trim(),
+        email: form.email.trim(),
         type: form.type,
-        password: form.password
+        password: form.password,
       };
 
-      const res = await fetch('https://rehomify.in/v1/auth/signup', {
+      const res = await fetch('http://localhost:5000/v1/auth/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
@@ -45,17 +47,48 @@ const Signup = () => {
       const result = await res.json();
 
       if (result.status) {
-        showSnackbar('Signup successful!', true);
-        localStorage.setItem("token", result.token);
-        localStorage.setItem("custId", result.data._id);
-        setTimeout(() => {
-          navigate(form.type === 'seller' ? '/seller/dashboard' : '/home');
-        }, 1500);
+        // ✅ Call sendOtp API
+        await fetch('http://localhost:5000/v1/auth/sendOtp', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ mobileNo: form.number }),
+        });
+
+        // ✅ Open OTP modal
+        setShowOtpModal(true);
       } else {
-        showSnackbar(result.result || 'Signup failed!', false);
+        showSnackbar(result.message || 'Signup failed!', false);
       }
     } catch (err) {
       showSnackbar('Server error. Please try again.', false);
+    }
+  };
+
+  const handleOtpSubmit = async () => {
+    try {
+      const res = await fetch('http://localhost:5000/v1/auth/verifyOtp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mobileNo: form.number, otp: otpValue }),
+      });
+
+      const result = await res.json();
+
+      if (result.status) {
+        showSnackbar('OTP verified successfully!', true);
+        localStorage.setItem('token', result.token);
+        localStorage.setItem('custId', result.data._id);
+
+        setShowOtpModal(false);
+
+        setTimeout(() => {
+          navigate(form.type === 'seller' ? '/seller/dashboard' : '/home');
+        }, 1000);
+      } else {
+        showSnackbar(result.message || 'Invalid OTP', false);
+      }
+    } catch (err) {
+      showSnackbar('Error verifying OTP.', false);
     }
   };
 
@@ -149,9 +182,28 @@ const Signup = () => {
         </form>
       </div>
 
+      {/* Snackbar */}
       {snackbar.show && (
-        <div className={`snackbar ${snackbar.success ? 'success' : 'error'}`}>
+        <div className={`snackbar ${snackbar.success ? 'success' : 'error'}`} role="alert">
           {snackbar.message}
+        </div>
+      )}
+
+      {/* OTP Modal */}
+      {showOtpModal && (
+        <div className="otp-modal">
+          <div className="otp-modal-content">
+            <h4>Enter OTP</h4>
+            <input
+              type="text"
+              value={otpValue}
+              maxLength="4"
+              onChange={(e) => setOtpValue(e.target.value)}
+              placeholder="4-digit OTP"
+            />
+            <button onClick={handleOtpSubmit}>Verify OTP</button>
+            <button onClick={() => setShowOtpModal(false)}>Cancel</button>
+          </div>
         </div>
       )}
     </div>
