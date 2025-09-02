@@ -75,9 +75,11 @@ const CartSummary = ({ items, showSnackbar, navigate }) => {
     },
   ];
   const subtotal = Array.isArray(items)
-  ? items.reduce((acc, i) => acc + (i.price || 0) * (i.quantity || 1), 0)
-  : 0;
-
+    ? items.reduce((acc, i) => acc + (i.price || 0) * (i.quantity || 1), 0)
+    : 0;
+  const totalItems = Array.isArray(items)
+    ? items.reduce((acc, i) => acc + (i.quantity || 1), 0)
+    : 0;
   const delivery = 0;
   const discount = applied
     ? applied.amount ?? Math.round((subtotal * applied.percentage) / 100)
@@ -138,12 +140,18 @@ const CartSummary = ({ items, showSnackbar, navigate }) => {
             className="payment-btn"
             onClick={() => navigate("/checkout", {
               state: {
-                fromCart: true
+                fromCart: true,
+                totalItems,
+                items,
+                subtotal,
+                discount,
+                total
               }
             })}
           >
             Continue to Payment
           </button>
+
         </div>
       )}
     </>

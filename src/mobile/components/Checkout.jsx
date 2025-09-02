@@ -9,7 +9,8 @@ const Checkout = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const fromCart = location.state?.fromCart;
-  console.log("From Cart:", fromCart);
+  const totalItems = location.state?.totalItems;
+  console.log("totalItems:", totalItems);
   const productId = location.state?.productId;
   console.log("Product ID from location state:", productId);
   const [product, setProduct] = useState(null);
