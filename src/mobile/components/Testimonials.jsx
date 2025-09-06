@@ -15,11 +15,10 @@ const Testimonials = ({reviews}) => {
               className="mobile-seller-testimonial-img"
             />
             <h3 className="mobile-seller-testimonial-name">{t.customerName}</h3>
-            <p className="mobile-seller-testimonial-order">Order ID: {t.orderId}</p>
-            <div className="mobile-seller-testimonial-rating">
+            {/* <div className="mobile-seller-testimonial-rating">
               {"★".repeat(t.rating)}
               {"☆".repeat(5 - t.rating)}
-            </div>
+            </div> */}
             <p className="mobile-seller-testimonial-feedback">"{t.comment}"</p>
           </div>
         ))}

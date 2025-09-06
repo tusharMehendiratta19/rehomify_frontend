@@ -87,28 +87,32 @@
 
 .mobile-quantity-section {
   display: flex;
-  /* align-items: center; */
+  align-items: center;
   gap: 10px;
   /* margin-left: 5px; */
   margin-right: 15px;
   /* padding: 0 5px; */
   /* margin-top: 6px;
   margin-bottom: 6px; */
-  width: 30%;
+  /* background-color: red; */
+
+  width: 50%;
 }
 
 .mobile-quantity-section label {
-  font-size: 14px;
+  font-size: 15px;
 }
 
 .mobile-quantity-section select {
   width: 60px;
-  background-color: white;
+  height: 28px;
+  /* background-color: gray; */
 }
 
 .mobile-quantity-section option {
   background-color: white;
   height: 10px;
+  margin-top: -5px;
 }
 
 .mobile-highlights-section {
@@ -249,12 +253,13 @@
 .mobile-variety-section {
   /* margin: 10px 0; */
   display: flex;
-  margin-left: 10px;
-  /* background-color: white; */
+  margin-left: 5px;
+  /* background-color: gray; */
+  align-items: center;
 }
 
-.mobile-variety-section label{
-    font-size: 14px;
+.mobile-variety-section label {
+  font-size: 16px;
   /* background-color: rgb(212, 212, 43); */
   width: 15%;
   align-items: center;
@@ -267,8 +272,9 @@
   gap: 4px;
   height: 20px;
   flex-wrap: wrap;
+  margin-left: 5px;
   /* background-color: gray; */
-  /* margin-top: 10px; */
+  /* margin-top: 5px; */
 }
 
 .variety-btn {
@@ -294,10 +300,31 @@
   display: flex;
   /* background-color: yellowgreen; */
 }
-.offerImage{
+.offerImage {
   width: 38%;
   margin-left: 2%;
 }
-.offerImage img{
+.offerImage img {
   border-radius: 15px;
+}
+.deliveryCheck {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  margin: 15px 0;
+}
+
+.pincode-input {
+  /* width: 70px; */
+  margin-right: 10px;
+}
+.pincode-check {
+  width: 100px;
+  background-color: white;
+  border: 1px solid #b63e2b;
+  color: #b63e2b;
+  border-radius: 10px;
+}
+.delivery-container{
+  margin-bottom: 15px;
 }

@@ -200,86 +200,91 @@ const ExploreMoreProductsPage = () => {
                         <div className="mobile-product-section">
                             <h3 className="mobile-product-heading">{selectedCategory}</h3>
                             <div className="mobile-product-grid-wrapper">
-                                {Array.from({ length: 3 }, (_, rowIndex) => (
-                                    <div className="mobile-product-grid-row" key={rowIndex}>
-                                        {categorizedProducts[selectedCategory]
-                                            .slice(rowIndex * 5, rowIndex * 5 + 5)
-                                            .map((product) => (
-                                                <div
-                                                    className="empp-mobile-product-card"
-                                                    key={product._id}
+                                {categorizedProducts[selectedCategory].map((product) => (
+                                    <div
+                                        className="empp-mobile-product-card"
+                                        key={product._id}
+                                    >
+                                        <div className="empp-card-upper">
+                                            <div
+                                                className="mobile-product-image-wrapper"
+                                                onClick={() => handleProductClick(product._id)}
+                                            >
+                                                <img src={product.image} alt={product.name} />
+                                                <button
+                                                    className="wishlist-icon"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        toggleWishlist(product._id);
+                                                    }}
                                                 >
-                                                    <div
-                                                        className="mobile-product-image-wrapper"
-                                                        onClick={() => handleProductClick(product._id)}
-                                                    >
-                                                        <img src={product.image} alt={product.name} />
-                                                        <button
-                                                            className="wishlist-icon"
-                                                            onClick={(e) => {
-                                                                e.stopPropagation();
-                                                                toggleWishlist(product._id);
-                                                            }}
-                                                        >
-                                                            {wishlist.includes(product._id) ? (
-                                                                <AiFillHeart color="red" />
-                                                            ) : (
-                                                                <FiHeart />
-                                                            )}
-                                                        </button>
-                                                    </div>
+                                                    {wishlist.includes(product._id) ? (
+                                                        <AiFillHeart color="red" />
+                                                    ) : (
+                                                        <FiHeart />
+                                                    )}
+                                                </button>
+                                            </div>
 
-                                                    <div className="mobile-product-info">
-                                                        <h5
-                                                            className="mobile-product-name"
-                                                            onClick={() => handleProductClick(product._id)}
-                                                        >
-                                                            {product.name}
-                                                        </h5>
-                                                        <p
-                                                            className="mobile-product-price"
-                                                            onClick={() => handleProductClick(product._id)}
-                                                        >
-                                                            <strong>₹{product.price}</strong>
-                                                        </p>
-                                                        <div className="mobile-product-buttons">
-                                                            {cartItems.includes(product._id) ? (
-                                                                <button
-                                                                    className="mobile-add-to-cart-btn"
-                                                                    onClick={(e) => {
-                                                                        e.stopPropagation();
-                                                                        navigate("/cart");
-                                                                    }}
-                                                                >
-                                                                    Go To Cart
-                                                                </button>
-                                                            ) : (
-                                                                <button
-                                                                    className="mobile-add-to-cart-btn"
-                                                                    onClick={(e) => {
-                                                                        e.stopPropagation();
-                                                                        addToCart(product._id);
-                                                                    }}
-                                                                >
-                                                                    Add to Cart
-                                                                </button>
-                                                            )}
-                                                            <button
-                                                                className="mobile-buy-now-btn"
-                                                                onClick={(e) => {
-                                                                    e.stopPropagation();
-                                                                    buyNow(product._id);
-                                                                }}
-                                                            >
-                                                                Buy Now
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            ))}
+                                            <div className="mobile-product-info">
+                                                <h5
+                                                    className="mobile-product-name"
+                                                    onClick={() => handleProductClick(product._id)}
+                                                >
+                                                    <strong>{product.name}</strong>
+                                                </h5>
+                                                <p
+                                                    className="mobile-product-desc"
+                                                    onClick={() => handleProductClick(product._id)}
+                                                >
+                                                    {product.description}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div className="empp-card-bottom">
+                                            <p
+                                                className="mobile-product-price"
+                                                onClick={() => handleProductClick(product._id)}
+                                            >
+                                                Price: <strong>₹{product.price}</strong>
+                                            </p>
+                                            <div className="mobile-product-buttons">
+                                                {cartItems.includes(product._id) ? (
+                                                    <button
+                                                        className="mobile-add-to-cart-btn"
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            navigate("/cart");
+                                                        }}
+                                                    >
+                                                        Go To Cart
+                                                    </button>
+                                                ) : (
+                                                    <button
+                                                        className="mobile-add-to-cart-btn"
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            addToCart(product._id);
+                                                        }}
+                                                    >
+                                                        Add to Cart
+                                                    </button>
+                                                )}
+                                                <button
+                                                    className="mobile-buy-now-btn"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        buyNow(product._id);
+                                                    }}
+                                                >
+                                                    Buy Now
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
                                 ))}
                             </div>
+
                         </div>
                     )}
 

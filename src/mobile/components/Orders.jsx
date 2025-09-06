@@ -3,16 +3,19 @@ import "../allStyles/orders.css";
 import Header from "./Header";
 import Footer from "./Footer";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const ResellOrders = () => {
   const [orders, setOrders] = useState([]);
   const custId = localStorage.getItem("custId");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchOrders = async () => {
       try {
         const res = await axios.get(`https://rehomify.in/v1/orders/${custId}`);
         setOrders(res.data || []);
+        console.log("orders: ", res.data)
       } catch (error) {
         console.error("Error fetching orders:", error);
       }
@@ -29,11 +32,12 @@ const ResellOrders = () => {
         <div className="mobile-order-container">
           {orders.length > 0 ? (
             orders.map((order) => (
-              <div className="mobile-resell-card" key={order.id}>
+              <div className="mobile-resell-card" key={order.id} onClick={() => navigate("/ordersPage", { state: { order: order } })}>
                 <img
                   src={order.product?.imageUrl || "/default-image.png"}
                   alt={order.product?.name}
                   className="mobile-resell-image"
+
                 />
                 <div className="mobile-order-details">
                   <p><strong>{order.product?.name}</strong></p>

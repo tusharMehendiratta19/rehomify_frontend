@@ -1,23 +1,24 @@
 import React, { useState } from "react";
 import "../allStyles/exploremore.css";
+import { useNavigate } from "react-router-dom";
 
 const categories = [
   { name: "Tables", price: "2499", image: "Dining Table.png" },
   { name: "Single Beds", price: "4999", image: "Single bed.png" },
   { name: "Double Beds", price: "7999", image: "Double bed.png" },
   { name: "Cupboard", price: "5999", image: "wardrobe.jpeg" },
-  {
-    name: "Chairs",
-    price: "2999",
-    image:
-      "https://cdn.pixabay.com/photo/2015/06/19/21/33/beach-815303_1280.jpg",
-  },
   { name: "Combos", price: "4499", image: "montage.jpeg" },
+  // {
+  //   name: "Chairs",
+  //   price: "2999",
+  //   image:
+  //     "https://cdn.pixabay.com/photo/2015/06/19/21/33/beach-815303_1280.jpg",
+  // },
 ];
 
 const ExploreMore = () => {
   const [showAll, setShowAll] = useState(false);
-
+  const navigate = useNavigate()
   const visibleCards = showAll ? categories : categories.slice(0, 4); // 2.5 rows = 5 cards
 
   return (
@@ -25,7 +26,7 @@ const ExploreMore = () => {
       <h4 className="mobile-explore-heading">Explore By Categories</h4>
       <div className="mobile-explore-cards-container">
         {visibleCards.map((item, index) => (
-          <div className="mobile-explore-card" key={index}>
+          <div className="mobile-explore-card" key={index} onClick={() => navigate("/products")}>
             <img
               src={`${item.image}?auto=compress&cs=tinysrgb&w=600`}
               alt={item.name}

@@ -123,7 +123,6 @@ const SellOptions = () => {
                                                         </p>
                                                         <button
                                                             className="mobile-resell-btn"
-                                                            onClick={() => setShowProductForm(true)}
                                                         >
                                                             Resell
                                                         </button>

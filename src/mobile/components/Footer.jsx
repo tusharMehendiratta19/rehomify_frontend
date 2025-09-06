@@ -43,6 +43,9 @@ const Footer = () => {
           <div className="mobile-footer-section">
             <h5>Resell Calculator</h5>
           </div>
+          <div className="mobile-footer-section">
+            <h5>T&C</h5>
+          </div>
 
           <div className="mobile-footer-section">
             <h5>Contact Us</h5>

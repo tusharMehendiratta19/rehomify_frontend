@@ -42,6 +42,7 @@ import MobileSellerNote from "./sellers/components/MobileSellerNote";
 import MobileSellerOverview from "./sellers/components/MobileSellerOverview"; // if used elsewhere
 import MobileSellerAddProduct from "./sellers/components/MobileSellerAddProduct";
 import Snackbar from "./components/Snackbar";
+import OrdersPage from "./components/OrdersPage";
 
 function MobileApp() {
   const [userType, setUserType] = useState(null);
@@ -73,6 +74,7 @@ function MobileApp() {
           <Route path="/offers" element={<Offers />} />
           <Route path="/trends" element={<Trends />} />
           <Route path="/orders" element={<Orders />} />
+          <Route path="/ordersPage" element={<OrdersPage />} />
           <Route path="/wishlist" element={<Wishlist />} />
           <Route path="/returns" element={<Returns />} />
           <Route path="/profile" element={<Profile />} />

@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import "../allStyles/specialfurnitureoffer.css";
 
 const SpecialFurnitureOffer = () => {
+  const [showPopup, setShowPopup] = useState(false);
+
   const furnitureOffer = [
     {
       id: 1,
@@ -38,7 +40,10 @@ const SpecialFurnitureOffer = () => {
       <h4 className="mobile-offers-title-special">Special Furniture Offers</h4>
       <div className="mobile-product-offer-row">
         {furnitureOffer.map((item) => (
-          <div className="mobile-product-offer-card" key={`product-offer-${item.id}`}>
+          <div
+            className="mobile-product-offer-card"
+            key={`product-offer-${item.id}`}
+          >
             <img
               src={item.image}
               alt="Furniture Offer"
@@ -46,10 +51,26 @@ const SpecialFurnitureOffer = () => {
             />
             <div className="mobile-product-offer-header">{item.type}</div>
             <div className="mobile-product-offer-desc">{item.description}</div>
-            <div className="mobile-product-offer-price">{item.emi}</div>
+            <div
+              className="mobile-product-offer-price"
+              onClick={() => setShowPopup(true)} // ✅ open popup
+              style={{ cursor: "pointer" }}
+            >
+              {item.emi}
+            </div>
           </div>
         ))}
       </div>
+
+      {/* ✅ Popup */}
+      {showPopup && (
+        <div className="popup-overlay">
+          <div className="popup-box">
+            <p>This feature will be rolled out soon</p>
+            <button onClick={() => setShowPopup(false)}>OK</button>
+          </div>
+        </div>
+      )}
     </>
   );
 };

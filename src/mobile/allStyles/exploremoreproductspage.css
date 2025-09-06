@@ -1,5 +1,5 @@
 .mobile-explore-container {
-  padding: 20px;
+  padding: 10px;
   font-family: Arial, sans-serif;
 }
 
@@ -69,10 +69,23 @@
 }
 
 .mobile-product-grid-wrapper {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Always 2 per row */
+  gap: 0.5rem;
+  padding: 4px;
+  /* background-color: gray; */
+}
+
+.empp-mobile-product-card {
+  width: 100%; /* full width inside grid */
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 5px;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-  padding: 1rem 0;
+  justify-content: space-between;
+  background-color: white;
+  text-align: center;
 }
 
 /* Each row scrolls independently */
@@ -95,7 +108,7 @@
 }
 
 /* Product card styling */
-.empp-mobile-product-card {
+/* .empp-mobile-product-card {
   flex: 0 0 auto;
   width: 150px;
   border: 1px solid #ccc;
@@ -104,7 +117,7 @@
   background-color: white;
   text-align: center;
   scroll-snap-align: start;
-}
+} */
 
 .empp-mobile-product-card img {
   width: 100%;
@@ -137,12 +150,20 @@
   /* justify-content: space-between; */
   margin-top: 10px;
   width: 100%;
+  /* background-color: gray; */
 }
 
-.mobile-add-to-cart-btn,
+.mobile-add-to-cart-btn {
+  padding: 3px 5px;
+  width: 100px;
+  border: 1px solid #b63e2b;
+  border-radius: 5px;
+  cursor: pointer;
+  /* margin-top: 10px; */
+}
 .mobile-buy-now-btn {
   padding: 3px 5px;
-  width: 30%;
+  /* width: 30%; */
   border: 1px solid #b63e2b;
   border-radius: 5px;
   cursor: pointer;
@@ -256,9 +277,13 @@
     gap: 0.5rem;
   }
 
-  .mobile-add-to-cart-btn,
-  .mobile-buy-now-btn {
+  .mobile-add-to-cart-btn {
     width: 50%;
+    font-size: 0.5rem;
+    /* padding: 10px; */
+  }
+  .mobile-buy-now-btn {
+    width: 40%;
     font-size: 0.5rem;
     /* padding: 10px; */
   }
@@ -289,14 +314,18 @@
   }
 
   .mobile-add-to-cart-btn {
-    border: 1px solid #555;
+    border: 1px solid #b63e2b;
     background: transparent;
-    color: #333;
+    color: #b63e2b;
   }
 
   .mobile-buy-now-btn {
-    background-color: #ff6347;
+    background-color: #b63e2b;
     color: white;
     border: none;
+  }
+  .empp-card-bottom {
+    position: relative;
+    bottom: 0;
   }
 }

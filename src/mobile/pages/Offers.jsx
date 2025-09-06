@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../allStyles/offers.css";
 import Header from "../components/Header";
@@ -12,16 +12,24 @@ const OffersMobile = () => {
   useEffect(() => {
     const fetchOffers = async () => {
       try {
-        const res = await axios.get('https://rehomify.in/v1/offers/');
-        // console.log("response: ",res.data.products)
-        setOffers(res.data);
+        const res = await axios.get("https://rehomify.in/v1/offers/");
+
+        if (Array.isArray(res.data)) {
+          // ✅ Filter only active offers
+          const activeOffers = res.data.filter((offer) => offer.isActive);
+          setOffers(activeOffers);
+        } else {
+          setOffers([]); // fallback if response is not array
+        }
       } catch (err) {
-        console.error('Error fetching homepage data:', err);
+        console.error("Error fetching homepage data:", err);
+        setOffers([]);
       }
     };
 
     fetchOffers();
   }, []);
+
 
   const offersData = offers;
 

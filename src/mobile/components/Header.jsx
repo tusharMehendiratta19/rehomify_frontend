@@ -125,7 +125,7 @@ const MobileHeader = () => {
 
       {/* Top Bar */}
       <div className="mobile-top-bar">
-        <img src="/logo_rehomify.png" alt="Logo" className="mobile-logo-img" />
+        <img src="/logo_rehomify.png" alt="Logo" className="mobile-logo-img" onClick={() => navigate("/home")}/>
         <div className="mobile-logo-slogan">
           <div className="mobile-logo">ReHomify</div>
           <div className="mobile-slogan">

@@ -18,7 +18,7 @@ const categories = [
   "Double Bed",
   "Cupboard",
   "Table",
-  "Chair",
+  "Combo",
 ];
 
 const categoryMap = {
@@ -27,7 +27,7 @@ const categoryMap = {
   "Double Bed": "double_bed",
   "Cupboard": "cupboard",
   Table: "table",
-  Chair: "chair"
+  Combo: "combo"
 };
 
 const Products = () => {

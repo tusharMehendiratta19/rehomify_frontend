@@ -23,6 +23,8 @@ const ProductPage = () => {
   const [optionalImages, setOptionalImages] = useState([]);
   const alltheproducts = location.state?.allProducts || [];
   const [selectedVariety, setSelectedVariety] = useState(null);
+  const [pincode, setPincode] = useState("")
+  const [message, setMessage] = useState("");
 
 
   const similarProducts = [
@@ -169,6 +171,28 @@ const ProductPage = () => {
     }
   }
 
+  const checkDelivery = async () => {
+    try {
+      if (pincode === "") {
+        setMessage("Please Enter Pin code!")
+      } else {
+        const res = await axios.post("https://rehomify.in/v1/products/pincodeCheck", {
+          pincode,
+        });
+
+        if (res.data.success) {
+          setMessage("✅ Delivery available to your location!");
+        } else {
+          setMessage("❌ Delivery not available at this pincode.");
+        }
+      }
+
+    } catch (err) {
+      console.error("Error checking pincode:", err);
+      setMessage("⚠️ Something went wrong. Please try again.");
+    }
+  };
+
 
   if (!product) return <p></p>;
 
@@ -195,6 +219,18 @@ const ProductPage = () => {
           <div className="mobile-product-info-column">
             <h3 className="mobile-product-title">{product.name}</h3>
             <p className="mobile-product-description">{product.description}</p>
+
+
+
+            <div className="mobile-price-section">
+              <p className="mobile-original-price">
+                Price: <s>₹{(selectedVariety?.price || 0) + 2000}</s>
+              </p>
+              <p className="mobile-offer-price">
+                Offer Price: ₹{selectedVariety?.price || 0}
+              </p>
+              <span className="mobile-limited-deal-tag">Limited time deal</span>
+            </div>
 
             <div className='sizeAndQty'>
               {product.varieties && product.varieties.length > 0 && (
@@ -225,16 +261,6 @@ const ProductPage = () => {
                   {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(qty => <option key={qty} value={qty}>{qty}</option>)}
                 </select>
               </div>
-            </div>
-
-            <div className="mobile-price-section">
-              <p className="mobile-original-price">
-                Price: <s>₹{(selectedVariety?.price || 0) + 2000}</s>
-              </p>
-              <p className="mobile-offer-price">
-                Offer Price: ₹{selectedVariety?.price || 0}
-              </p>
-              <span className="mobile-limited-deal-tag">Limited time deal</span>
             </div>
 
             <div className="mobile-action-buttons">
@@ -269,20 +295,40 @@ const ProductPage = () => {
               >
                 Proceed to payment
               </button>
-              <button className="mobile-easy-emis" onClick={() => setShowEMI(true)}>
+              {/* <button className="mobile-easy-emis" onClick={() => setShowEMI(true)}>
                 EMIs
-              </button>
-            </div>
+              </button> */}
 
+            </div>
+            <div className='delivery-container'>
+              <div className="deliveryCheck">
+                <input
+                  type="tel"
+                  placeholder="Enter Your Pincode"
+                  className="pincode-input"
+                  maxLength={6}
+                  minLength={6}
+                  value={pincode}
+                  onChange={(e) => setPincode(e.target.value)}
+                />
+                <button className="pincode-check" onClick={checkDelivery}>
+                  Check
+                </button>
+              </div>
+              <div>
+                {message && <p>{message}</p>}
+              </div>
+            </div>
             <div className='hgltsAndAction'>
               <div className="mobile-highlights-section">
                 <h4>Product Highlights</h4>
                 <ul>
-                  <li><strong>Primary Material</strong>: {product.woodMaterial}</li>
+                  <li><strong>Material</strong>: {product.woodMaterial}</li>
                   {/* <li><strong>Width</strong>: {product.width} foot</li>
                 <li><strong>Length</strong>: {product.length} foot</li>
                 <li><strong>Height</strong>: {product.height} foot</li> */}
                   <li><strong>Color</strong>: {product.color}</li>
+                  <li><strong>Ratings</strong>: 4★</li>
                 </ul>
               </div>
               <div className='offerImage'>
@@ -290,16 +336,16 @@ const ProductPage = () => {
               </div>
             </div>
 
-            <div className="mobile-ratings-section">
+            {/* <div className="mobile-ratings-section">
               <h4>Ratings & Reviews</h4>
               <p><strong>4★</strong> (2,007 Ratings & 301 Reviews)</p>
-              {/* <div className="mobile-rating-breakdown">
+              <div className="mobile-rating-breakdown">
                 <div>Quality: 4.0</div>
                 <div>Design: 4.2</div>
                 <div>Storage: 4.1</div>
                 <div>Service: 4.0</div>
-              </div> */}
-            </div>
+              </div>
+            </div> */}
           </div>
         </div>
       </div>
