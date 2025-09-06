@@ -4,7 +4,7 @@ import axios from "axios";
 import Footer from "../components/Footer";
 import "../allStyles/products.css";
 import ProductPage from "../components/ProductPage";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import dummyProducts from "../../data/dummyProductData";
 import { AiFillHeart } from "react-icons/ai";    // Filled heart
 import { FiHeart } from "react-icons/fi";     // Outline heart
@@ -47,6 +47,15 @@ const Products = () => {
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [wishlist, setWishlist] = useState([]);
   const [loading, setLoading] = useState(true);
+  const location = useLocation();
+  // const [selectedCategory, setSelectedCategory] = useState("All Products");
+
+  useEffect(() => {
+    if (location.state?.selectedCategory) {
+      console.log("loc_cat: ",location.state.selectedCategory)
+      setSelectedCategory(location.state.selectedCategory);
+    }
+  }, [location.state]);
 
   useEffect(() => {
     const fetchproducts = async () => {
