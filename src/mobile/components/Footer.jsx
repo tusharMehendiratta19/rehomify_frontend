@@ -43,7 +43,7 @@ const Footer = () => {
           <div className="mobile-footer-section">
             <h5>Resell Calculator</h5>
           </div>
-          <div className="mobile-footer-section">
+          <div className="mobile-footer-section" onClick={()=>navigate("/tnc")}>
             <h5>T&C</h5>
           </div>
 

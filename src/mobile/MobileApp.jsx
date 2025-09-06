@@ -43,6 +43,7 @@ import MobileSellerOverview from "./sellers/components/MobileSellerOverview"; //
 import MobileSellerAddProduct from "./sellers/components/MobileSellerAddProduct";
 import Snackbar from "./components/Snackbar";
 import OrdersPage from "./components/OrdersPage";
+import TNC from "./components/TNC";
 
 function MobileApp() {
   const [userType, setUserType] = useState(null);
@@ -67,6 +68,7 @@ function MobileApp() {
           <Route path="/products" element={<Products />} />
           <Route path="/product/:id" element={<ProductPage />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/tnc" element={<TNC />} />
           <Route path="/forgotPassword" element={<ForgotPassword />} />
           <Route path="/cart" element={<CartCard />} />
           <Route path="/checkout" element={<Checkout />} />

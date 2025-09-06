@@ -8,6 +8,7 @@ const AddProductForm = () => {
         description: '',
         category: '',
         color: '',
+        colorCode: '',
         isRefurbished: false,
         width: '',
         length: '',
@@ -154,6 +155,7 @@ const AddProductForm = () => {
                 </select>
 
                 <input type="text" name="color" list="colorOptions" placeholder="Color" value={formData.color} onChange={handleChange} required />
+                <input type="text" name="colorCode" list="colorOptions" placeholder="ColorCode" value={formData.colorCode} onChange={handleChange} required />
 
                 <label className='isRefurbished'>
                     <input type="checkbox" name="isRefurbished" checked={formData.isRefurbished} onChange={handleChange} />
