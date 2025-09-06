@@ -10,9 +10,10 @@ const Checkout = () => {
   const navigate = useNavigate();
   const fromCart = location.state?.fromCart;
   const totalItems = location.state?.totalItems;
-  const subtotal = location.state?.subtotal;
-  console.log("subtotal:", subtotal);
+  let subtotal = location.state?.total;
   const productId = location.state?.productId;
+  console.log("fromCart:", fromCart);
+  console.log("subtotal:", subtotal);
   console.log("Product ID from location state:", productId);
   const [product, setProduct] = useState(null);
   const [showAddressForm, setShowAddressForm] = useState(false);
@@ -165,61 +166,61 @@ const Checkout = () => {
   };
 
   const placingOrder = async () => {
-  const custId = localStorage.getItem("custId");
+    const custId = localStorage.getItem("custId");
 
-  if (!custId) {
-    window.dispatchEvent(new CustomEvent("snackbar", {
-      detail: { message: "Please login to proceed", type: "error" }
-    }));
-    return;
-  } else if (!isAddressValid) {
-    window.dispatchEvent(new CustomEvent("snackbar", {
-      detail: { message: "Please add a valid address", type: "error" }
-    }));
-    return;
-  }
-
-  try {
-    // Handle both single product and multiple (from cart)
-    const productsToOrder = Array.isArray(product) ? product : [product];
-
-    for (const p of productsToOrder) {
-      const response = await axios.post("https://rehomify.in/v1/orders/addOrder", {
-        customerId: custId,
-        productId: p.id,
-        quantity: p.quantity || 1
-      });
-
-      if (response.data?.status) {
-        const result = await axios.post("https://rehomify.in/v1/auth/saveOrder", {
-          customerId: custId,
-          orderId: response.data.order._id
-        });
-
-        if (!result.data?.status) {
-          console.error("Failed to save order:", result.data);
-        }
-      } else {
-        window.dispatchEvent(new CustomEvent("snackbar", {
-          detail: { message: "Failed to place order for a product", type: "error" }
-        }));
-      }
+    if (!custId) {
+      window.dispatchEvent(new CustomEvent("snackbar", {
+        detail: { message: "Please login to proceed", type: "error" }
+      }));
+      return;
+    } else if (!isAddressValid) {
+      window.dispatchEvent(new CustomEvent("snackbar", {
+        detail: { message: "Please add a valid address", type: "error" }
+      }));
+      return;
     }
 
-    window.dispatchEvent(new CustomEvent("snackbar", {
-      detail: { message: "Order placed successfully", type: "success" }
-    }));
+    try {
+      // Handle both single product and multiple (from cart)
+      const productsToOrder = Array.isArray(product) ? product : [product];
 
-    navigate('/home'); // Redirect to success page
+      for (const p of productsToOrder) {
+        const response = await axios.post("https://rehomify.in/v1/orders/addOrder", {
+          customerId: custId,
+          productId: p.id,
+          quantity: p.quantity || 1
+        });
 
-    // Redirect or clear cart logic
-  } catch (error) {
-    console.error('Error placing order:', error);
-    window.dispatchEvent(new CustomEvent("snackbar", {
-      detail: { message: "Error placing order", type: "error" }
-    }));
-  }
-};
+        if (response.data?.status) {
+          const result = await axios.post("https://rehomify.in/v1/auth/saveOrder", {
+            customerId: custId,
+            orderId: response.data.order._id
+          });
+
+          if (!result.data?.status) {
+            console.error("Failed to save order:", result.data);
+          }
+        } else {
+          window.dispatchEvent(new CustomEvent("snackbar", {
+            detail: { message: "Failed to place order for a product", type: "error" }
+          }));
+        }
+      }
+
+      window.dispatchEvent(new CustomEvent("snackbar", {
+        detail: { message: "Order placed successfully", type: "success" }
+      }));
+
+      navigate('/home'); // Redirect to success page
+
+      // Redirect or clear cart logic
+    } catch (error) {
+      console.error('Error placing order:', error);
+      window.dispatchEvent(new CustomEvent("snackbar", {
+        detail: { message: "Error placing order", type: "error" }
+      }));
+    }
+  };
 
 
   return (
@@ -411,20 +412,9 @@ const Checkout = () => {
                   </span>
                 </div>
               </div>
+
             ) : product && (
               <div className="mobile-summary-details">
-                <div>
-                  <label>Quantity:</label>
-                  <input
-                    type="number"
-                    defaultValue="1"
-                    min="1"
-                    onChange={(e) => {
-                      const updated = { ...product, quantity: parseInt(e.target.value, 10) || 1 };
-                      setProduct(updated);
-                    }}
-                  />
-                </div>
                 <div className="mobile-summary-line">
                   <span>Subtotal</span>
                   <span>₹{product.price}</span>

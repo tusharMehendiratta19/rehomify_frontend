@@ -52,7 +52,7 @@ const Products = () => {
 
   useEffect(() => {
     if (location.state?.selectedCategory) {
-      console.log("loc_cat: ",location.state.selectedCategory)
+      console.log("loc_cat: ", location.state.selectedCategory)
       setSelectedCategory(location.state.selectedCategory);
     }
   }, [location.state]);
@@ -114,27 +114,14 @@ const Products = () => {
     }
   }
 
-  const buyNow = async (productId) => {
+  const buyNow = async (productId, price) => {
     if (!isLoggedIn) {
       showSnackbar("Please login to buy products");
       return;
     }
     try {
-      const response = await axios.post('https://rehomify.in/v1/cart/addToCart', {
-        custId: localStorage.getItem("custId"),
-        productId: productId,
-      }, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem("token")}`
-        }
-      });
+      navigate('/checkout', { state: { productId, fromCart: true, total: price } });
 
-      if (response.status) {
-        navigate('/checkout', { state: { productId, fromCart: true } });
-      } else {
-        showSnackbar("Error proceeding to Buy Now");
-      }
     } catch (error) {
       console.error('Error proceeding to Buy Now:', error);
       showSnackbar("Error proceeding to Buy Now");
@@ -384,7 +371,7 @@ const Products = () => {
 
                     <button className="btn-primary" onClick={(e) => {
                       e.stopPropagation();
-                      buyNow(product.id);
+                      buyNow(product.id, product.price);
                     }}>
                       Buy Now
                     </button>

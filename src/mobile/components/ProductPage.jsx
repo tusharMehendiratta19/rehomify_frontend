@@ -135,7 +135,7 @@ const ProductPage = () => {
     }
   }
 
-  const buyNow = async (productId) => {
+  const buyNow = async (productId, price) => {
     if (!isLoggedIn) {
       window.dispatchEvent(new CustomEvent("snackbar", {
         detail: { message: "Please login to buy products", type: "error" }
@@ -144,24 +144,7 @@ const ProductPage = () => {
       return;
     }
     try {
-      const response = await axios.post('https://rehomify.in/v1/cart/addToCart', {
-        custId: localStorage.getItem("custId"),
-        productId: productId,
-      }, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem("token")}`
-        }
-      });
-
-      if (response.status) {
-        navigate('/checkout', { state: { productId, fromCart: true } });
-      } else {
-        window.dispatchEvent(new CustomEvent("snackbar", {
-          detail: { message: "Error proceeding to Buy Now", type: "error" }
-        }));
-        // showSnackbar("Error proceeding to Buy Now");
-      }
+      navigate('/checkout', { state: { productId, fromCart: true, total: price } });
     } catch (error) {
       console.error('Error proceeding to Buy Now:', error);
       window.dispatchEvent(new CustomEvent("snackbar", {
@@ -290,7 +273,7 @@ const ProductPage = () => {
                 className="mobile-proceed-to-payment"
                 onClick={(e) => {
                   e.stopPropagation();
-                  buyNow(product.id);
+                  buyNow(product.id, selectedVariety.price);
                 }}
               >
                 Proceed to payment

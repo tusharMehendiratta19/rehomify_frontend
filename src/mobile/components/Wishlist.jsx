@@ -78,27 +78,13 @@ const Wishlist = () => {
         }
     }
 
-    const buyNow = async (productId) => {
+    const buyNow = async (productId, price) => {
         if (!isLoggedIn) {
             showSnackbar("Please login to buy products");
             return;
         }
         try {
-            const response = await axios.post('https://rehomify.in/v1/cart/addToCart', {
-                custId: localStorage.getItem("custId"),
-                productId: productId,
-            }, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem("token")}`
-                }
-            });
-
-            if (response.status) {
-                navigate('/checkout', { state: { productId, fromCart: true } });
-            } else {
-                showSnackbar("Error proceeding to Buy Now");
-            }
+            navigate('/checkout', { state: { productId, fromCart: true } });
         } catch (error) {
             console.error('Error proceeding to Buy Now:', error);
             showSnackbar("Error proceeding to Buy Now");
@@ -243,7 +229,7 @@ const Wishlist = () => {
 
                                     <button className="btn-primary" onClick={(e) => {
                                         e.stopPropagation();
-                                        buyNow(item.id);
+                                        buyNow(item.id, item.price);
                                     }}>
                                         Buy Now
                                     </button>
