@@ -368,7 +368,7 @@ const Checkout = () => {
               <div className="mobile-summary-details">
                 {product.map((item, index) => (
                   <div key={index} className="mobile-summary-product">
-                    <p><strong>{item.name}</strong></p>
+                    {/* <p><strong>{item.name}</strong></p> */}
                     <div>
                       {/* <label>Quantity:</label>
                       <input
@@ -386,7 +386,7 @@ const Checkout = () => {
                     </div>
                     <div className="mobile-summary-line">
                       <span>Price</span>
-                      <span>₹{item.price} * 1</span>
+                      <span>₹{item.price}</span>
                     </div>
                     <hr />
                   </div>
