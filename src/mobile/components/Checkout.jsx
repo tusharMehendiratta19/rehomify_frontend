@@ -10,7 +10,8 @@ const Checkout = () => {
   const navigate = useNavigate();
   const fromCart = location.state?.fromCart;
   const totalItems = location.state?.totalItems;
-  console.log("totalItems:", totalItems);
+  const subtotal = location.state?.subtotal;
+  console.log("subtotal:", subtotal);
   const productId = location.state?.productId;
   console.log("Product ID from location state:", productId);
   const [product, setProduct] = useState(null);
@@ -366,7 +367,7 @@ const Checkout = () => {
 
             {Array.isArray(product) && product.length > 0 ? (
               <div className="mobile-summary-details">
-                {product.map((item, index) => (
+                {[1].map((item, index) => (
                   <div key={index} className="mobile-summary-product">
                     {/* <p><strong>{item.name}</strong></p> */}
                     <div>
@@ -386,7 +387,7 @@ const Checkout = () => {
                     </div>
                     <div className="mobile-summary-line">
                       <span>Price</span>
-                      <span>₹{item.price}</span>
+                      <span>₹{subtotal}</span>
                     </div>
                     <hr />
                   </div>
@@ -396,7 +397,7 @@ const Checkout = () => {
                 <div className="mobile-summary-line">
                   <span>Subtotal</span>
                   <span>
-                    ₹{product.reduce((sum, p) => sum + (p.price * (p.quantity || 1)), 0)}
+                    ₹{subtotal}
                   </span>
                 </div>
                 <div className="mobile-summary-line">
@@ -406,7 +407,7 @@ const Checkout = () => {
                 <div className="mobile-summary-line mobile-total">
                   <span>Total</span>
                   <span>
-                    ₹{product.reduce((sum, p) => sum + (p.price * (p.quantity || 1)), 0)}
+                    ₹{subtotal}
                   </span>
                 </div>
               </div>
