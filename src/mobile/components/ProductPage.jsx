@@ -135,7 +135,7 @@ const ProductPage = () => {
     }
   }
 
-  const buyNow = async (productId, price) => {
+  const buyNow = async (productId, price, qty) => {
     if (!isLoggedIn) {
       window.dispatchEvent(new CustomEvent("snackbar", {
         detail: { message: "Please login to buy products", type: "error" }
@@ -144,7 +144,7 @@ const ProductPage = () => {
       return;
     }
     try {
-      navigate('/checkout', { state: { productId, fromCart: true, total: price } });
+      navigate('/checkout', { state: { productId, fromCart: true, total: price * qty } });
     } catch (error) {
       console.error('Error proceeding to Buy Now:', error);
       window.dispatchEvent(new CustomEvent("snackbar", {
@@ -273,7 +273,7 @@ const ProductPage = () => {
                 className="mobile-proceed-to-payment"
                 onClick={(e) => {
                   e.stopPropagation();
-                  buyNow(product.id, selectedVariety.price);
+                  buyNow(product.id, selectedVariety.price, selectedQuantity);
                 }}
               >
                 Proceed to payment
