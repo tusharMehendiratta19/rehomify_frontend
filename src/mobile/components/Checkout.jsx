@@ -205,7 +205,7 @@ const Checkout = () => {
     }
     try {
       const response = await axios.post(
-        "http://localhost:5000/v1/auth/saveCustomerAddress",
+        "https://rehomify.in/v1/auth/saveCustomerAddress",
         {
           custId: localStorage.getItem("custId"),
           ...address,

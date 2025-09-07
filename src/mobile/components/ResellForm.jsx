@@ -37,7 +37,7 @@ const ResellForm = ({ handleCancel }) => {
 
   const checkPincode = async (pin) => {
     try {
-      const res = await axios.post("http://localhost:5000/v1/products/pincodeCheck", {
+      const res = await axios.post("https://rehomify.in/v1/products/pincodeCheck", {
         pincode: pin,
       });
       if (res.data.success) {
@@ -80,7 +80,7 @@ const ResellForm = ({ handleCancel }) => {
       }
 
       const response = await axios.post(
-        "http://localhost:5000/v1/products/addResellProduct",
+        "https://rehomify.in/v1/products/addResellProduct",
         formDataToSend,
         {
           headers: {
