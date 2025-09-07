@@ -97,7 +97,7 @@
   margin-bottom: 10px;
 }
 
-.addadrsbtn{
+.addadrsbtn {
   width: 50%;
   margin-left: 25%;
   padding: 10px;
@@ -193,4 +193,63 @@
   margin-top: 8px;
   margin-bottom: 8px;
   border-radius: 4px;
+}
+.quantity-controls {
+  display: flex;
+}
+
+.quantity-controls p{
+  width: 25%;
+  text-align: center;
+}
+
+.qty-buttons {
+  display: flex;
+  justify-content: space-between;
+  width: 28%;
+}
+
+.qty-buttons button {
+  background-color: #b63e2b;
+  border: 1px solid #b63e2b;
+  width: 25px;
+  color: white;
+  height: 25px;
+  border-radius: 50%;
+  font-weight: bold;
+  text-align: center;
+  align-items: center;
+}
+.mobile-coupon-input{
+  background-color: white;
+  width: 100%;
+  height: auto;
+  margin: 10px 0 20px 0;
+  border: 1px solid lightgray;
+  border-radius: 10px;
+  padding: 5px;
+}
+.mobile-coupon-input input{
+  padding: 3px;
+  border-radius: 5px;
+  margin-top: 5px;
+  border: 1px solid lightgray;
+}
+.coupon-list {
+  background: #fff;
+  border: 1px solid #ccc;
+  margin-top: 4px;
+  border-radius: 6px;
+  max-height: 150px;
+  overflow-y: auto;
+  padding: 0;
+  list-style: none;
+  position: absolute;
+  width: 90%;
+  z-index: 100;
+}
+
+.coupon-item {
+  padding: 8px 10px;
+  cursor: pointer;
 }

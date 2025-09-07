@@ -148,29 +148,6 @@ const Signup = () => {
             </div>
           </div>
 
-          <div className="mobile-form-row">
-            <div className="mobile-form-group">
-              <label>Password</label>
-              <input
-                type="password"
-                name="password"
-                value={form.password}
-                onChange={handleChange}
-                required
-              />
-            </div>
-            <div className="mobile-form-group">
-              <label>Confirm Password</label>
-              <input
-                type="password"
-                name="confirmPassword"
-                value={form.confirmPassword}
-                onChange={handleChange}
-                required
-              />
-            </div>
-          </div>
-
           <button type="submit">Submit</button>
 
           <p>
