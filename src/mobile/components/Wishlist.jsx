@@ -84,7 +84,7 @@ const Wishlist = () => {
             return;
         }
         try {
-            navigate('/checkout', { state: { productId, fromCart: true } });
+            navigate('/checkout', { state: { productId, fromCart: true, total: price } });
         } catch (error) {
             console.error('Error proceeding to Buy Now:', error);
             showSnackbar("Error proceeding to Buy Now");

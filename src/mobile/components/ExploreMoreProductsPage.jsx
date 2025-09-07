@@ -264,7 +264,7 @@ const ExploreMoreProductsPage = () => {
                                                     className="mobile-buy-now-btn"
                                                     onClick={(e) => {
                                                         e.stopPropagation();
-                                                        buyNow(product._id.product.price);
+                                                        buyNow(product._id,product.price);
                                                     }}
                                                 >
                                                     Buy Now

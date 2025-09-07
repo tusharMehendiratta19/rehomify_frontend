@@ -8,14 +8,15 @@ import axios from 'axios';
 const Checkout = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const fromCart = location.state?.fromCart;
-  const totalItems = location.state?.totalItems;
-  let subtotal = location.state?.total;
-  const productId = location.state?.productId;
-  console.log("fromCart:", fromCart);
-  console.log("subtotal:", subtotal);
-  console.log("Product ID from location state:", productId);
+
+  const fromCart = location.state?.fromCart || false;
+  const totalItems = location.state?.totalItems || 0;
+  const productId = location.state?.productId || null;
+  const locationSubtotal = location.state?.total || 0;
+  const qty = location.state?.qty || 1;
+
   const [product, setProduct] = useState(null);
+  const [subtotal, setSubtotal] = useState(locationSubtotal);
   const [showAddressForm, setShowAddressForm] = useState(false);
   const [userPhone, setUserPhone] = useState("");
   const [address, setAddress] = useState({
@@ -27,26 +28,38 @@ const Checkout = () => {
     city: '',
     state: ''
   });
-
   const [isAddressValid, setIsAddressValid] = useState(false);
+  console.log("fromCart:", fromCart);
+  console.log("subtotal:", subtotal);
+  console.log("Product ID from location state:", productId);
+  console.log("quantity:", qty);
+  useEffect(() => {
+    setSubtotal(locationSubtotal);
+  }, [locationSubtotal]);
+
   useEffect(() => {
     if (fromCart && productId) {
       fetchProductDetails(productId);
       fetchCustomerDetails();
     } else if (fromCart) {
       fetchCustomerDetails();
+    } else if (productId) {
+      fetchProductDetails(productId);
     }
   }, [fromCart, productId]);
 
+  // ✅ Fetch single product
   const fetchProductDetails = async (id) => {
     try {
       const response = await axios.get(`https://rehomify.in/v1/products/${id}`);
-      setProduct(response.data);
+      const prod = response.data;
+      setProduct(prod);
     } catch (error) {
       console.error('Error fetching product:', error);
     }
   };
 
+  // ✅ Fetch customer details + cart products
   const fetchCustomerDetails = async () => {
     const custId = localStorage.getItem("custId");
     if (!custId) {
@@ -58,7 +71,6 @@ const Checkout = () => {
 
     try {
       const response = await axios.get(`https://rehomify.in/v1/auth/getCustomerDetails/${custId}`);
-
       if (response.data?.status) {
         const customer = response.data.data;
         setUserPhone(customer.mobileNo);
@@ -74,52 +86,43 @@ const Checkout = () => {
           state: customer.address?.state || ''
         });
 
-        // ✅ Fetch product details for all items in cart
         if (Array.isArray(customer.cart) && customer.cart.length > 0) {
           const productDetails = await Promise.all(
             customer.cart.map(async (item) => {
               try {
                 const res = await axios.get(`https://rehomify.in/v1/products/${item.productId}`);
-                return res.data;
+                return { ...res.data, quantity: item.quantity || 1 };
               } catch (err) {
                 console.error("Error fetching product for ID:", item.productId, err);
-                return null; // or skip/handle as needed
+                return null;
               }
             })
           );
 
-          // Filter out null responses in case of errors
           const validProducts = productDetails.filter(p => p !== null);
-          setProduct(validProducts); // Set the fetched array
+          setProduct(validProducts);
+
+          // ✅ calculate subtotal from cart
+          // const sum = validProducts.reduce((acc, p) => acc + (p.price * (p.quantity || 1)), 0);
+          // setSubtotal(sum);
         } else {
-          setProduct([]); // Empty cart
+          setProduct([]);
+          // setSubtotal(0);
         }
-      } else {
-        window.dispatchEvent(new CustomEvent("snackbar", {
-          detail: { message: "Failed to fetch customer details", type: "error" }
-        }));
       }
     } catch (error) {
       console.error('Error fetching customer details:', error);
-      window.dispatchEvent(new CustomEvent("snackbar", {
-        detail: { message: "Error fetching customer details", type: "error" }
-      }));
     }
   };
 
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setAddress((prev) => ({
-      ...prev,
-      [name]: value
-    }));
+    setAddress((prev) => ({ ...prev, [name]: value }));
   };
-
 
   const addCustomerAddress = async (e) => {
     e.preventDefault();
-    const { name, addressLine1, addressLine2, landmark, pinCode, city, state } = address;
+    const { name, addressLine1, pinCode, city, state } = address;
     if (!name || !addressLine1 || !pinCode || !city || !state) {
       window.dispatchEvent(new CustomEvent("snackbar", {
         detail: { message: "Please fill all required fields", type: "error" }
@@ -129,99 +132,43 @@ const Checkout = () => {
     try {
       const response = await axios.post("https://rehomify.in/v1/auth/saveCustomerAddress", {
         custId: localStorage.getItem("custId"),
-        name,
-        addressLine1,
-        addressLine2,
-        landmark,
-        pinCode,
-        city,
-        state
+        ...address
       });
       if (response.data?.status) {
-        window.dispatchEvent(new CustomEvent("snackbar", {
-          detail: { message: "Address added successfully", type: "success" }
-        }));
         setIsAddressValid(true);
         setShowAddressForm(false);
-        setAddress({
-          name: response.data.data.address.name || '',
-          addressLine1: response.data.data.address.addressLine1 || '',
-          addressLine2: response.data.data.address.addressLine2 || '',
-          landmark: response.data.data.address.landmark || '',
-          pinCode: response.data.data.address.pinCode || '',
-          city: response.data.data.address.city || '',
-          state: response.data.data.address.state || ''
-        });
-      } else {
-        window.dispatchEvent(new CustomEvent("snackbar", {
-          detail: { message: "Failed to add address", type: "error" }
-        }));
+        setAddress(response.data.data.address || {});
       }
     } catch (error) {
       console.error('Error adding address:', error);
-      window.dispatchEvent(new CustomEvent("snackbar", {
-        detail: { message: "Error adding address", type: "error" }
-      }));
     }
   };
 
   const placingOrder = async () => {
     const custId = localStorage.getItem("custId");
-
-    if (!custId) {
-      window.dispatchEvent(new CustomEvent("snackbar", {
-        detail: { message: "Please login to proceed", type: "error" }
-      }));
-      return;
-    } else if (!isAddressValid) {
-      window.dispatchEvent(new CustomEvent("snackbar", {
-        detail: { message: "Please add a valid address", type: "error" }
-      }));
-      return;
-    }
+    if (!custId) return;
+    if (!isAddressValid) return;
 
     try {
-      // Handle both single product and multiple (from cart)
       const productsToOrder = Array.isArray(product) ? product : [product];
-
       for (const p of productsToOrder) {
         const response = await axios.post("https://rehomify.in/v1/orders/addOrder", {
           customerId: custId,
           productId: p.id,
           quantity: p.quantity || 1
         });
-
         if (response.data?.status) {
-          const result = await axios.post("https://rehomify.in/v1/auth/saveOrder", {
+          await axios.post("https://rehomify.in/v1/auth/saveOrder", {
             customerId: custId,
             orderId: response.data.order._id
           });
-
-          if (!result.data?.status) {
-            console.error("Failed to save order:", result.data);
-          }
-        } else {
-          window.dispatchEvent(new CustomEvent("snackbar", {
-            detail: { message: "Failed to place order for a product", type: "error" }
-          }));
         }
       }
-
-      window.dispatchEvent(new CustomEvent("snackbar", {
-        detail: { message: "Order placed successfully", type: "success" }
-      }));
-
-      navigate('/home'); // Redirect to success page
-
-      // Redirect or clear cart logic
+      navigate('/home');
     } catch (error) {
       console.error('Error placing order:', error);
-      window.dispatchEvent(new CustomEvent("snackbar", {
-        detail: { message: "Error placing order", type: "error" }
-      }));
     }
   };
-
 
   return (
     <>
@@ -229,6 +176,7 @@ const Checkout = () => {
       <div className="mobile-checkout-layout">
         <h2 className="mobile-checkout-title">CHECK-OUT</h2>
 
+        {/* ✅ Sidebar product summary */}
         <div className="mobile-checkout-sidebar">
           {Array.isArray(product) ? (
             product.map((p, index) => (
@@ -237,6 +185,7 @@ const Checkout = () => {
                 <img src={p.image} alt={p.name} className="mobile-accordion-image" />
                 <p><strong>Color:</strong> {p.color}</p>
                 <p><strong>Price:</strong> ₹{p.price}</p>
+                <p><strong>Qty:</strong> {p.quantity || 1}</p>
               </details>
             ))
           ) : (
@@ -251,14 +200,13 @@ const Checkout = () => {
           )}
         </div>
 
-
         <div className="mobile-checkout-container">
+          {/* ✅ Login + Address */}
           <div className="mobile-checkout-topper">
             <div className="mobile-checkout-section">
               <div className="mobile-checkout-section-header">LOGIN ✔</div>
               <div className="mobile-checkout-section-body">
                 <span>{userPhone}</span>
-                <button className="mobile-change-btn">CHANGE</button>
               </div>
             </div>
 
@@ -266,173 +214,44 @@ const Checkout = () => {
               <div className="mobile-checkout-section-header">DELIVERY ADDRESS ✔</div>
               {isAddressValid && <div className="mobile-checkout-section-body">
                 <span>
-                  <strong>{address.name}</strong> {address.addressLine1} {address.addressLine2} {address.city} {address.state} <strong>{address.pinCode}</strong> <br />
-                  Landmark: {address.landmark}
+                  <strong>{address.name}</strong> {address.addressLine1}, {address.city}, {address.state} {address.pinCode}
                 </span>
-                <button
-                  className="mobile-change-btn"
-                  onClick={() => setShowAddressForm(!showAddressForm)}
-                >
-                  CHANGE
-                </button>
               </div>}
-              {!isAddressValid && <div className="mobile-checkout-section-body">
-                <span>Please fill in your address details.</span>
-                <button
-                  className="mobile-change-btn"
-                  onClick={() => setShowAddressForm(!showAddressForm)}
-                >
-                  ADD ADDRESS
-                </button>
-              </div>}
+              {!isAddressValid && (
+                <div className="mobile-checkout-section-body">
+                  <span>Please fill in your address details.</span>
+                  <button
+                    className="mobile-change-btn"
+                    onClick={() => setShowAddressForm(!showAddressForm)}
+                  >
+                    ADD ADDRESS
+                  </button>
+                </div>
+              )}
             </div>
           </div>
 
-          {showAddressForm && (
-            <form className="mobile-address-form" onSubmit={addCustomerAddress}>
-              <div className='mobile-checkout-address-form'>
-                <input
-                  type="text"
-                  name="name"
-                  placeholder="Full Name*"
-                  value={address.name}
-                  onChange={handleInputChange}
-                  required
-                />
-              </div>
-              <input
-                type="text"
-                name="addressLine1"
-                placeholder="Address Line 1 *"
-                value={address.addressLine1}
-                onChange={handleInputChange}
-                required
-              />
-              <input
-                type="text"
-                name="addressLine2"
-                placeholder="Address Line 2 *"
-                value={address.addressLine2}
-                onChange={handleInputChange}
-              />
-              <input
-                type="text"
-                name="landmark"
-                placeholder="Landmark"
-                value={address.landmark}
-                onChange={handleInputChange}
-              />
-              <div className='mobile-checkout-address-form'>
-                <input
-                  type="tel"
-                  name="pinCode"
-                  placeholder="Pin Code *"
-                  value={address.pinCode}
-                  onChange={handleInputChange}
-                  maxLength={6}
-                  required
-                />
-                <input
-                  type="text"
-                  name="city"
-                  placeholder="City/Town *"
-                  value={address.city}
-                  onChange={handleInputChange}
-                  required
-                />
-                <input
-                  type="text"
-                  name="state"
-                  placeholder="State *"
-                  value={address.state}
-                  onChange={handleInputChange}
-                  required
-                />
-              </div>
-              <button type="submit" className='addadrsbtn'>ADD ADDRESS</button>
-            </form>
-          )}
-
-
-          <div className="mobile-payment-section">
-            <div className="mobile-checkout-section-header">PAYMENT OPTIONS</div>
-            <div className="mobile-payment-option"><label>Pay with UPI</label><input type="radio" name="payment" /></div>
-            <div className="mobile-payment-option"><label>EMI</label><input type="radio" name="payment" /></div>
-            <div className="mobile-payment-option"><label>Debit/Credit Cards</label><input type="radio" name="payment" /></div>
-          </div>
-
+          {/* ✅ Order summary */}
           <div className="mobile-order-summary">
             <h3>ORDER SUMMARY</h3>
-            {/* <p>Your Order will be delivered in 3–5 working days.</p>
-            <p><strong>Estimated Delivery Date:</strong> 29 May 2025</p> */}
-
-            {Array.isArray(product) && product.length > 0 ? (
-              <div className="mobile-summary-details">
-                {[1].map((item, index) => (
-                  <div key={index} className="mobile-summary-product">
-                    {/* <p><strong>{item.name}</strong></p> */}
-                    <div>
-                      {/* <label>Quantity:</label>
-                      <input
-                        type="number"
-                        defaultValue={1}
-                        min="1"
-                        className="product-quantity-input"
-                        onChange={(e) => {
-                          const updated = [...product];
-                          updated[index].quantity = parseInt(e.target.value, 10) || 1;
-                          setProduct(updated);
-                        }}
-                        disabled
-                      /> */}
-                    </div>
-                    <div className="mobile-summary-line">
-                      <span>Price</span>
-                      <span>₹{subtotal}</span>
-                    </div>
-                    <hr />
-                  </div>
-                ))}
-
-                {/* Calculate total */}
-                <div className="mobile-summary-line">
-                  <span>Subtotal</span>
-                  <span>
-                    ₹{subtotal}
-                  </span>
-                </div>
-                <div className="mobile-summary-line">
-                  <span>Shipping</span>
-                  <span>Free shipping</span>
-                </div>
-                <div className="mobile-summary-line mobile-total">
-                  <span>Total</span>
-                  <span>
-                    ₹{subtotal}
-                  </span>
-                </div>
+            <div className="mobile-summary-details">
+              <div className="mobile-summary-line">
+                <span>Subtotal</span>
+                <span>₹{subtotal * qty}</span>
               </div>
-
-            ) : product && (
-              <div className="mobile-summary-details">
-                <div className="mobile-summary-line">
-                  <span>Subtotal</span>
-                  <span>₹{product.price}</span>
-                </div>
-                <div className="mobile-summary-line">
-                  <span>Shipping</span>
-                  <span>Free shipping</span>
-                </div>
-                <div className="mobile-summary-line mobile-total">
-                  <span>Total</span>
-                  <span>₹{product.price}</span>
-                </div>
+              <div className="mobile-summary-line">
+                <span>Shipping</span>
+                <span>Free shipping</span>
               </div>
-            )}
-
-            <button className="mobile-payment-btn" onClick={placingOrder}>PROCEED TO PAYMENT</button>
+              <div className="mobile-summary-line mobile-total">
+                <span>Total</span>
+                <span>₹{subtotal * qty}</span>
+              </div>
+            </div>
+            <button className="mobile-payment-btn" onClick={placingOrder}>
+              PROCEED TO PAYMENT
+            </button>
           </div>
-
         </div>
       </div>
       <Footer />

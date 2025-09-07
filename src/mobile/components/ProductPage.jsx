@@ -144,7 +144,10 @@ const ProductPage = () => {
       return;
     }
     try {
-      navigate('/checkout', { state: { productId, fromCart: true, total: price * qty } });
+      console.log("productId: ", productId)
+      console.log("price: ", price)
+      console.log("quantity: ", qty)
+      navigate('/checkout', { state: { productId, fromCart: true, total: price, qty: qty } });
     } catch (error) {
       console.error('Error proceeding to Buy Now:', error);
       window.dispatchEvent(new CustomEvent("snackbar", {
