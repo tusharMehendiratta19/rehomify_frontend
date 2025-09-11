@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   FaUserCircle,
@@ -21,6 +21,9 @@ const MobileHeader = () => {
 
   const isLoggedIn = !!localStorage.getItem("token");
 
+  const dropdownRef = useRef(null);
+  const sideNavRef = useRef(null);
+
   useEffect(() => {
     const interval = setInterval(() => {
       setIndex((prev) => (prev + 1) % slogans.length);
@@ -29,9 +32,34 @@ const MobileHeader = () => {
   }, []);
 
   useEffect(() => {
-    axios.get("https://rehomify.in/v1/products/all")
-      .then(res => setAllProducts(res.data.data || []))
-      .catch(err => console.error("Error fetching products:", err));
+    axios
+      .get("https://rehomify.in/v1/products/all")
+      .then((res) => setAllProducts(res.data.data || []))
+      .catch((err) => console.error("Error fetching products:", err));
+  }, []);
+
+  // Close dropdown/side nav if click happens outside
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target) &&
+        !e.target.closest(".mobile-user-icon")
+      ) {
+        setDropdownOpen(false);
+      }
+
+      if (
+        sideNavRef.current &&
+        !sideNavRef.current.contains(e.target) &&
+        !e.target.closest(".burger-icon")
+      ) {
+        setSideNavOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
@@ -68,9 +96,11 @@ const MobileHeader = () => {
       case "logout":
         localStorage.removeItem("token");
         localStorage.removeItem("custId");
-        window.dispatchEvent(new CustomEvent("snackbar", {
-          detail: { message: "Logged out successfully.", type: "success" }
-        }));
+        window.dispatchEvent(
+          new CustomEvent("snackbar", {
+            detail: { message: "Logged out successfully.", type: "success" },
+          })
+        );
         setTimeout(() => navigate("/login"), 1000);
         break;
       default:
@@ -109,35 +139,58 @@ const MobileHeader = () => {
     <div className="mobile-header-container">
       {/* Side Navbar */}
       {sideNavOpen && (
-        <div className="mobile-side-nav">
+        <div className="mobile-side-nav" ref={sideNavRef}>
           <div className="side-nav-links">
-            <Link to="/home" onClick={toggleSideNav} className="nav-link">Home</Link>
-            <Link to="/products" onClick={toggleSideNav} className="nav-link">Products</Link>
-            <span onClick={() => { toggleSideNav(); handleProtectedRoute("/resell"); }} className="nav-link">
+            <Link to="/home" onClick={toggleSideNav} className="nav-link">
+              Home
+            </Link>
+            <Link to="/products" onClick={toggleSideNav} className="nav-link">
+              Products
+            </Link>
+            <span
+              onClick={() => {
+                toggleSideNav();
+                handleProtectedRoute("/resell");
+              }}
+              className="nav-link"
+            >
               Resell
             </span>
-            <Link to="/offers" onClick={toggleSideNav} className="nav-link">Offers</Link>
-            <Link to="/trends" onClick={toggleSideNav} className="nav-link">Tips & Ideas</Link>
-            <Link to="/sellOptions" onClick={toggleSideNav} className="nav-link">Sell Your Furniture</Link>
+            <Link to="/offers" onClick={toggleSideNav} className="nav-link">
+              Offers
+            </Link>
+            <Link to="/trends" onClick={toggleSideNav} className="nav-link">
+              Tips & Ideas
+            </Link>
+            <Link to="/sellOptions" onClick={toggleSideNav} className="nav-link">
+              Sell Your Furniture
+            </Link>
           </div>
         </div>
       )}
 
       {/* Top Bar */}
       <div className="mobile-top-bar">
-        <img src="/logo_rehomify.png" alt="Logo" className="mobile-logo-img" onClick={() => navigate("/home")}/>
+        <img
+          src="/logo_rehomify.png"
+          alt="Logo"
+          className="mobile-logo-img"
+          onClick={() => navigate("/home")}
+        />
         <div className="mobile-logo-slogan">
           <div className="mobile-logo">ReHomify</div>
-          <div className="mobile-slogan">
-            Buy '{slogans[index]}' on easy EMIs
-          </div>
+          <div className="mobile-slogan">Buy '{slogans[index]}' on easy EMIs</div>
         </div>
-        <FaUserCircle size={22} onClick={toggleDropdown} className="mobile-user-icon" />
+        <FaUserCircle
+          size={22}
+          onClick={toggleDropdown}
+          className="mobile-user-icon"
+        />
       </div>
 
       {/* Dropdown Menu */}
       {dropdownOpen && (
-        <div className="mobile-dropdown-menu">
+        <div className="mobile-dropdown-menu" ref={dropdownRef}>
           {isLoggedIn ? (
             <>
               <button onClick={() => handleOptionClick("profile")}>Profile</button>
@@ -153,7 +206,11 @@ const MobileHeader = () => {
 
       {/* Bottom Bar */}
       <div className="mobile-bottom-bar" style={{ position: "relative" }}>
-        <FaBars size={20} onClick={toggleSideNav} className="burger-icon" />
+        <FaBars
+          size={20}
+          onClick={toggleSideNav}
+          className="burger-icon"
+        />
         <input
           type="text"
           placeholder="Search..."
@@ -162,19 +219,31 @@ const MobileHeader = () => {
           onChange={handleSearchChange}
           onKeyDown={handleKeyDown}
         />
-        <button className="mobile-resell-button" onClick={() => navigate("/sellOptions")}> {
-          "RESELL".split("").map((char, i) => (
-            <span key={i} className="resell-letter" style={{ animationDelay: `${i * 0.1}s` }}>{char}</span>
-          ))
-        }</button>
-        <span onClick={() => handleProtectedRoute("/cart")} className="mobile-cart-link">
+        <button
+          className="mobile-resell-button"
+          onClick={() => navigate("/sellOptions")}
+        >
+          {"RESELL".split("").map((char, i) => (
+            <span
+              key={i}
+              className="resell-letter"
+              style={{ animationDelay: `${i * 0.1}s` }}
+            >
+              {char}
+            </span>
+          ))}
+        </button>
+        <span
+          onClick={() => handleProtectedRoute("/cart")}
+          className="mobile-cart-link"
+        >
           <FaShoppingCart className="mobile-cart-icon" size={20} />
         </span>
 
         {/* Suggestions Box */}
         {searchText && suggestions.length > 0 && (
           <div className="mobile-search-suggestions">
-            {suggestions.map(item => (
+            {suggestions.map((item) => (
               <div
                 key={item._id}
                 className="mobile-suggestion-item"
@@ -184,7 +253,10 @@ const MobileHeader = () => {
                   setSuggestions([]);
                 }}
               >
-                {item.name} – <span style={{ fontStyle: "italic", color: "#888" }}>{item.category}</span>
+                {item.name} –{" "}
+                <span style={{ fontStyle: "italic", color: "#888" }}>
+                  {item.category}
+                </span>
               </div>
             ))}
           </div>

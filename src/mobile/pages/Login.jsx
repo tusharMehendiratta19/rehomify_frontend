@@ -7,6 +7,7 @@ const MobileLogin = () => {
   const [form, setForm] = useState({ username: '', otp: '' });
   const [otpSent, setOtpSent] = useState(false);
   const [snackbar, setSnackbar] = useState({ show: false, message: '', success: true });
+  const [highlightSignup, setHighlightSignup] = useState(false); // <-- added
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -30,7 +31,14 @@ const MobileLogin = () => {
           showSnackbar('OTP sent successfully!', true);
           setOtpSent(true);
         } else {
-          showSnackbar(result.result || 'Failed to send OTP!', false);
+          const errorMsg = result.result || 'Number not registered. Please Sign Up.';
+          showSnackbar(errorMsg, false);
+
+          // highlight signup link if number not registered
+          if (errorMsg.toLowerCase().includes("sign up")) {
+            setHighlightSignup(true);
+            setTimeout(() => setHighlightSignup(false), 3000); // remove highlight after 3s
+          }
         }
       } catch (err) {
         showSnackbar('Server error. Please try again.', false);
@@ -75,7 +83,7 @@ const MobileLogin = () => {
       <div className="mobile-login-content">
         <h4>Welcome to ReHomify</h4>
         <form className="mobile-login-form" onSubmit={handleSubmit}>
-          <label>Mobile Number</label>
+          <label>WhatsApp Number</label>
           <br />
           <input
             type="tel"
@@ -84,7 +92,7 @@ const MobileLogin = () => {
             maxLength={10}
             value={form.username}
             onChange={handleChange}
-            placeholder='Enter Your 10 digit mobile number'
+            placeholder='Enter Your 10 digit WhatsApp number'
             required
           />
 
@@ -106,7 +114,13 @@ const MobileLogin = () => {
           <button type="submit">{otpSent ? 'Submit' : 'Get OTP'}</button>
 
           <p className="mobile-signup-link">
-            New User? <span onClick={() => navigate('/signup')}>Sign Up</span>
+            New User?{" "}
+            <span
+              className={highlightSignup ? "highlight" : ""}
+              onClick={() => navigate('/signup')}
+            >
+              Sign Up
+            </span>
           </p>
         </form>
       </div>
@@ -114,21 +128,6 @@ const MobileLogin = () => {
       {snackbar.show && (
         <div
           className={`snackbar ${snackbar.success ? 'success' : 'error'}`}
-          style={{
-            position: 'fixed',
-            bottom: '20px',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            padding: '12px 16px',
-            borderRadius: '8px',
-            fontSize: '14px',
-            maxWidth: '90%',
-            textAlign: 'center',
-            zIndex: 9999,
-            backgroundColor: snackbar.success ? '#4CAF50' : '#F44336',
-            color: '#fff',
-            boxShadow: '0 2px 10px rgba(0,0,0,0.2)',
-          }}
         >
           {snackbar.message}
         </div>

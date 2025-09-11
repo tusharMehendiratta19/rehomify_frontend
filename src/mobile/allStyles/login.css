@@ -1,201 +1,201 @@
 @media (max-width: 768px) {
-.mobile-login-wrapper {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-}
+  .mobile-login-wrapper {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+  }
 
-.mobile-login-bg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: 0;
-}
+  .mobile-login-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+  }
 
-.mobile-login-content {
-  position: relative;
-  z-index: 1;
-  background: rgba(255, 255, 255, 0.92);
-  margin: 15% auto 0;
-  width: 90%;
-  padding: 1.5rem;
-  border-radius: 12px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
-}
+  .mobile-login-content {
+    position: relative;
+    z-index: 1;
+    background: rgba(255, 255, 255, 0.92);
+    margin: 15% auto 0;
+    width: 90%;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+  }
 
-.mobile-login-content h4 {
-  font-size: 1.1rem;
-  text-align: center;
-  margin-bottom: 20px;
-}
+  .mobile-login-content h4 {
+    font-size: 1.1rem;
+    text-align: center;
+    margin-bottom: 20px;
+  }
 
-.mobile-login-form input[type="email"],
-.mobile-login-form input[type="tel"],
-.mobile-login-form input[type="password"] {
-  width: 100%;
-  padding: 10px 12px;
-  margin-bottom: 16px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 14px;
-}
+  .mobile-login-form input[type="email"],
+  .mobile-login-form input[type="tel"],
+  .mobile-login-form input[type="password"] {
+    width: 100%;
+    padding: 10px 12px;
+    margin-bottom: 16px;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+  }
 
-.mobile-radio-group {
-  display: flex;
-  justify-content: space-around;
-  margin-bottom: 15px;
-  font-size: 14px;
-}
+  .mobile-radio-group {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 15px;
+    font-size: 14px;
+  }
 
-.mobile-radio-label {
-  width: 100px;
-}
+  .mobile-radio-label {
+    width: 100px;
+  }
 
-.mobile-radio-group label {
-  display: flex;
-  align-items: center;
-  text-align: left;
-  /* gap: 6px; */
-}
+  .mobile-radio-group label {
+    display: flex;
+    align-items: center;
+    text-align: left;
+    /* gap: 6px; */
+  }
 
-.mobile-radio-input {
-  margin-right: 8px;
-  width: 16px;
-  height: 16px;
-}
+  .mobile-radio-input {
+    margin-right: 8px;
+    width: 16px;
+    height: 16px;
+  }
 
-.mobile-extra-options {
-  text-align: right;
-  margin-bottom: 15px;
-}
+  .mobile-extra-options {
+    text-align: right;
+    margin-bottom: 15px;
+  }
 
-.mobile-extra-options a {
-  color: #ff6f61;
-  font-size: 13px;
-  text-decoration: none;
-}
+  .mobile-extra-options a {
+    color: #ff6f61;
+    font-size: 13px;
+    text-decoration: none;
+  }
 
-.mobile-extra-options a:hover {
-  text-decoration: underline;
-}
+  .mobile-extra-options a:hover {
+    text-decoration: underline;
+  }
 
-.mobile-login-form button {
-  width: 100%;
-  background-color: #ff6f61;
-  color: white;
-  border: none;
-  padding: 12px;
-  font-size: 16px;
-  border-radius: 8px;
-  cursor: pointer;
-  margin-top: 5px;
-}
+  .mobile-login-form button {
+    width: 100%;
+    background-color: #ff6f61;
+    color: white;
+    border: none;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 5px;
+  }
 
-.mobile-login-form button:hover {
-  background-color: #e4574f;
-}
+  .mobile-login-form button:hover {
+    background-color: #e4574f;
+  }
 
-.mobile-signup-link {
-  text-align: center;
-  margin-top: 15px;
-  font-size: 14px;
-}
+  .mobile-signup-link {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 14px;
+  }
 
-.mobile-signup-link span {
-  color: #ff6f61;
-  cursor: pointer;
-  font-weight: 500;
-}
+  .mobile-signup-link span {
+    color: #ff6f61;
+    cursor: pointer;
+    font-weight: 500;
+  }
 
-.mobile-login-wrapper {
-  width: 100vw;
-  min-height: 80vh;
-  background-color: #fdfdfd;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 1rem;
-  position: relative;
-}
+  .mobile-login-wrapper {
+    width: 100vw;
+    min-height: 80vh;
+    background-color: #fdfdfd;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+    position: relative;
+  }
 
-.mobile-bg-image {
-  display: none; /* Hide background image for mobile to reduce clutter */
-}
+  .mobile-bg-image {
+    display: none; /* Hide background image for mobile to reduce clutter */
+  }
 
-.mobile-login-content {
-  width: 100%;
-  max-width: 400px;
-  background-color: white;
-  padding: 2rem 1.5rem;
-  border-radius: 12px;
-  box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
-}
+  .mobile-login-content {
+    width: 100%;
+    max-width: 400px;
+    background-color: white;
+    padding: 2rem 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+  }
 
-.mobile-login-content h3 {
-  font-size: 1.3rem;
-  text-align: center;
-  margin-bottom: 1.5rem;
-  color: #333;
-}
+  .mobile-login-content h3 {
+    font-size: 1.3rem;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #333;
+  }
 
-.mobile-login-container {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
+  .mobile-login-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
 
-.mobile-login-container label {
-  font-size: 14px;
-  margin-bottom: 4px;
-  color: #555;
-}
+  .mobile-login-container label {
+    font-size: 14px;
+    margin-bottom: 4px;
+    color: #555;
+  }
 
-.mobile-login-container input {
-  padding: 10px 12px;
-  font-size: 14px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  transition: border-color 0.3s, box-shadow 0.3s;
-}
+  .mobile-login-container input {
+    padding: 10px 12px;
+    font-size: 14px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
 
-.mobile-login-container input:focus {
-  border-color: #f27059;
-  box-shadow: 0 0 0 3px rgba(242, 112, 89, 0.2);
-  outline: none;
-}
+  .mobile-login-container input:focus {
+    border-color: #f27059;
+    box-shadow: 0 0 0 3px rgba(242, 112, 89, 0.2);
+    outline: none;
+  }
 
-.mobile-login-container button {
-  padding: 12px;
-  background-color: #f27059;
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  font-size: 15px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
+  .mobile-login-container button {
+    padding: 12px;
+    background-color: #f27059;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
 
-.mobile-login-container button:hover {
-  background-color: #e4574f;
-}
+  .mobile-login-container button:hover {
+    background-color: #e4574f;
+  }
 
-.mobile-backtoLogin {
-  margin-top: 1rem;
-  text-align: center;
-  color: #f27059;
-  font-weight: 500;
-  cursor: pointer;
-  font-size: 14px;
-}
+  .mobile-backtoLogin {
+    margin-top: 1rem;
+    text-align: center;
+    color: #f27059;
+    font-weight: 500;
+    cursor: pointer;
+    font-size: 14px;
+  }
 
-.mobile-backtoLogin:hover {
-  text-decoration: underline;
-}
-
+  .mobile-backtoLogin:hover {
+    text-decoration: underline;
+  }
 }
 
 .snackbar {
@@ -223,11 +223,42 @@
 }
 
 @keyframes fadein {
-  from { bottom: 0; opacity: 0; }
-  to { bottom: 20px; opacity: 1; }
+  from {
+    bottom: 0;
+    opacity: 0;
+  }
+  to {
+    bottom: 20px;
+    opacity: 1;
+  }
 }
 
 @keyframes fadeout {
-  from { bottom: 20px; opacity: 1; }
-  to { bottom: 0; opacity: 0; }
+  from {
+    bottom: 20px;
+    opacity: 1;
+  }
+  to {
+    bottom: 0;
+    opacity: 0;
+  }
+}
+
+.highlight {
+  color: #ff9800; /* orange or your preferred color */
+  font-weight: bold;
+  animation: blink 0.6s ease-in-out infinite alternate;
+}
+
+@keyframes blink {
+  from {
+    opacity: 1;
+    background-color: #ff6f61;
+    color: white;
+    padding: 2px 5px;
+    border-radius: 10px;
+  }
+  to {
+    opacity: 0.5;
+  }
 }

@@ -33,6 +33,7 @@ const Checkout = () => {
   const [isDiscount, setIsDiscount] = useState(false);
   const [discount, setDiscount] = useState("");
   const [applied, setApplied] = useState(null);
+  const [isPincodeServiceable, setIsPincodeServiceable] = useState(false); // ✅ new state
 
   // ✅ Function to apply discount and update total
   const applyDiscount = (coupon) => {
@@ -213,9 +214,11 @@ const Checkout = () => {
       );
       if (response.data?.status) {
         setIsAddressValid(true);
+        setIsPincodeServiceable(true); // ✅ pincode is serviceable
         setShowAddressForm(false);
         setAddress(response.data.data.address || {});
       } else {
+        setIsPincodeServiceable(false); // ❌ pincode not serviceable
         window.dispatchEvent(
           new CustomEvent("snackbar", {
             detail: { message: "Pincode is not serviceable", type: "error" },
@@ -468,9 +471,18 @@ const Checkout = () => {
                 <span>₹{subtotal}</span>
               </div>
             </div>
-            <button className="mobile-payment-btn" onClick={placingOrder}>
+            <button
+              className="mobile-payment-btn"
+              onClick={placingOrder}
+              disabled={!isAddressValid || !isPincodeServiceable} // ✅ disable condition
+              style={{
+                opacity: !isAddressValid || !isPincodeServiceable ? 0.5 : 1,
+                cursor: !isAddressValid || !isPincodeServiceable ? "not-allowed" : "pointer"
+              }}
+            >
               PROCEED TO PAYMENT
             </button>
+
           </div>
 
         </div>
