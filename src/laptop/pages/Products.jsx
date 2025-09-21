@@ -48,6 +48,8 @@ const Products = () => {
   const [wishlist, setWishlist] = useState([]);
   const [loading, setLoading] = useState(true);
   const location = useLocation();
+  const [expanded, setExpanded] = useState({});
+
   // const [selectedCategory, setSelectedCategory] = useState("All Products");
 
   useEffect(() => {
@@ -234,6 +236,16 @@ const Products = () => {
               </li>
             ))}
           </ul>
+          <div className="laptop-addnewbycx">
+            <span>Suggest Product:</span>
+            <div
+              className="laptop-add-product-btn"
+              title="Add your own product"
+              onClick={() => setShowFormPopup(true)}
+            >
+              +
+            </div>
+          </div>
         </aside>
 
         {/* Product Grid */}
@@ -373,7 +385,27 @@ const Products = () => {
                     </h3>
 
                     {/* Description with Read More (60 chars default) */}
-                    <p className="laptop-product-description" onClick={() => handleProductClick(product.id)}>{product.description}</p>
+                    <p className="laptop-product-description">
+                      {expanded[product.id]
+                        ? product.description
+                        : product.description.slice(0, 60) + (product.description.length > 60 ? "..." : "")
+                      }
+                      {product.description.length > 60 && (
+                        <span
+                          className="read-more-toggle"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setExpanded((prev) => ({
+                              ...prev,
+                              [product.id]: !prev[product.id],
+                            }));
+                          }}
+                        >
+                          {expanded[product.id] ? " Show Less" : " Read More"}
+                        </span>
+                      )}
+                    </p>
+
 
                     {/* Price + Color */}
                     <div className="laptop-price-color">
@@ -422,16 +454,7 @@ const Products = () => {
           </div>
 
           {/* Add Your Own Product (from mobile, styled for laptop) */}
-          <div className="laptop-addnewbycx">
-            <span>Add Your Own Product:</span>
-            <div
-              className="laptop-add-product-btn"
-              title="Add your own product"
-              onClick={() => setShowFormPopup(true)}
-            >
-              +
-            </div>
-          </div>
+
         </main>
       </div>
 

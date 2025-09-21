@@ -281,9 +281,8 @@ const Checkout = () => {
   return (
     <>
       <Header />
+      <h2 className="laptop-checkout-title">CHECK-OUT</h2>
       <div className="laptop-checkout-layout">
-        <h2 className="laptop-checkout-title">CHECK-OUT</h2>
-
         {/* ✅ Sidebar product summary */}
         <div className="laptop-checkout-sidebar">
           {Array.isArray(product) ? (
@@ -338,7 +337,6 @@ const Checkout = () => {
             )
           )}
         </div>
-
         <div className="laptop-checkout-container">
           {/* ✅ Login + Address */}
           <div className="laptop-checkout-topper">
@@ -352,7 +350,73 @@ const Checkout = () => {
             <div className="laptop-checkout-section"> <div className="laptop-checkout-section-header">DELIVERY ADDRESS ✔</div> {isAddressValid && <div className="laptop-checkout-section-body"> <span> <strong>{address.name}</strong> {address.addressLine1} {address.addressLine2} {address.city} {address.state} <strong>{address.pinCode}</strong> <br /> Landmark: {address.landmark} </span> <button className="laptop-change-btn" onClick={() => setShowAddressForm(!showAddressForm)} > CHANGE </button> </div>} {!isAddressValid && <div className="laptop-checkout-section-body"> <span>Please fill in your address details.</span> <button className="laptop-change-btn" onClick={() => setShowAddressForm(!showAddressForm)} > ADD ADDRESS </button> </div>} </div>
           </div>
 
-          {showAddressForm && (
+          <div>
+            <div className="laptop-coupon-input">
+              <label>Apply Offer Code</label>
+              <input
+                value={selectedCode}
+                onChange={e => setSelectedCode(e.target.value)}
+                onFocus={() => setCouponVisible(true)}
+                onBlur={() => setTimeout(() => setCouponVisible(false), 200)}
+                placeholder="Enter coupon code"
+              />
+              {couponVisible && (
+                <ul className="coupon-list">
+                  {coupons.map(c => (
+                    <li
+                      key={c.code}
+                      onClick={() => applyCoupon(c.code)}
+                      className="coupon-item"
+                    >
+                      <strong>{c.code}</strong> – {c.description}
+                    </li>
+                  ))}
+                </ul>
+              )}
+              {isDiscount && <div className="laptop-summary-line">
+                <span>Discount: </span>
+                <span>{discount}</span>
+              </div>}
+            </div>
+
+            <div className="laptop-payment-section"> <div className="laptop-checkout-section-header">PAYMENT OPTIONS</div> <div className="laptop-payment-option"><label>Pay with UPI</label><input type="radio" name="payment" /></div> <div className="laptop-payment-option"><label>EMI</label><input type="radio" name="payment" /></div> <div className="laptop-payment-option"><label>Debit/Credit Cards</label><input type="radio" name="payment" /></div> </div>
+
+            {/* ✅ Order summary */}
+            <div className="laptop-order-summary">
+              <h3>ORDER SUMMARY</h3>
+              <div className="laptop-summary-details">
+                <div className="laptop-summary-line">
+                  <span>Subtotal</span>
+                  <span>₹{subtotal}</span>
+                </div>
+                <div className="laptop-summary-line">
+                  <span>Shipping</span>
+                  <span>Free shipping</span>
+                </div>
+
+                <div className="laptop-summary-line laptop-total">
+                  <span>Total</span>
+                  <span>₹{subtotal}</span>
+                </div>
+              </div>
+              <button
+                className="laptop-payment-btn"
+                onClick={placingOrder}
+                disabled={!isAddressValid || !isPincodeServiceable} // ✅ disable condition
+                style={{
+                  opacity: !isAddressValid || !isPincodeServiceable ? 0.5 : 1,
+                  cursor: !isAddressValid || !isPincodeServiceable ? "not-allowed" : "pointer"
+                }}
+              >
+                PROCEED TO PAYMENT
+              </button>
+
+            </div>
+          </div>
+
+
+
+          
             <form className="laptop-address-form" onSubmit={addCustomerAddress}>
               <div className="laptop-checkout-address-form">
                 <input
@@ -417,72 +481,11 @@ const Checkout = () => {
                 ADD ADDRESS
               </button>
             </form>
-          )}
-
-          <div className="laptop-payment-section"> <div className="laptop-checkout-section-header">PAYMENT OPTIONS</div> <div className="laptop-payment-option"><label>Pay with UPI</label><input type="radio" name="payment" /></div> <div className="laptop-payment-option"><label>EMI</label><input type="radio" name="payment" /></div> <div className="laptop-payment-option"><label>Debit/Credit Cards</label><input type="radio" name="payment" /></div> </div>
+          
 
           {/* ✅ Coupon apply section */}
 
-          <div className="laptop-coupon-input">
-            <label>Apply Offer Code</label>
-            <input
-              value={selectedCode}
-              onChange={e => setSelectedCode(e.target.value)}
-              onFocus={() => setCouponVisible(true)}
-              onBlur={() => setTimeout(() => setCouponVisible(false), 200)}
-              placeholder="Enter coupon code"
-            />
-            {couponVisible && (
-              <ul className="coupon-list">
-                {coupons.map(c => (
-                  <li
-                    key={c.code}
-                    onClick={() => applyCoupon(c.code)}
-                    className="coupon-item"
-                  >
-                    <strong>{c.code}</strong> – {c.description}
-                  </li>
-                ))}
-              </ul>
-            )}
-            {isDiscount && <div className="laptop-summary-line">
-              <span>Discount: </span>
-              <span>{discount}</span>
-            </div>}
-          </div>
 
-
-          {/* ✅ Order summary */}
-          <div className="laptop-order-summary">
-            <h3>ORDER SUMMARY</h3>
-            <div className="laptop-summary-details">
-              <div className="laptop-summary-line">
-                <span>Subtotal</span>
-                <span>₹{subtotal}</span>
-              </div>
-              <div className="laptop-summary-line">
-                <span>Shipping</span>
-                <span>Free shipping</span>
-              </div>
-
-              <div className="laptop-summary-line laptop-total">
-                <span>Total</span>
-                <span>₹{subtotal}</span>
-              </div>
-            </div>
-            <button
-              className="laptop-payment-btn"
-              onClick={placingOrder}
-              disabled={!isAddressValid || !isPincodeServiceable} // ✅ disable condition
-              style={{
-                opacity: !isAddressValid || !isPincodeServiceable ? 0.5 : 1,
-                cursor: !isAddressValid || !isPincodeServiceable ? "not-allowed" : "pointer"
-              }}
-            >
-              PROCEED TO PAYMENT
-            </button>
-
-          </div>
 
         </div>
       </div >

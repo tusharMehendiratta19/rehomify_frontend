@@ -204,7 +204,7 @@ const ProductPage = () => {
           </div>
 
           <div className="laptop-product-info-column">
-            <h3 className="laptop-product-title">{product.name}</h3>
+            <h1 className="laptop-product-title">{product.name}</h1>
             <p className="laptop-product-description">{product.description}</p>
 
 

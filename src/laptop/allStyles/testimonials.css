@@ -4,17 +4,18 @@
 }
 
 .seller-testimonials-title {
-  margin-left: 1%;
-  text-align: center;
-  width: 30%;
-  padding: 10px 15px;
-  border-bottom: 4px solid #b63e2b;
-  border-left: 1px solid #b63e2b;
-  border-top: 1px solid #b63e2b;
-  border-right: 4px solid #b63e2b;
-  color: #b63e2b;
-  border-radius: 20px 4px 20px 4px;
-  margin-bottom: 2%;
+   margin-left: 1% !important;
+  text-align: center !important;
+  width: 30% !important;
+  padding: 15px 15px !important;
+  border-bottom: 4px solid #b63e2b !important;
+  border-left: 1px solid #b63e2b !important;
+  border-top: 1px solid #b63e2b !important;
+  border-right: 4px solid #b63e2b !important;
+  color: #b63e2b !important;
+  border-radius: 20px 4px 20px 4px !important;
+  margin-bottom: 2% !important;
+  font-size: medium !important;
 }
 
 .seller-testimonials-row {
