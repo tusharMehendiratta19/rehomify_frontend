@@ -1,195 +1,116 @@
-import React, { useState } from "react";
-import "../allStyles/cartcard.css"; // Importing the CSS file for styling
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import "../allStyles/cartcard.css";
+import { useNavigate } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
+import axios from "axios";
+import CartSummary from "./CartSummary"; // Assuming CartSummary is in the same directory
 
 const CartCard = () => {
-  const product = {
-    id: "PRD001",
-    name: "Wooden Chair",
-    description: "Portable speaker with 10W output, 8h battery life.",
-    price: 1499,
-    image:
-      "https://images.pexels.com/photos/31519049/pexels-photo-31519049/free-photo-of-rustic-wooden-chair-in-outdoor-garden-setting.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-  };
-
-  const [quantity, setQuantity] = useState(1);
-  const [couponListVisible, setCouponListVisible] = useState(false);
-  const [selectedCoupon, setSelectedCoupon] = useState("");
-  const [appliedCoupon, setAppliedCoupon] = useState(null);
+  const [cartItems, setCartItems] = useState([]);
+  const [snackbarMsg, setSnackbarMsg] = useState("");
+  const [snackbarVisible, setSnackbarVisible] = useState(false);
   const navigate = useNavigate();
 
-  const availableCoupons = [
-    {
-      id: 1,
-      type: "Bank Offer",
-      description: "Get 10% off with HDFC Credit Cards",
-      code: "HDFC10",
-      percentage: 10,
-    },
-    {
-      id: 2,
-      type: "Bank Offer",
-      description: "5% cashback on ICICI Debit Cards",
-      code: "ICICI5",
-      percentage: 5,
-    },
-    { id: 3, type: "Bank Offer", description: "No Cost EMI on SBI Cards", code: "SBIEMI" },
-    {
-      id: 4,
-      type: "Wallet Offer",
-      description: "Flat ₹100 off with Paytm Wallet",
-      code: "PAYTM100",
-      amount: 100,
-    },
-    {
-      id: 5,
-      type: "Wallet Offer",
-      description: "Extra ₹50 cashback with PhonePe",
-      code: "PHONEPE50",
-      amount: 50,
-    },
-    {
-      id: 6,
-      type: "Wallet Offer",
-      description: "20% off using Amazon Pay",
-      code: "AMAZONPAY20",
-      percentage: 20,
-    },
-    {
-      id: 7,
-      type: "New User Offer",
-      description: "₹150 off for new users on first purchase",
-      code: "FIRST150",
-      amount: 150,
-    },
-    {
-      id: 8,
-      type: "New User Offer",
-      description: "Sign-up bonus of ₹200 for new users",
-      code: "SIGNUP200",
-      amount: 200,
-    },
-    {
-      id: 9,
-      type: "Website Offer",
-      description: "Extra 15% off on ReHomify exclusive sale",
-      code: "NEW15",
-      percentage: 15,
-    },
-    {
-      id: 10,
-      type: "Website Offer",
-      description: "Get ₹500 off on orders above ₹4999",
-      code: "EXTRA500",
-      amount: 500,
-    },
-  ];
+  useEffect(() => {
+    fetchCart();
+  }, []);
 
-  const totalProductPrice = product.price * quantity;
-  const deliveryCharge = 40;
-
-  const handleRemoveFromCart = () => {
-    alert("Product removed from cart!");
-    // Add logic to remove item from cart state here
-  };
-
-  const handleCouponSelect = (coupon) => {
-    setSelectedCoupon(coupon.code);
-    setAppliedCoupon(coupon);
-    setCouponListVisible(false);
-  };
-
-  const calculateDiscount = () => {
-    if (!appliedCoupon) return 0;
-    if (appliedCoupon.amount) {
-      return appliedCoupon.amount;
-    } else if (appliedCoupon.percentage) {
-      return Math.round((totalProductPrice * appliedCoupon.percentage) / 100);
+  const fetchCart = async () => {
+    try {
+      const res = await axios.post("https://rehomify.in/v1/cart/getCartItems", {
+        custId: localStorage.getItem("custId"),
+      });
+      console.log("Cart items fetched:", res.data);
+      setCartItems(res.data || []);
+    } catch (err) {
+      console.error("Error loading cart:", err);
     }
-    return 0;
   };
 
-  const discountAmount = calculateDiscount();
-  const totalAmount = totalProductPrice + deliveryCharge - discountAmount;
+  const handleProductClick = (id) => {
+    console.log("Product clicked with ID:", id);
+    navigate(`/product/${id}`);
+  };
+
+  const handleRemove = (id) => async () => {
+    try {
+      await axios.post("https://rehomify.in/v1/cart/removeFromCart", {
+        custId: localStorage.getItem("custId"),
+        productId: id,
+      });
+      setCartItems((prev) => prev.filter(item => item.id !== id));
+      showSnackbar("Product removed from cart");
+    } catch (e) {
+      console.error("Remove failed", e);
+    }
+  };
+
+  const updateQuantity = (id, delta) => {
+    setCartItems(prev =>
+      prev.map(item =>
+        item.id === id
+          ? { ...item, quantity: Math.max(1, item.quantity + delta) }
+          : item
+      )
+    );
+  };
+
+  const showSnackbar = msg => {
+    setSnackbarMsg(msg);
+    setSnackbarVisible(true);
+    setTimeout(() => setSnackbarVisible(false), 3000);
+  };
+
+  if (cartItems.length === 0) {
+    return (
+      <>
+        <Header />
+        <div className="empty-cart">Your cart is empty!</div>
+        <Footer />
+      </>
+    );
+  }
 
   return (
-    <div>
+    <>
       <Header />
       <div className="cart-wrapper">
-        <div className="cart-card">
-          <img src={product.image} alt={product.name} />
-          <div className="cart-info">
-            <h4>{product.name}</h4>
-            <p>{product.description}</p>
-            <p>
-              <strong>Price:</strong> ₹{product.price}
-            </p>
+        {Array.isArray(cartItems) ? cartItems.map(item => (
+          <div className="laptop-cart-card" key={item.id}>
+            <img src={item.imageUrl} alt={item.name} onClick={() => handleProductClick(item.id)} />
+            <div className="laptop-cart-info">
+              <h2 onClick={() => handleProductClick(item.id)}>{item.name}</h2>
+              <br/>
+              <p>{item.description}</p>
+              <br/>
+              <p><strong>Price:</strong> ₹{item.price}</p>
 
-            <div className="quantity-control">
-              <button onClick={() => setQuantity((q) => Math.max(q - 1, 1))}>−</button>
-              <span>{quantity}</span>
-              <button onClick={() => setQuantity((q) => q + 1)}>+</button>
+              <div className="laptop-quantity-control">
+                <button onClick={() => updateQuantity(item.id, -1)}>−</button>
+                <span>{item.quantity}</span>
+                <button onClick={() => updateQuantity(item.id, +1)}>+</button>
+              </div>
+              <br />
+              <button className="laptop-remove-btn" onClick={handleRemove(item.id)}>
+                Remove
+              </button>
             </div>
-
-            <button className="remove-btn" onClick={handleRemoveFromCart}>
-              Remove from Cart
-            </button>
           </div>
-        </div>
+        )) : <div>Your Cart is Empty</div>}
 
-        <div className="cart-additional">
-          <div className="apply-offer">
-            <label>Apply Offer Code</label>
-            <input
-              type="text"
-              placeholder="Enter coupon code"
-              value={selectedCoupon}
-              onChange={(e) => setSelectedCoupon(e.target.value)}
-              onFocus={() => setCouponListVisible(true)}
-              onBlur={() => setTimeout(() => setCouponListVisible(false), 200)}
-            />
-
-            {couponListVisible && (
-              <ul className="coupon-list">
-                {availableCoupons.map((coupon) => (
-                  <li
-                    key={coupon.code}
-                    onClick={() => handleCouponSelect(coupon)}
-                    className="coupon-item"
-                  >
-                    <strong>{coupon.code}</strong> – {coupon.description}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-
-          <div className="price-details">
-            <h5>Price Details</h5>
-            <p>Product Price: ₹{totalProductPrice}</p>
-            <p>Delivery Charges: ₹{deliveryCharge}</p>
-            {appliedCoupon && (
-              <p className="discount-text">
-                Discount ({appliedCoupon.code}): −₹{discountAmount}
-              </p>
-            )}
-            <p>
-              <strong>Total: ₹{totalAmount}</strong>
-            </p>
-          </div>
-
-          <div className="address-section">
-            <label>Delivery Address</label>
-            <textarea rows={3} placeholder="Enter your address here"></textarea>
-          </div>
-
-          <button className="payment-btn" onClick={() => navigate("/checkout")}>Continue to Payment</button>
-        </div>
+        {/* Summary and coupon section */}
+        <CartSummary items={cartItems} showSnackbar={showSnackbar} navigate={navigate} />
       </div>
+
+      {snackbarVisible && (
+        <div className="snackbar">
+          {snackbarMsg}
+        </div>
+      )}
+
       <Footer />
-    </div>
+    </>
   );
 };
 

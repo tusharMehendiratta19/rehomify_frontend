@@ -20,7 +20,7 @@
 }
 .resell-container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
   gap: 1rem;
   padding: 2rem;
 }
@@ -51,7 +51,7 @@
   border-radius: 6px;
   cursor: pointer;
   margin-top: 10px;
-  width: 25%;
+  width: 40%;
   transition: background-color 0.3s, color 0.3s;
   font-size: medium;
   font-weight: bold;

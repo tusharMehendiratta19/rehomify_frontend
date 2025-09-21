@@ -4,51 +4,69 @@ import '../allStyles/login.css'; // Ensure this path is correct
 
 const Login = () => {
   const navigate = useNavigate();
-  const [form, setForm] = useState({ username: '', password: '' });
-  const [userType, setUserType] = useState('Customer'); // Default selected user type
+  const [form, setForm] = useState({ username: '', otp: '' });
+  const [otpSent, setOtpSent] = useState(false);
   const [snackbar, setSnackbar] = useState({ show: false, message: '', success: true });
+  const [highlightSignup, setHighlightSignup] = useState(false); // <-- added
 
-  const handleChange = (e) =>
+  const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const payload = {
-      password: form.password,
-      type: userType,
-      [userType === 'Seller' ? 'mobileNo' : 'email']: form.username,
-    };
+    if (!otpSent) {
+      // Step 1: Send OTP
+      try {
+        const res = await fetch('https://rehomify.in/v1/auth/sendOtp', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ mobileNo: form.username }),
+        });
 
-    try {
-      const res = await fetch("https://rehomify.in/v1/auth/login", {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
-      });
+        const result = await res.json();
 
-      const result = await res.json();
-      console.log("result: ",result)
+        if (result.status) {
+          showSnackbar('OTP sent successfully!', true);
+          setOtpSent(true);
+        } else {
+          const errorMsg = result.result || 'Number not registered. Please Sign Up.';
+          showSnackbar(errorMsg, false);
 
-      if (result.status) {
-        showSnackbar('Login successful!', true);
-        localStorage.setItem("token", result.token); // or your own logic
-        localStorage.setItem("custId", result.user._id);
-
-
-        // Optionally: store token or user info
-        // localStorage.setItem('token', result.token);
-
-        setTimeout(() => {
-          navigate(userType === 'Seller' ? '/seller/addProduct' : '/home');
-        }, 1500);
-      } else {
-        showSnackbar(result.result || 'Login failed', false);
+          // highlight signup link if number not registered
+          if (errorMsg.toLowerCase().includes("sign up")) {
+            setHighlightSignup(true);
+            setTimeout(() => setHighlightSignup(false), 3000); // remove highlight after 3s
+          }
+        }
+      } catch (err) {
+        showSnackbar('Server error. Please try again.', false);
       }
-    } catch (err) {
-      showSnackbar('Server error. Please try again.', false);
+    } else {
+      // Step 2: Verify OTP
+      try {
+        const res = await fetch('https://rehomify.in/v1/auth/verifyOtp', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ mobileNo: form.username, otp: form.otp }),
+        });
+
+        const result = await res.json();
+
+        if (result.status) {
+          localStorage.setItem("token", result.token);
+          localStorage.setItem("custId", result.data._id);
+          showSnackbar('Login successful!', true);
+          setTimeout(() => {
+            navigate('/home');
+          }, 1500);
+        } else {
+          showSnackbar(result.result || 'Invalid OTP!', false);
+        }
+      } catch (err) {
+        showSnackbar('Server error. Please try again.', false);
+      }
     }
   };
 
@@ -62,66 +80,45 @@ const Login = () => {
   return (
     <div className="laptop-login-wrapper">
       <img src="/pexels-fwstudio-33348-129731.jpg" alt="background" className="laptop-bg-image" />
-
       <div className="laptop-login-content">
-        <h4>Welcome to ReHomify, <br />Please Login Below.</h4>
-
-        <form className="laptop-login-container" onSubmit={handleSubmit}>
-
-          {/* Radio Buttons for Role Selection */}
-          <div className="laptop-radio-group">
-            <label>
-              <input
-                type="radio"
-                name="role"
-                value="Customer"
-                checked={userType === 'Customer'}
-                className='laptop-c-radio'
-                onChange={() => setUserType('Customer')}
-              />
-              Customer
-            </label>
-            <label>
-              <input
-                type="radio"
-                name="role"
-                value="Seller"
-                checked={userType === 'Seller'}
-                className='laptop-s-radio'
-                onChange={() => setUserType('Seller')}
-              />
-              Seller
-            </label>
-          </div>
-
-          {/* Dynamic Label */}
-          <label>{userType === 'Seller' ? 'Mobile Number' : 'Email'}</label>
+        <h4>Welcome to ReHomify</h4>
+        <form className="laptop-login-form" onSubmit={handleSubmit}>
+          <label>WhatsApp Number</label>
+          <br />
           <input
-            type={userType === 'Seller' ? 'tel' : 'email'}
+            type="tel"
             name="username"
+            minLength={10}
+            maxLength={10}
             value={form.username}
             onChange={handleChange}
+            placeholder='Enter Your 10 digit WhatsApp number'
             required
           />
 
-          <label>Password</label>
-          <input
-            type="password"
-            name="password"
-            value={form.password}
-            onChange={handleChange}
-            required
-          />
+          {otpSent && (
+            <>
+              <label>OTP</label>
+              <input
+                type="text"
+                name="otp"
+                minLength={4}
+                maxLength={4}
+                value={form.otp}
+                onChange={handleChange}
+                required
+              />
+            </>
+          )}
 
-          <div className="laptop-extra-options">
-            <a href="#" onClick={() => navigate('/forgotPassword')}>Forgot Password?</a>
-          </div>
-
-          <button type="submit">Submit</button>
+          <button type="submit">{otpSent ? 'Submit' : 'Get OTP'}</button>
 
           <p className="laptop-signup-link">
-            New User?{' '}
-            <span onClick={() => navigate('/signup')}>
+            New User?{" "}
+            <span
+              className={highlightSignup ? "msu-highlight" : ""}
+              onClick={() => navigate('/signup')}
+            >
               Sign Up
             </span>
           </p>
@@ -129,7 +126,9 @@ const Login = () => {
       </div>
 
       {snackbar.show && (
-        <div className={`snackbar ${snackbar.success ? 'success' : 'error'}`}>
+        <div
+          className={`snackbar ${snackbar.success ? 'success' : 'error'}`}
+        >
           {snackbar.message}
         </div>
       )}

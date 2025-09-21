@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
-import '../allStyles/productpage.css';
 import axios from 'axios';
+import '../allStyles/productpage.css';
 import Header from './Header';
 import Footer from './Footer';
+// import dummyProducts from '../../data/dummyProductData';
 import EMIPanel from './EMIPanel';
+
 
 const ProductPage = () => {
   const { id } = useParams();
@@ -21,6 +23,8 @@ const ProductPage = () => {
   const [optionalImages, setOptionalImages] = useState([]);
   const alltheproducts = location.state?.allProducts || [];
   const [selectedVariety, setSelectedVariety] = useState(null);
+  const [pincode, setPincode] = useState("")
+  const [message, setMessage] = useState("");
 
 
   const similarProducts = [
@@ -131,7 +135,7 @@ const ProductPage = () => {
     }
   }
 
-  const buyNow = async (productId) => {
+  const buyNow = async (productId, price, qty) => {
     if (!isLoggedIn) {
       window.dispatchEvent(new CustomEvent("snackbar", {
         detail: { message: "Please login to buy products", type: "error" }
@@ -140,24 +144,10 @@ const ProductPage = () => {
       return;
     }
     try {
-      const response = await axios.post('https://rehomify.in/v1/cart/addToCart', {
-        custId: localStorage.getItem("custId"),
-        productId: productId,
-      }, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem("token")}`
-        }
-      });
-
-      if (response.status) {
-        navigate('/checkout', { state: { productId, fromCart: true } });
-      } else {
-        window.dispatchEvent(new CustomEvent("snackbar", {
-          detail: { message: "Error proceeding to Buy Now", type: "error" }
-        }));
-        // showSnackbar("Error proceeding to Buy Now");
-      }
+      console.log("productId: ", productId)
+      console.log("price: ", price)
+      console.log("quantity: ", qty)
+      navigate('/checkout', { state: { productId, fromCart: true, total: price, qty: qty } });
     } catch (error) {
       console.error('Error proceeding to Buy Now:', error);
       window.dispatchEvent(new CustomEvent("snackbar", {
@@ -167,82 +157,205 @@ const ProductPage = () => {
     }
   }
 
+  const checkDelivery = async () => {
+    try {
+      if (pincode === "") {
+        setMessage("Please Enter Pin code!")
+      } else {
+        const res = await axios.post("https://rehomify.in/v1/products/pincodeCheck", {
+          pincode,
+        });
+
+        if (res.data.success) {
+          setMessage("✅ Delivery available to your location!");
+        } else {
+          setMessage("❌ Delivery not available at this pincode.");
+        }
+      }
+
+    } catch (err) {
+      console.error("Error checking pincode:", err);
+      setMessage("⚠️ Something went wrong. Please try again.");
+    }
+  };
+
 
   if (!product) return <p></p>;
 
   return (
     <>
       <Header />
-      <div className="product-page">
-        <div className="product-details-container">
-          {/* Left Side - Images */}
-          <div className="product-images-column">
-            <div className="thumbnail-column">
+      <div className="laptop-product-page">
+        <div className="laptop-product-details-container">
+          <div className="laptop-product-images-column">
+            <div className="laptop-thumbnail-column">
               {products.images.map((img, idx) => (
                 <img
                   key={idx}
                   src={img}
                   alt={`Thumbnail ${idx}`}
-                  className={`thumbnail-vertical ${selectedImage === img ? 'active' : ''}`}
+                  className={`laptop-thumbnail-vertical ${selectedImage === img ? 'active' : ''}`}
                   onClick={() => setSelectedImage(img)}
                 />
               ))}
             </div>
-            <img className="main-product-image" src={selectedImage} alt="Product" />
+            <img className="laptop-main-product-image" src={selectedImage} alt="Product" />
+
           </div>
 
-          {/* Right Side - Details */}
-          <div className="product-info-column">
-            <h2 className="product-title">{product.name}</h2>
-            <p className="product-description">{product.description}</p>
-            <div className="price-section">
-              <p className="offer-price">
-                Price: ₹{selectedVariety ? selectedVariety.price : product.price}
+          <div className="laptop-product-info-column">
+            <h3 className="laptop-product-title">{product.name}</h3>
+            <p className="laptop-product-description">{product.description}</p>
+
+
+
+            <div className="laptop-price-section">
+              <p className="laptop-original-price">
+                Price: <s>₹{(selectedVariety?.price || 0) + 2000}</s>
               </p>
-              <span className="limited-deal-tag">Limited time deal</span>
+              <p className="laptop-offer-price">
+                Offer Price: ₹{selectedVariety?.price || 0}
+              </p>
+              <span className="laptop-limited-deal-tag">Limited time deal</span>
             </div>
 
-            {product.varieties && product.varieties.length > 0 && (
-              <div className="variety-section">
-                <label htmlFor="variety">Size:</label>
-                <div className="variety-buttons">
-                  {product.varieties.map((v, idx) => (
-                    <button
-                      key={idx}
-                      className={`variety-btn ${selectedVariety?.name === v.name ? 'active' : ''}`}
-                      onClick={() => setSelectedVariety(v)}
-                    >
-                      {v.name}
-                    </button>
-                  ))}
+            <div className='sizeAndQty'>
+              {product.varieties && product.varieties.length > 0 && (
+                <div className="laptop-variety-section">
+                  <label>Size:</label>
+                  <div className="variety-buttons">
+                    {product.varieties.map((v, idx) => (
+                      <button
+                        key={idx}
+                        className={`variety-btn ${selectedVariety?.name === v.name ? 'active' : ''}`}
+                        onClick={() => setSelectedVariety(v)}
+                      >
+                        {v.name}
+                      </button>
+                    ))}
+                  </div>
+
                 </div>
+              )}
+              <div className="laptop-quantity-section">
+                <label htmlFor="quantity">Quantity:</label>
+                <select
+                  id="quantity"
+                  value={selectedQuantity}
+                  onChange={(e) => setSelectedQuantity(e.target.value)}
+                  className="laptop-quantity-select"
+                >
+                  {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(qty => <option key={qty} value={qty}>{qty}</option>)}
+                </select>
               </div>
-            )}
+            </div>
 
-            <div className="quantity-section">
-              <label htmlFor="quantity">Quantity:</label>
-              <select
-                id="quantity"
-                value={selectedQuantity}
-                onChange={(e) => setSelectedQuantity(parseInt(e.target.value))}
-                className="quantity-select"
+            <div className="laptop-action-buttons">
+              {cartItems.includes(product.id) ? (
+                <button
+                  className="laptop-add-to-cart"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    navigate("/cart");
+                  }}
+                >
+                  Go To Cart
+                </button>
+              ) : (
+                <button
+                  className="laptop-add-to-cart"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    addToCart(product.id);
+                  }}
+                >
+                  Add to cart
+                </button>
+              )}
+
+              <button
+                className="laptop-proceed-to-payment"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  buyNow(product.id, selectedVariety.price, selectedQuantity);
+                }}
               >
-                {[1, 2, 3, 4, 5].map((qty) => (
-                  <option key={qty} value={qty}>
-                    {qty}
-                  </option>
-                ))}
-              </select>
+                Proceed to payment
+              </button>
+              {/* <button className="laptop-easy-emis" onClick={() => setShowEMI(true)}>
+                EMIs
+              </button> */}
+
+            </div>
+            <div className='delivery-container'>
+              <div className="deliveryCheck">
+                <input
+                  type="tel"
+                  placeholder="Enter Your Pincode"
+                  className="pincode-input"
+                  maxLength={6}
+                  minLength={6}
+                  value={pincode}
+                  onChange={(e) => setPincode(e.target.value)}
+                />
+                <button className="pincode-check" onClick={checkDelivery}>
+                  Check
+                </button>
+              </div>
+              <div>
+                {message && <p>{message}</p>}
+              </div>
+            </div>
+            <div className='hgltsAndAction'>
+              <div className="laptop-highlights-section">
+                <h4><u>Product Highlights:</u></h4>
+                <br />
+                <ul>
+                  <li><strong>Material</strong>: {product.woodMaterial}</li>
+                  {/* <li><strong>Width</strong>: {product.width} foot</li>
+                <li><strong>Length</strong>: {product.length} foot</li>
+                <li><strong>Height</strong>: {product.height} foot</li> */}
+                  <li><strong>Color</strong>: {product.color}</li>
+                  <li><strong>Ratings</strong>: 4★</li>
+                </ul>
+              </div>
+              <div className='laptop-offerImage'>
+                <img src='../buyBack.jpeg' />
+              </div>
             </div>
 
-            <div className="action-buttons">
-              <button className="add-to-cart">Add to cart</button>
-              <button className="proceed-to-payment">Proceed to payment</button>
-              <button className="easy-emis" onClick={() => setShowEMI(true)}>Easy EMIs</button>
-            </div>
+            {/* <div className="laptop-ratings-section">
+              <h4>Ratings & Reviews</h4>
+              <p><strong>4★</strong> (2,007 Ratings & 301 Reviews)</p>
+              <div className="laptop-rating-breakdown">
+                <div>Quality: 4.0</div>
+                <div>Design: 4.2</div>
+                <div>Storage: 4.1</div>
+                <div>Service: 4.0</div>
+              </div>
+            </div> */}
           </div>
         </div>
       </div>
+
+      <div className="laptop-suggestions">
+        <span className="laptop-suggestions-title">You might like</span>
+        <div className="laptop-suggestion-row">
+          {similarProducts.map(product => (
+            <div key={product.id} className="laptop-suggestion-card">
+              <img src={product.image} alt={product.name} className="laptop-suggestion-image" />
+              <h4>{product.name}</h4>
+              <p>{product.description}</p>
+              <p><strong>₹{product.price}</strong></p>
+              <div className="laptop-card-actions">
+                <button className="laptop-buy-now">Buy Now</button>
+                <button className="laptop-add-to-cart">Add to Cart</button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
       {showEMI && <EMIPanel onClose={() => setShowEMI(false)} />}
       <Footer />
     </>

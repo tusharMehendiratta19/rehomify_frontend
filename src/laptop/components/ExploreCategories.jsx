@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 const categories = [
   {
-    title: "Product under 5000",
+    title: "Product under 5k",
     image: "Product under 5000(2).png",
     buttonText: "Shop Now",
   },
@@ -23,11 +23,11 @@ const categories = [
     image: "https://images.pexels.com/photos/5650026/pexels-photo-5650026.jpeg?auto=compress&cs=tinysrgb&w=600",
     buttonText: "View Offers",
   },
-  {
-    title: "Flash delivery",
-    image: "https://images.pexels.com/photos/6214450/pexels-photo-6214450.jpeg?auto=compress&cs=tinysrgb&w=600",
-    buttonText: "Order Now",
-  },
+  // {
+  //   title: "Flash delivery",
+  //   image: "https://images.pexels.com/photos/6214450/pexels-photo-6214450.jpeg?auto=compress&cs=tinysrgb&w=600",
+  //   buttonText: "Order Now",
+  // },
 ];
 
 const ExploreCategories = () => {
@@ -40,7 +40,7 @@ const ExploreCategories = () => {
 
   return (
     <div className="explore-section">
-      <h2 className="explore-title"><b>Explore More Categories</b></h2>
+      <h4 className="explore-title">Explore More Categories</h4>
       <div className="category-cards">
         {categories.map((cat, index) => (
           <div className="category-card" key={index}>

@@ -4,28 +4,30 @@ import axios from "axios";
 import Footer from "../components/Footer";
 import "../allStyles/products.css";
 import ProductPage from "../components/ProductPage";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import dummyProducts from "../../data/dummyProductData";
-import { AiFillHeart } from "react-icons/ai";
-import { FiHeart } from "react-icons/fi";
-import AddProductForm from "../sellers/components/SellerAddProduct";
+import { AiFillHeart } from "react-icons/ai";    // Filled heart
+import { FiHeart } from "react-icons/fi";     // Outline heart
+// import Loader from "../components/Loader";
+// import AddProductForm from "../sellers/components/MobileSellerAddProduct";
+import CustomerAddProductForm from "../components/CustomerAddProductForm";
 
 const categories = [
   "All Products",
   "Single Bed",
   "Double Bed",
-  "Cup board",
-  "Tables",
-  "Chairs",
+  "Cupboard",
+  "Table",
+  "Combo",
 ];
 
 const categoryMap = {
   "All Products": "all",
   "Single Bed": "single_bed",
   "Double Bed": "double_bed",
-  "Cup board": "cup_board",
-  Tables: "tables",
-  Chairs: "chairs",
+  "Cupboard": "cupboard",
+  Table: "table",
+  Combo: "combo"
 };
 
 const Products = () => {
@@ -33,51 +35,45 @@ const Products = () => {
   const [sortOrder, setSortOrder] = useState("");
   const [selectedColor, setSelectedColor] = useState("");
   const [priceRange, setPriceRange] = useState([0, Infinity]);
-  const [showFilters, setShowFilters] = useState(false);
-  const [selected, setSelected] = useState("New");
-  const [expanded, setExpanded] = useState({}); // description toggle per product
-
-  // --- Added from mobile ---
   const [showFormPopup, setShowFormPopup] = useState(false);
+  const [showFilters, setShowFilters] = useState(false);
+  const [selected, setSelected] = useState('New');
   const [cartItems, setCartItems] = useState([]);
-  const [wishlist, setWishlist] = useState([]);
+  const navigate = useNavigate();
+  const isLoggedIn = !!localStorage.getItem("token") && !!localStorage.getItem("custId");
+
+  const [allProducts, setAllProducts] = useState([]);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
-  const isLoggedIn =
-    !!localStorage.getItem("token") && !!localStorage.getItem("custId");
-  // -------------------------
+  const [wishlist, setWishlist] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const location = useLocation();
+  // const [selectedCategory, setSelectedCategory] = useState("All Products");
 
-  const navigate = useNavigate();
-  const [allProducts, setAllProducts] = useState([]);
-
-  const toggleDescription = (id) => {
-    setExpanded((prev) => ({
-      ...prev,
-      [id]: !prev[id],
-    }));
-  };
+  useEffect(() => {
+    if (location.state?.selectedCategory) {
+      console.log("loc_cat: ", location.state.selectedCategory)
+      setSelectedCategory(location.state.selectedCategory);
+    }
+  }, [location.state]);
 
   useEffect(() => {
     const fetchproducts = async () => {
       try {
-        const res = await axios.get("https://rehomify.in/v1/products/");
+        const res = await axios.get('https://rehomify.in/v1/products/');
         setAllProducts(res.data);
       } catch (err) {
-        console.error("Error fetching homepage data:", err);
+        console.error('Error fetching products:', err);
       }
     };
 
     const fetchCustomerDetails = async () => {
       try {
-        const res = await axios.get(
-          `https://rehomify.in/v1/auth/getCustomerDetails/${localStorage.getItem(
-            "custId"
-          )}`
-        );
+        const res = await axios.get(`https://rehomify.in/v1/auth/getCustomerDetails/${localStorage.getItem("custId")}`);
         if (res.data?.status) {
-          const { cart = [], wishlist = [] } = res.data.data || {};
-          setCartItems(cart.map((p) => p.productId));
-          setWishlist(wishlist.map((p) => p.productId));
+          const { cart = [], wishlist = [] } = res.data.data;
+          setCartItems(cart.map(p => p.productId));
+          setWishlist(wishlist.map(p => p.productId));
         }
       } catch (err) {
         console.error("Error fetching customer details:", err);
@@ -88,14 +84,7 @@ const Products = () => {
     if (isLoggedIn) {
       fetchCustomerDetails();
     }
-  }, [isLoggedIn]);
-
-  // --- Actions brought from mobile ---
-  const showSnackbar = (message) => {
-    setSnackbarMessage(message);
-    setSnackbarOpen(true);
-    setTimeout(() => setSnackbarOpen(false), 3000);
-  };
+  }, []);
 
   const addToCart = async (productId) => {
     if (!isLoggedIn) {
@@ -103,62 +92,41 @@ const Products = () => {
       return;
     }
     try {
-      const response = await axios.post(
-        "https://rehomify.in/v1/cart/addToCart",
-        {
-          custId: localStorage.getItem("custId"),
-          productId: productId,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
+      const response = await axios.post('https://rehomify.in/v1/cart/addToCart', {
+        custId: localStorage.getItem("custId"),
+        productId: productId,
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem("token")}`
         }
-      );
+      });
 
       if (response.status) {
         showSnackbar("Added to Cart");
-        setCartItems((prev) => (prev.includes(productId) ? prev : [...prev, productId]));
+        setCartItems(prev => [...prev, productId]);
       } else {
         showSnackbar("Error adding to Cart");
       }
     } catch (error) {
-      console.error("Error adding to cart:", error);
+      console.error('Error adding to cart:', error);
       showSnackbar("Error adding to Cart");
     }
-  };
+  }
 
-  const buyNow = async (productId) => {
+  const buyNow = async (productId, price) => {
     if (!isLoggedIn) {
       showSnackbar("Please login to buy products");
       return;
     }
     try {
-      const response = await axios.post(
-        "https://rehomify.in/v1/cart/addToCart",
-        {
-          custId: localStorage.getItem("custId"),
-          productId: productId,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
+      navigate('/checkout', { state: { productId, fromCart: true, total: price } });
 
-      if (response.status) {
-        navigate("/checkout", { state: { productId, fromCart: true } });
-      } else {
-        showSnackbar("Error proceeding to Buy Now");
-      }
     } catch (error) {
-      console.error("Error proceeding to Buy Now:", error);
+      console.error('Error proceeding to Buy Now:', error);
       showSnackbar("Error proceeding to Buy Now");
     }
-  };
+  }
 
   const addToWishlist = async (productId) => {
     if (!isLoggedIn) {
@@ -166,51 +134,47 @@ const Products = () => {
       return;
     }
     try {
-      const response = await axios.post(
-        "https://rehomify.in/v1/wishlist/addToWishlist",
-        {
-          custId: localStorage.getItem("custId"),
-          productId: productId,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
+      const response = await axios.post('https://rehomify.in/v1/wishlist/addToWishlist', {
+        custId: localStorage.getItem("custId"),
+        productId: productId,
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem("token")}`
         }
-      );
+      });
 
       if (response.status) {
-        setWishlist((prev) => (prev.includes(productId) ? prev : [...prev, productId]));
+        setWishlist(prev => [...prev, productId]);
         showSnackbar("Added to Wishlist");
-      } else if (response.message === "wishlisted already") {
-        // toggle off
-        const remove = await axios.post(
-          "https://rehomify.in/v1/wishlist/updateWishlist",
-          {
-            custId: localStorage.getItem("custId"),
-            productId: productId,
-          },
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
+      } else if (response.message == "wishlisted already") {
+        const removefromwishlist = await axios.post('https://rehomify.in/v1/wishlist/updateWishlist', {
+          custId: localStorage.getItem("custId"),
+          productId: productId,
+        }, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem("token")}`
           }
-        );
-        if (remove.status) {
-          setWishlist((prev) => prev.filter((id) => id !== productId));
+        });
+        if (removefromwishlist.status) {
+          setWishlist(wishlist.filter(item => item !== productId));
           showSnackbar("Removed from Wishlist");
         }
       } else {
         showSnackbar("Error adding to Wishlist");
       }
     } catch (error) {
-      console.error("Error adding to wishlist:", error);
+      console.error('Error adding to wishlist:', error);
       showSnackbar("Error adding to Wishlist");
     }
+  }
+
+  const showSnackbar = (message) => {
+    setSnackbarMessage(message);
+    setSnackbarOpen(true);
+    setTimeout(() => setSnackbarOpen(false), 3000);
   };
-  // -----------------------------------
 
   const handleProductClick = (id) => {
     navigate(`/product/${id}`);
@@ -222,19 +186,15 @@ const Products = () => {
 
   const getCategoryProducts = () => {
     const key = categoryMap[selectedCategory];
-    let products =
-      key === "all" ? Object.values(allProducts).flat() : allProducts[key] || [];
+    let products = key === "all"
+      ? Object.values(allProducts).flat()
+      : allProducts[key] || [];
 
-    // Apply price filter
     products = products.filter((product) => {
-      const price =
-        (product?.varieties && product.varieties[0]?.price) ??
-        product?.price ??
-        0;
+      const price = product?.price ?? 0;
       return price >= priceRange[0] && price <= priceRange[1];
     });
 
-    // Apply color filter
     if (selectedColor) {
       products = products.filter(
         (product) =>
@@ -242,15 +202,9 @@ const Products = () => {
       );
     }
 
-    // Apply sorting
     products.sort((a, b) => {
-      const aPrice =
-        (a?.varieties && a.varieties[0]?.price) ?? a?.price ?? 0;
-      const bPrice =
-        (b?.varieties && b.varieties[0]?.price) ?? b?.price ?? 0;
-
-      if (sortOrder === "plh") return aPrice - bPrice;
-      if (sortOrder === "phl") return bPrice - aPrice;
+      if (sortOrder === "plh") return a.price - b.price;
+      if (sortOrder === "phl") return b.price - a.price;
       if (sortOrder === "dtlm") return (a.deliveryTime ?? 0) - (b.deliveryTime ?? 0);
       if (sortOrder === "dlml") return (b.deliveryTime ?? 0) - (a.deliveryTime ?? 0);
       return 0;
@@ -258,6 +212,8 @@ const Products = () => {
 
     return products;
   };
+
+  const filteredProducts = getCategoryProducts();
 
   return (
     <div>
@@ -271,9 +227,8 @@ const Products = () => {
               <li
                 key={cat}
                 onClick={() => handleCategoryClick(cat)}
-                className={`laptop-category-item ${
-                  selectedCategory === cat ? "laptop-active-category" : ""
-                }`}
+                className={`laptop-category-item ${selectedCategory === cat ? "laptop-active-category" : ""
+                  }`}
               >
                 {cat}
               </li>
@@ -314,9 +269,8 @@ const Products = () => {
                     New
                   </button>
                   <button
-                    className={`toggle-btn ${
-                      selected === "Refurbished" ? "active" : ""
-                    }`}
+                    className={`toggle-btn ${selected === "Refurbished" ? "active" : ""
+                      }`}
                     onClick={() => setSelected("Refurbished")}
                   >
                     Refurbished
@@ -419,29 +373,7 @@ const Products = () => {
                     </h3>
 
                     {/* Description with Read More (60 chars default) */}
-                    <p
-                      className="laptop-product-description"
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      {expanded[product.id]
-                        ? product.description
-                        : product.description.length > 60
-                        ? product.description.substring(0, 60) + "... "
-                        : product.description}
-
-                      {product.description.length > 60 && (
-                        <span
-                          className="read-more"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            toggleDescription(product.id);
-                          }}
-                          style={{ color: "blue", cursor: "pointer" }}
-                        >
-                          {expanded[product.id] ? " Show Less" : " Read More"}
-                        </span>
-                      )}
-                    </p>
+                    <p className="laptop-product-description" onClick={() => handleProductClick(product.id)}>{product.description}</p>
 
                     {/* Price + Color */}
                     <div className="laptop-price-color">
@@ -522,13 +454,12 @@ const Products = () => {
             >
               ×
             </button>
-            <AddProductForm />
+            <CustomerAddProductForm />
           </div>
         </div>
       )}
 
       <Footer />
-      <ProductPage />
     </div>
   );
 };

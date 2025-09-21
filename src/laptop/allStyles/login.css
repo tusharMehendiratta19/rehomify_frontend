@@ -61,7 +61,7 @@
 }
 
 /* Login container */
-.laptop-login-container {
+.laptop-login-form {
   background: #fff;
   padding: 40px 30px;
   border-radius: 12px;
@@ -72,16 +72,16 @@
 
 /* Heading */
 .laptop-login-wrapper h4 {
-  text-align: left;
+  text-align: center;
   margin-bottom: 25px;
   font-size: large;
 }
 
 /* Input fields */
-.laptop-login-container input[type="tel"],
-.laptop-login-container input[type="email"],
-.laptop-login-container input[type="password"],
-.laptop-login-container input[type="number"] {
+.laptop-login-form input[type="tel"],
+.laptop-login-form input[type="email"],
+.laptop-login-form input[type="password"],
+.laptop-login-form input[type="number"] {
   width: 100%;
   padding: 12px 15px;
   margin: 10px 0 20px;
@@ -91,16 +91,17 @@
   transition: 0.3s;
 }
 
-.laptop-login-container input:focus {
+.laptop-login-form input:focus {
   border-color: #ff6f61;
   box-shadow: 0 0 0 3px rgba(255, 111, 97, 0.2);
 }
 
 /* Submit button */
-.laptop-login-container button {
+.laptop-login-form button {
   width: 100%;
   padding: 12px;
   background-color: #ff6f61;
+  margin-top: 15px;
   color: white;
   border: none;
   border-radius: 8px;
@@ -109,28 +110,28 @@
   transition: background-color 0.3s ease;
 }
 
-.laptop-login-container button:hover {
+.laptop-login-form button:hover {
   background-color: #e4574f;
 }
 
 /* Additional options */
-.laptop-login-container .laptop-extra-options {
+.laptop-login-form .laptop-extra-options {
   text-align: left;
   margin-top: 10px;
   margin-bottom: 10px;
 }
 
-.laptop-login-container .laptop-extra-options a {
+.laptop-login-form .laptop-extra-options a {
   color: #ff6f61;
   text-decoration: none;
   font-size: 14px;
 }
 
-.laptop-login-container .laptop-extra-options a:hover {
+.laptop-login-form .laptop-extra-options a:hover {
   text-decoration: underline;
 }
 
-.laptop-login-container .laptop-signup-link {
+.laptop-login-form .laptop-signup-link {
   margin-top: 25px;
   margin-left: 15%;
   text-align: center;
@@ -140,14 +141,14 @@
   width: 70%;
 }
 
-.laptop-login-container .laptop-signup-link span {
+.laptop-login-form .laptop-signup-link span {
   color: #ff6f61;
   text-decoration: none;
   font-size: 14px;
   cursor: pointer;
 }
 
-.laptop-login-container .laptop-backtoLogin {
+.laptop-login-form .laptop-backtoLogin {
   text-align: center;
   margin-top: 15px;
   color: #ff6f61;

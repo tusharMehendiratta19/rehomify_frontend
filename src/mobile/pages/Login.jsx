@@ -116,7 +116,7 @@ const MobileLogin = () => {
           <p className="mobile-signup-link">
             New User?{" "}
             <span
-              className={highlightSignup ? "highlight" : ""}
+              className={highlightSignup ? "msu-highlight" : ""}
               onClick={() => navigate('/signup')}
             >
               Sign Up

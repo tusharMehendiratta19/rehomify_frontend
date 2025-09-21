@@ -1,7 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../allStyles/exploremoreproductspage.css";
+import { useNavigate } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
+import axios from "axios";
+import { AiFillHeart } from "react-icons/ai";
+import { FiHeart } from "react-icons/fi";
 
 const categories = [
     {
@@ -16,107 +20,266 @@ const categories = [
     },
     {
         title: "Deep discounts",
-        image:
-            "https://media.istockphoto.com/id/1419880946/photo/graph-of-real-estate-market-where-arrowhead-is-falling.jpg?b=1&s=612x612&w=0&k=20&c=1vxDtf55BU5WL8dkiaGv1TuR_mJQZy8gNo-zexr4cgI=",
+        image: "https://media.istockphoto.com/id/1419880946/photo/graph-of-real-estate-market-where-arrowhead-is-falling.jpg?b=1&s=612x612&w=0&k=20&c=1vxDtf55BU5WL8dkiaGv1TuR_mJQZy8gNo-zexr4cgI=",
         buttonText: "Grab Deals",
     },
     {
         title: "Clearance sale",
-        image:
-            "https://images.pexels.com/photos/5650026/pexels-photo-5650026.jpeg?auto=compress&cs=tinysrgb&w=600",
+        image: "https://images.pexels.com/photos/5650026/pexels-photo-5650026.jpeg?auto=compress&cs=tinysrgb&w=600",
         buttonText: "View Offers",
-    },
-    {
-        title: "Flash delivery",
-        image:
-            "https://images.pexels.com/photos/6214450/pexels-photo-6214450.jpeg?auto=compress&cs=tinysrgb&w=600",
-        buttonText: "Order Now",
     },
 ];
 
-// Dummy products for each category
-const dummyProducts = {
-    "Product under 5000": Array(15).fill().map((_, i) => ({
-        name: `Affordable Item ${i + 1}`,
-        price: `₹${(i + 1) * 899}`,
-        image: "https://images.pexels.com/photos/31519049/pexels-photo-31519049/free-photo-of-rustic-wooden-chair-in-outdoor-garden-setting.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    })),
-    "Popular right now": Array(15).fill().map((_, i) => ({
-        name: `Trending Product ${i + 1}`,
-        price: `₹${(i + 1) * 1999}`,
-        image: "https://media.istockphoto.com/id/2089126618/photo/leather-sofa-with-an-empty-beige-wall-for-mockup.jpg?b=1&s=612x612&w=0&k=20&c=Nft5dLAbzxdKqmmlS7sKkdzZ8ZfKqyzAnDPWdT5kvPc=",
-    })),
-    "Deep discounts": Array(15).fill().map((_, i) => ({
-        name: `Deal ${i + 1}`,
-        price: `₹${(i + 1) * 500}`,
-        image: "https://images.pexels.com/photos/1957477/pexels-photo-1957477.jpeg?auto=compress&cs=tinysrgb&w=600",
-    })),
-    "Clearance sale": Array(15).fill().map((_, i) => ({
-        name: `Clearance Item ${i + 1}`,
-        price: `₹${(i + 1) * 350}`,
-        image: "https://images.pexels.com/photos/2092058/pexels-photo-2092058.jpeg?auto=compress&cs=tinysrgb&w=600",
-    })),
-    "Flash delivery": Array(15).fill().map((_, i) => ({
-        name: `Fast Delivery ${i + 1}`,
-        price: `₹${(i + 1) * 799}`,
-        image: "https://images.pexels.com/photos/11112745/pexels-photo-11112745.jpeg?auto=compress&cs=tinysrgb&w=600",
-    })),
-};
-
 const ExploreMoreProductsPage = () => {
-    const [selectedCategory, setSelectedCategory] = useState("Product under 5000");
+    const [cartItems, setCartItems] = useState([]);
+    const isLoggedIn = !!localStorage.getItem("token") && !!localStorage.getItem("custId");
+    const [wishlist, setWishlist] = useState([]);
+    const [snackbar, setSnackbar] = useState({ open: false, message: "" });
 
-    const handleAddToCart = (product) => {
-        console.log("Added to cart:", product);
-        // Add logic to store in cart context/state
+    const [selectedCategory, setSelectedCategory] = useState("Product under 5000");
+    const [categorizedProducts, setCategorizedProducts] = useState({});
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const fetchAndCategorizeProducts = async () => {
+            try {
+                const res = await axios.get("https://rehomify.in/v1/products/all");
+                const all = res.data.data || [];
+
+                const categorized = {
+                    "Product under 5000": all.filter((p) => p.price < 5000),
+                    "Popular right now": [...all].sort((a, b) => b.price - a.price).slice(0, 10),
+                    "Deep discounts": all.filter((p) => p.price < 8000),
+                    "Clearance sale": all.slice(0, 10),
+                };
+
+                setCategorizedProducts(categorized);
+            } catch (error) {
+                console.error("Error fetching products:", error);
+            }
+        };
+
+        const fetchCustomerDetails = async () => {
+            try {
+                const res = await axios.get(`https://rehomify.in/v1/auth/getCustomerDetails/${localStorage.getItem("custId")}`);
+                if (res.data?.status) {
+                    const { cart = [], wishlist = [] } = res.data.data;
+                    setCartItems(cart.map(p => p.productId));
+                    setWishlist(wishlist.map(p => p.productId));
+                    console.log("Customer wishlist:", wishlist);
+                }
+            } catch (err) {
+                console.error("Error fetching customer details:", err);
+            }
+        };
+
+        if (isLoggedIn) {
+            fetchCustomerDetails();
+            fetchAndCategorizeProducts();
+        }
+    }, []);
+
+    const showSnackbar = (message) => {
+        setSnackbar({ open: true, message });
+        setTimeout(() => setSnackbar({ open: false, message: "" }), 3000);
     };
 
-    const handleBuyNow = (product) => {
-        console.log("Buying now:", product);
-        // Redirect to checkout or show buy now modal
+    const addToCart = async (productId) => {
+        if (!isLoggedIn) return showSnackbar("Please login to add items to cart");
+        try {
+            const res = await axios.post("https://rehomify.in/v1/cart/addToCart", {
+                custId: localStorage.getItem("custId"),
+                productId
+            }, {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+            });
+
+            if (res.status) {
+                setCartItems(prev => [...prev, productId]);
+                showSnackbar("Added to Cart");
+            }
+        } catch (err) {
+            console.error("Add to cart failed:", err);
+            showSnackbar("Error adding to Cart");
+        }
+    };
+
+    const buyNow = async (productId, price) => {
+        if (!isLoggedIn) return showSnackbar("Please login to proceed");
+
+        try {
+            navigate("/checkout", { state: { productId, fromCart: true, total: price } });
+        } catch (err) {
+            console.error("Buy Now failed:", err);
+            showSnackbar("Error proceeding to Buy Now");
+        }
+    };
+
+    const toggleWishlist = async (productId) => {
+        if (!isLoggedIn) return showSnackbar("Please login to wishlist");
+
+        if (wishlist.includes(productId)) {
+            try {
+                const res = await axios.post("https://rehomify.in/v1/wishlist/updateWishlist", {
+                    custId: localStorage.getItem("custId"),
+                    productId,
+                }, {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    },
+                });
+
+                if (res.status) {
+                    setWishlist(wishlist.filter(id => id !== productId));
+                    showSnackbar("Removed from Wishlist");
+                }
+            } catch (err) {
+                console.error("Remove from wishlist error:", err);
+                showSnackbar("Error removing from Wishlist");
+            }
+        } else {
+            try {
+                const res = await axios.post("https://rehomify.in/v1/wishlist/addToWishlist", {
+                    custId: localStorage.getItem("custId"),
+                    productId,
+                }, {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    },
+                });
+
+                if (res.status) {
+                    setWishlist(prev => [...prev, productId]);
+                    showSnackbar("Added to Wishlist");
+                }
+            } catch (err) {
+                console.error("Add to wishlist error:", err);
+                showSnackbar("Error adding to Wishlist");
+            }
+        }
+    };
+
+    const handleProductClick = (id) => {
+        navigate(`/product/${id}`);
     };
 
 
     return (
         <><Header />
-            <div className="explore-container">
-                {/* <h2 className="explore-title"><b>Explore More Categories</b></h2> */}
-
-                <div className="explore-layout">
-                    <div className="category-sidebar">
+            <div className="laptop-explore-container">
+                <div className="laptop-explore-layout">
+                    <div className="laptop-category-sidebar">
                         {categories.map((cat, index) => (
-                            <div className="category-small-card" key={index}
-                            onClick={() => setSelectedCategory(cat.title)}
+                            <div
+                                className="laptop-category-small-card"
+                                key={index}
+                                onClick={() => setSelectedCategory(cat.title)}
                             >
-                                <img src={cat.image} alt={cat.title} className="category-thumb" />
-                                <p className="category-label">{cat.title}</p>
-                                
+                                <img src={cat.image} alt={cat.title} className="laptop-category-thumb" />
+                                <p className="laptop-category-label">{cat.title}</p>
                             </div>
                         ))}
                     </div>
 
-                    {selectedCategory && (
-                        <div className="product-section">
-                            <h3 className="product-heading">{selectedCategory}</h3>
-                            <div className="product-grid">
-                                {dummyProducts[selectedCategory].map((product, idx) => (
-                                    <div className="product-card-explore" key={idx}>
-                                        <img src={product.image} alt={product.title} className="category-thumb-main" />
-                                        <p className="product-name">{product.name}</p>
-                                        <p className="product-price">{product.price}</p>
-                                        <div className="product-buttons">
-                                            <button className="add-to-cart-btn" onClick={() => handleAddToCart(product)}>Add to Cart</button>
-                                            <button className="buy-now-btn" onClick={() => handleBuyNow(product)}>Buy Now</button>
+                    {selectedCategory && categorizedProducts[selectedCategory] && (
+                        <div className="laptop-product-section">
+                            <h3 className="laptop-product-heading">{selectedCategory}</h3>
+                            <div className="laptop-product-grid-wrapper">
+                                {categorizedProducts[selectedCategory].map((product) => (
+                                    <div
+                                        className="empp-laptop-product-card"
+                                        key={product._id}
+                                    >
+                                        <div className="empp-card-upper">
+                                            <div
+                                                className="laptop-product-image-wrapper"
+                                                onClick={() => handleProductClick(product._id)}
+                                            >
+                                                <img src={product.image} alt={product.name} />
+                                                <button
+                                                    className="wishlist-icon"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        toggleWishlist(product._id);
+                                                    }}
+                                                >
+                                                    {wishlist.includes(product._id) ? (
+                                                        <AiFillHeart color="red" />
+                                                    ) : (
+                                                        <FiHeart />
+                                                    )}
+                                                </button>
+                                            </div>
+
+                                            <div className="laptop-product-info">
+                                                <h5
+                                                    className="laptop-product-name"
+                                                    onClick={() => handleProductClick(product._id)}
+                                                >
+                                                    <strong>{product.name}</strong>
+                                                </h5>
+                                                <p
+                                                    className="laptop-product-desc"
+                                                    onClick={() => handleProductClick(product._id)}
+                                                >
+                                                    {product.description}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div className="empp-card-bottom">
+                                            <p
+                                                className="laptop-product-price"
+                                                onClick={() => handleProductClick(product._id)}
+                                            >
+                                                Price: <strong>₹{product.price}</strong>
+                                            </p>
+                                            <div className="laptop-product-buttons">
+                                                {cartItems.includes(product._id) ? (
+                                                    <button
+                                                        className="laptop-add-to-cart-btn"
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            navigate("/cart");
+                                                        }}
+                                                    >
+                                                        Go To Cart
+                                                    </button>
+                                                ) : (
+                                                    <button
+                                                        className="laptop-add-to-cart-btn"
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            addToCart(product._id);
+                                                        }}
+                                                    >
+                                                        Add to Cart
+                                                    </button>
+                                                )}
+                                                <button
+                                                    className="laptop-buy-now-btn"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        buyNow(product._id, product.price);
+                                                    }}
+                                                >
+                                                    Buy Now
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 ))}
                             </div>
+
                         </div>
                     )}
+
                 </div>
             </div>
-
-
             <Footer />
         </>
     );

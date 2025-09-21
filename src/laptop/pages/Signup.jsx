@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../allStyles/signup.css'; // Ensure path is correct
+import '../allStyles/signup.css';
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -14,6 +14,8 @@ const Signup = () => {
   });
 
   const [snackbar, setSnackbar] = useState({ show: false, message: '', success: true });
+  const [showOtpModal, setShowOtpModal] = useState(false);
+  const [otpValue, setOtpValue] = useState('');
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -23,40 +25,70 @@ const Signup = () => {
     e.preventDefault();
 
     if (form.password !== form.confirmPassword) {
-      showSnackbar('Passwords do not match', false);
+      showSnackbar('Passwords do not match!', false);
       return;
     }
 
     try {
-      const res = await fetch("https://rehomify.in/v1/auth/signup", {
+      const payload = {
+        name: form.name.trim(),
+        mobileNo: form.number.trim(),
+        email: form.email.trim(),
+        type: form.type,
+        password: form.password,
+      };
+
+      const res = await fetch('https://rehomify.in/v1/auth/signup', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: form.name,
-          mobileNo: form.number,
-          email: form.email,
-          type: form.type,
-          password: form.password,
-        }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
       });
 
       const result = await res.json();
-      console.log("result>> ",result)
 
       if (result.status) {
-        showSnackbar('Signup successful!', true);
+        // ✅ Call sendOtp API
+        await fetch('https://rehomify.in/v1/auth/sendOtp', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ mobileNo: form.number }),
+        });
 
-        // Redirect after short delay to allow snackbar to show
-        setTimeout(() => {
-          navigate(form.type === 'seller' ? '/sellerHub' : '/home');
-        }, 1500);
+        // ✅ Open OTP modal
+        setShowOtpModal(true);
       } else {
-        showSnackbar(result.result || 'Signup failed', false);
+        showSnackbar(result.message || 'Signup failed!', false);
       }
     } catch (err) {
       showSnackbar('Server error. Please try again.', false);
+    }
+  };
+
+  const handleOtpSubmit = async () => {
+    try {
+      const res = await fetch('https://rehomify.in/v1/auth/verifyOtp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mobileNo: form.number, otp: otpValue }),
+      });
+
+      const result = await res.json();
+
+      if (result.status) {
+        showSnackbar('OTP verified successfully!', true);
+        localStorage.setItem('token', result.token);
+        localStorage.setItem('custId', result.data._id);
+
+        setShowOtpModal(false);
+
+        setTimeout(() => {
+          navigate(form.type === 'seller' ? '/seller/dashboard' : '/home');
+        }, 1000);
+      } else {
+        showSnackbar(result.message || 'Invalid OTP', false);
+      }
+    } catch (err) {
+      showSnackbar('Error verifying OTP.', false);
     }
   };
 
@@ -119,29 +151,6 @@ const Signup = () => {
             </div>
           </div>
 
-          <div className="laptop-form-row">
-            <div className="laptop-form-group">
-              <label>Password</label>
-              <input
-                type="password"
-                name="password"
-                value={form.password}
-                onChange={handleChange}
-                required
-              />
-            </div>
-            <div className="laptop-form-group">
-              <label>Confirm Password</label>
-              <input
-                type="password"
-                name="confirmPassword"
-                value={form.confirmPassword}
-                onChange={handleChange}
-                required
-              />
-            </div>
-          </div>
-
           <button type="submit">Submit</button>
 
           <p>
@@ -156,6 +165,23 @@ const Signup = () => {
       {snackbar.show && (
         <div className={`snackbar ${snackbar.success ? 'success' : 'error'}`}>
           {snackbar.message}
+        </div>
+      )}
+
+      {showOtpModal && (
+        <div className="otp-modal">
+          <div className="otp-modal-content">
+            <h4>Enter OTP</h4>
+            <input
+              type="text"
+              value={otpValue}
+              maxLength="4"
+              onChange={(e) => setOtpValue(e.target.value)}
+              placeholder="4-digit OTP"
+            />
+            <button onClick={handleOtpSubmit}>Verify OTP</button>
+            <button onClick={() => setShowOtpModal(false)}>Cancel</button>
+          </div>
         </div>
       )}
     </div>

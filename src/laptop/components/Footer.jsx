@@ -25,8 +25,12 @@ const Footer = () => {
           </div>
 
           <div className="footer-section">
+            <h4 onClick={()=>navigate("/tnc")} style={{ cursor: 'pointer' }}>T&C</h4>
+          </div>
+
+          <div className="footer-section">
             <h4>Contact Us</h4>
-            <p>Email: support@rehomify.com</p>
+            <p>admin@rehomify.in</p>
           </div>
         </div>
 

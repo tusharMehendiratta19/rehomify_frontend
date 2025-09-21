@@ -6,23 +6,30 @@ import Footer from "../components/Footer";
 import ExploreCategories from "../components/ExploreCategories";
 import SpecialFurnitureOffer from "../components/SpecialFurnitureOffer";
 
-const Offers = () => {
-
+const OffersMobile = () => {
   const [offers, setOffers] = useState([]);
 
   useEffect(() => {
     const fetchOffers = async () => {
       try {
-        const res = await axios.get('https://rehomify.in/v1/offers/');
-        // console.log("response: ",res.data.products)
-        setOffers(res.data);
+        const res = await axios.get("https://rehomify.in/v1/offers/");
+
+        if (Array.isArray(res.data)) {
+          // ✅ Filter only active offers
+          const activeOffers = res.data.filter((offer) => offer.isActive);
+          setOffers(activeOffers);
+        } else {
+          setOffers([]); // fallback if response is not array
+        }
       } catch (err) {
-        console.error('Error fetching homepage data:', err);
+        console.error("Error fetching homepage data:", err);
+        setOffers([]);
       }
     };
 
     fetchOffers();
   }, []);
+
 
   const offersData = offers;
 
@@ -39,21 +46,23 @@ const Offers = () => {
         <div className="offers-row">
           {offersData.map((offer) => (
             <div className="offer-card" key={offer.id}>
-              <div className="offer-top">
-                <div
-                  className="offer-code-box"
-                  onClick={() => copyToClipboard(offer.code)}
-                >
-                  {offer.code}
+              <img src={offer.image} alt={offer.type} className="offer-image" />
+              <div>
+                <div className="offer-top">
+                  <span
+                    className="offer-code-box"
+                    onClick={() => copyToClipboard(offer.code)}
+                  >
+                    {offer.code}
+                  </span>
+
                 </div>
-                <img src={offer.image} alt={offer.type} className="offer-image" />
+                <div className="offer-discount">{offer.description}</div>
+                {/* <div className="offer-tagline">{offer.description}</div> */}
               </div>
-              <div className="offer-discount">{offer.code}</div>
-              <div className="offer-tagline">{offer.description}</div>
             </div>
           ))}
         </div>
-
       </div>
       <SpecialFurnitureOffer />
       <ExploreCategories />
@@ -62,4 +71,4 @@ const Offers = () => {
   );
 };
 
-export default Offers;
+export default OffersMobile;

@@ -1,195 +1,179 @@
-.sell-options-container {
+.laptop-sell-options-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: 1rem;
-  min-height: 100vh;
+  padding: 0.2rem;
   background-color: #f9fafb;
 }
 
-.button-group {
+.laptop-button-group {
   display: flex;
+  /* flex-direction: column; */
   gap: 1rem;
-  width: 100%;
-  justify-content: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
+  /* background-color: gray; */
+  padding: 0.5rem;
 }
 
-.option-button {
-  width: 40%;
-  padding: 0.75rem 1rem;
-  border: none;
-  border-radius: 1rem;
-  color: #ffffff;
+.laptop-option-button {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #e14d37;
+  border-radius: 10px;
   font-weight: 600;
+  font-size: 14px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.option-button:hover {
-  opacity: 0.9;
-}
-
-.active-customer {
-  background-color: #e14d37;
-  color: white;
-  border: 1px solid #e14d37;
-}
-
-.option-button:not(.active-customer):not(.active-seller) {
   background-color: white;
   color: #e14d37;
-  border: 1px solid #e14d37;
 }
 
-.active-seller {
+.laptop-active-customer,
+.laptop-active-seller {
   background-color: #e14d37;
   color: white;
-  border: 1px solid #e14d37;
 }
 
-.option-button:not(.active-seller):not(.active-customer) {
-  background-color: white;
-  color: #e14d37;
-  border: 1px solid #e14d37; /* green-400 */
-}
-
-.option-content {
+.laptop-option-content {
   width: 100%;
-  /* max-width: 768px; */
-  /* background-color: #ffffff;
-  padding: 1.5rem;
-  border-radius: 1rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); */
 }
 
-.resell-main h2 {
-  margin-left: 3%;
-  width: 15%;
+.laptop-resell-main h2 {
+  width: 40%;
+  text-align: center;
+  border-radius: 20px 4px 20px 4px;
   padding: 5px 10px;
   border-bottom: 4px solid #b63e2b;
   border-left: 1px solid #b63e2b;
   border-top: 1px solid #b63e2b;
   border-right: 4px solid #b63e2b;
+  margin-bottom: 1.5rem;
   color: #b63e2b;
-  border-radius: 20px 4px 20px 4px;
-  text-align: center;
-}
-.signup-wrapper-sell {
-  background-color: gray;
-}
-.cusResellOther {
-  display: flex;
-  width: 100%;
-  margin-top: 2%;
-  border-top: 1px solid grey;
-  padding-top: 1rem;
-  /* border-radius: 5px; */
-  /* padding: 0.5rem 1rem ; */
-  /* background-color: gray; */
-}
-.cusResellOther h3 {
-  width: 20%;
-}
-.cusResellOther button {
-  width: 10%;
-  background-color: white;
-  border: 1px solid #e14d37;
-  color: #e14d37;
-  /* padding: 0.5rem 1rem; */
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: background-color 0.2s, color 0.2s;
-}
-.cusResellOther button:hover {
-  background-color: #e14d37;
-  color: white;
-}
-.signup-wrapper-sell .signup-content {
-  /* background-color: yellow; */
-  position: absolute;
-  top: 65%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  font-size: 1.2rem;
 }
 
-.signup-content {
-  position: relative;
-  z-index: 1;
-  max-width: 600px;
-  height: 70%;
-  margin: 0 auto;
-  padding: 2rem;
-  background-color: rgba(255, 255, 255, 0.9);
-  border-radius: 12px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-}
-.signup-container {
+.laptop-resell-container {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  width: 100%;
+  /* grid-template-columns: repeat(2, 1fr); */
+  gap: 0.3rem;
 }
 
-.form-row {
+.laptop-resell-card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 0.5rem;
+  width: 450px;
+  margin-left: 15px;
+  background-color: white;
   display: flex;
-  gap: 1rem;
+  /* flex-direction: column; */
+}
+
+.laptop-resell-card img {
+  width: 100%;
+  height: 160px;
+  object-fit:fill;
+  border-radius: 6px;
+}
+
+.laptop-resell-details {
+  padding: 0.5rem 0;
+  margin-left: 10px;
+  display: flex;
+  flex-direction: column;
   flex-wrap: wrap;
 }
 
-.form-group {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-/* Heading */
-.signup-container h2 {
-  text-align: center;
-  margin-bottom: 25px;
+.laptop-resell-details p {
+  margin: 0.2rem 0;
+  font-size: 0.9rem;
   color: #333;
 }
 
-/* Labels */
-.signup-container label {
-  display: block;
-  margin-bottom: 5px;
-  color: #555;
-  font-weight: 500;
-}
-
-/* Input and Select fields */
-.signup-container input,
-.signup-container select {
-  width: 100%;
-  padding: 12px 15px;
-  margin-bottom: 20px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  transition: border-color 0.3s, box-shadow 0.3s;
-}
-
-.signup-container input:focus,
-.signup-container select:focus {
-  border-color: #f27059;
-  box-shadow: 0 0 0 3px rgba(242, 112, 89, 0.2);
-  outline: none;
-}
-
-/* Submit button */
-.signup-container button {
-  width: 100%;
-  padding: 12px;
-  background-color: #f27059;
-  color: white;
+.laptop-resell-btn {
+  padding: 0.5rem;
+  width: 70%;
   border: none;
-  border-radius: 8px;
-  font-size: 16px;
+  background-color: #e14d37;
+  color: white;
+  font-weight: bold;
+  border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
 }
 
-.signup-container button:hover {
-  background-color: #e4574f;
+.laptop-cusResellOther {
+  margin-top: 1rem;
+  margin-left: 10px;
+  border-top: 1px solid #ccc;
+  padding-top: 1.2rem;
+  padding-bottom: 1rem;
+  width: 450px;
+  display: flex;
+  /* flex-direction: column; */
+  gap: 0.5rem;
+  /* background-color: gray; */
+}
+
+.laptop-cusResellOther h4 {
+  font-size: 0.7rem;
+  color: #333;
+}
+
+.laptop-cusResellOther button {
+  padding: 0.3rem;
+  background-color: white;
+  width: 40%;
+  margin-top: -5px;
+  /* margin-left: -180px; */
+  color: #e14d37;
+  border: 1px solid #e14d37;
+  border-radius: 6px;
+  font-weight: bold;
+}
+
+.laptop-signup-wrapper-sell {
+  background-color: #eee;
+  padding: 1rem 0;
+  margin-top: 300px;
+}
+
+.laptop-signup-content {
+  background-color: white;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.laptop-signup-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.laptop-form-row {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.laptop-form-group label {
+  font-size: 0.9rem;
+  margin-bottom: 0.3rem;
+}
+
+.laptop-form-group input,
+.laptop-form-group select {
+  padding: 0.7rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.laptop-signup-container button {
+  padding: 0.7rem;
+  background-color: #e14d37;
+  color: white;
+  font-weight: bold;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
 }

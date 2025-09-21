@@ -1,0 +1,103 @@
+/* Order Card Container */
+.laptop-order-card {
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 16px;
+  margin: 16px 0;
+  background-color: #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease;
+}
+
+.laptop-order-card:hover {
+  transform: translateY(-2px);
+}
+
+/* Order Header */
+.laptop-order-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+  /* background-color: gray; */
+}
+
+.laptop-order-image {
+  width: 140px;
+  height: 140px;
+  border-radius: 8px;
+  object-fit: cover;
+  /* margin-top: -20px; */
+}
+
+.laptop-order-info {
+  flex: 1;
+  /* background-color: yellow; */
+}
+
+.laptop-order-info p {
+  margin: 4px 0;
+  font-size: 14px;
+  color: #444;
+}
+
+.laptop-order-info strong {
+  color: #222;
+}
+
+/* Review Section */
+.laptop-order-review {
+  margin: 16px 0;
+}
+
+.laptop-order-review h4 {
+  margin-bottom: 8px;
+  font-size: 16px;
+  color: #333;
+}
+
+.laptop-rating-stars {
+  margin-bottom: 8px;
+}
+
+.laptop-rating-stars span {
+  margin-right: 4px;
+  transition: color 0.2s ease;
+}
+
+.laptop-review-box {
+  width: 100%;
+  min-height: 60px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  resize: none;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+/* Buttons */
+.laptop-submit-review,
+.laptop-download-invoice {
+  display: inline-block;
+  background: #ff6f61;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.laptop-submit-review:hover,
+.laptop-download-invoice:hover {
+  background: #e95a4f;
+}
+
+.laptop-download-invoice {
+  margin-top: 12px;
+  width: 100%;
+  text-align: center;
+}

@@ -40,6 +40,8 @@ import SellerReviews from "./sellers/components/SellerReviews";
 import SellerNote from "./sellers/components/SellerNote";
 import SellerOverview from "./sellers/components/SellerOverview"; // if used elsewhere
 import AddProductForm from "./sellers/components/SellerAddProduct";
+import TNC from "./components/TNC";
+import OrdersPage from "./components/OrdersPage";
 
 function LaptopApp() {
   const [userType, setUserType] = useState(null);
@@ -63,10 +65,12 @@ function LaptopApp() {
         <Route path="/products" element={<Products />} />
         <Route path="/product/:id" element={<ProductPage />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/tnc" element={<TNC />} />
         <Route path="/forgotPassword" element={<ForgotPassword />} />
         <Route path="/cart" element={<CartCard />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/resell" element={<ResellOrders />} />
+        <Route path="/ordersPage" element={<OrdersPage />} />
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/offers" element={<Offers />} />
         <Route path="/trends" element={<Trends />} />
