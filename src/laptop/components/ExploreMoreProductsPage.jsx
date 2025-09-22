@@ -6,6 +6,7 @@ import Footer from "./Footer";
 import axios from "axios";
 import { AiFillHeart } from "react-icons/ai";
 import { FiHeart } from "react-icons/fi";
+import { useCart } from "../../data/CartContext";
 
 const categories = [
     {
@@ -38,6 +39,7 @@ const ExploreMoreProductsPage = () => {
 
     const [selectedCategory, setSelectedCategory] = useState("Product under 5000");
     const [categorizedProducts, setCategorizedProducts] = useState({});
+    const { cartCount, addToCart: addToCartContext, removeFromCart } = useCart();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -98,6 +100,7 @@ const ExploreMoreProductsPage = () => {
             });
 
             if (res.status) {
+                addToCartContext(productId);
                 setCartItems(prev => [...prev, productId]);
                 showSnackbar("Added to Cart");
             }

@@ -5,12 +5,14 @@ import Header from "./Header";
 import Footer from "./Footer";
 import axios from "axios";
 import CartSummary from "./CartSummary"; // Assuming CartSummary is in the same directory
+import { useCart } from "../../data/CartContext";
 
 const CartCard = () => {
   const [cartItems, setCartItems] = useState([]);
   const [snackbarMsg, setSnackbarMsg] = useState("");
   const [snackbarVisible, setSnackbarVisible] = useState(false);
   const navigate = useNavigate();
+  const { cartCount, removeFromCart } = useCart();
 
   useEffect(() => {
     fetchCart();
@@ -40,6 +42,7 @@ const CartCard = () => {
         productId: id,
       });
       setCartItems((prev) => prev.filter(item => item.id !== id));
+      removeFromCart(id);
       showSnackbar("Product removed from cart");
     } catch (e) {
       console.error("Remove failed", e);
@@ -81,9 +84,9 @@ const CartCard = () => {
             <img src={item.imageUrl} alt={item.name} onClick={() => handleProductClick(item.id)} />
             <div className="laptop-cart-info">
               <h2 onClick={() => handleProductClick(item.id)}>{item.name}</h2>
-              <br/>
+              <br />
               <p>{item.description}</p>
-              <br/>
+              <br />
               <p><strong>Price:</strong> ₹{item.price}</p>
 
               <div className="laptop-quantity-control">

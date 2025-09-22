@@ -5,11 +5,13 @@ import { AiFillHeart } from "react-icons/ai";
 import { FiHeart } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useCart } from "../../data/CartContext";
 
 const ProductRow = ({ title, type, allproducts }) => {
   const scrollContainerRef = useRef(null);
   const products = allproducts || [];
   const navigate = useNavigate();
+  const { addToCart, removeFromCart } = useCart();
 
   const [wishlist, setWishlist] = useState([]);
   const [cartItems, setCartItems] = useState([]);
@@ -56,7 +58,7 @@ const ProductRow = ({ title, type, allproducts }) => {
     navigate(`/product/${id}`);
   };
 
-  const addToCart = async (productId) => {
+  const addToCarts = async (productId) => {
     if (!isLoggedIn) return showSnackbar("Please login to add items to cart");
     try {
       const res = await axios.post("https://rehomify.in/v1/cart/addToCart", {
@@ -71,6 +73,7 @@ const ProductRow = ({ title, type, allproducts }) => {
 
       if (res.status) {
         setCartItems(prev => [...prev, productId]);
+        addToCart(productId)
         showSnackbar("Added to Cart");
       }
     } catch (err) {
@@ -177,7 +180,7 @@ const ProductRow = ({ title, type, allproducts }) => {
                     Go To Cart
                   </button>
                 ) : (
-                  <button className="btn-outline" onClick={(e) => { e.stopPropagation(); addToCart(product._id); }}>
+                  <button className="btn-outline" onClick={(e) => { e.stopPropagation(); addToCarts(product._id); }}>
                     Add To Cart
                   </button>
                 )}

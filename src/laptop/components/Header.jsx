@@ -1,16 +1,19 @@
+// src/components/Header.jsx
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../allStyles/header.css";
 import {
   FaUserCircle,
   FaShoppingCart,
-  FaSearch,
   FaHome,
   FaBoxOpen,
   FaRecycle,
   FaTags,
-  FaLightbulb
+  FaLightbulb,
 } from "react-icons/fa";
+
+// 🔹 Import Cart Context
+import { useCart } from "../../data/CartContext";
 
 const slogans = ["Table", "Chair", "Sofa", "Bed", "Cupboard"];
 
@@ -19,7 +22,12 @@ const Header = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const navigate = useNavigate();
 
-  const isLoggedIn = !!localStorage.getItem("token"); // adjust if your key is different
+  // ✅ Get cart count from context
+  const { cartCount } = useCart();
+  // console.log("Cart count from context:", cartCount);
+
+
+  const isLoggedIn = !!localStorage.getItem("token");
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -31,8 +39,6 @@ const Header = () => {
   const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
 
   const handleProtectedRoute = (path) => {
-    console.log("isLoggedIn: ", isLoggedIn)
-    console.log("path: ", path)
     if (!isLoggedIn) {
       navigate("/login");
     } else {
@@ -72,6 +78,12 @@ const Header = () => {
     <div className="header-container">
       {/* Top Header */}
       <div className="top-header">
+        <img
+          src="/logo_rehomify.png"
+          alt="Logo"
+          className="laptop-logo-img"
+          onClick={() => navigate("/home")}
+        />
         <div className="logo">ReHomify</div>
         <div className="slogan">
           Don’t just rent, buy '{slogans[index]}' on easy EMIs
@@ -80,8 +92,14 @@ const Header = () => {
         <FaUserCircle size={28} onClick={toggleDropdown} className="userIcon" />
 
         <div className="cartBtn">
-          <span onClick={() => handleProtectedRoute("/cart")}>
+          <span
+            onClick={() => handleProtectedRoute("/cart")}
+            className="cart-icon-wrapper"
+          >
             <FaShoppingCart className="cart-icon" size={22} />
+            {cartCount > 0 && (
+              <span className="cartCount">{cartCount}</span>
+            )}
           </span>
         </div>
 
@@ -89,10 +107,18 @@ const Header = () => {
           <div className="dropdown-menu">
             {isLoggedIn ? (
               <>
-                <button onClick={() => handleOptionClick("profile")}>Profile</button>
-                <button onClick={() => handleOptionClick("orders")}>Orders</button>
-                <button onClick={() => handleOptionClick("wishlist")}>Wishlist</button>
-                <button onClick={() => handleOptionClick("logout")}>Logout</button>
+                <button onClick={() => handleOptionClick("profile")}>
+                  Profile
+                </button>
+                <button onClick={() => handleOptionClick("orders")}>
+                  Orders
+                </button>
+                <button onClick={() => handleOptionClick("wishlist")}>
+                  Wishlist
+                </button>
+                <button onClick={() => handleOptionClick("logout")}>
+                  Logout
+                </button>
               </>
             ) : (
               <button onClick={() => handleOptionClick("login")}>Login</button>
@@ -110,7 +136,10 @@ const Header = () => {
           <Link to="/products">
             <FaBoxOpen className="nav-icons" /> Products
           </Link>
-          <span className="span-link" onClick={() => handleProtectedRoute("/resell")}>
+          <span
+            className="span-link"
+            onClick={() => handleProtectedRoute("/resell")}
+          >
             <FaRecycle className="nav-icons" /> Resell
           </span>
 
@@ -123,8 +152,15 @@ const Header = () => {
         </nav>
 
         <div className="search-cart">
-          <input type="text" placeholder="Search..." className="search-input" />
-          <h4 className="becomeSeller" onClick={() => navigate("/sellOptions")}>
+          <input
+            type="text"
+            placeholder="Search..."
+            className="search-input"
+          />
+          <h4
+            className="becomeSeller"
+            onClick={() => navigate("/sellOptions")}
+          >
             Sell Your Furniture
           </h4>
         </div>

@@ -86,11 +86,12 @@
   height: 300px !important;
   object-fit: fill;
   border-radius: 6px;
-  margin-bottom: 10px;
+  /* margin-bottom: 10px; */
 }
 
 .laptop-product-info {
   flex-grow: 1;
+  margin-top: -10px;
   display: flex;
   flex-direction: column;
   justify-content: space-between; /* ensures description at top, price+btns at bottom */
@@ -103,7 +104,7 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-size: 11px;
+  font-size: 12px !important;
   margin-bottom: 8px;
 }
 

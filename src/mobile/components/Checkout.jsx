@@ -217,6 +217,11 @@ const Checkout = () => {
         setIsPincodeServiceable(true); // ✅ pincode is serviceable
         setShowAddressForm(false);
         setAddress(response.data.data.address || {});
+        window.dispatchEvent(
+          new CustomEvent("snackbar", {
+            detail: { message: "Pincode is serviceable", type: "error" },
+          })
+        );
       } else {
         setIsPincodeServiceable(false); // ❌ pincode not serviceable
         window.dispatchEvent(

@@ -5,6 +5,7 @@ import '../allStyles/wishlist.css';
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { AiFillHeart } from 'react-icons/ai';
+import { useCart } from '../../data/CartContext';
 
 const Wishlist = () => {
     const [wishlist, setWishlist] = useState([]);
@@ -13,6 +14,7 @@ const Wishlist = () => {
     const isLoggedIn = !!localStorage.getItem("token") && !!localStorage.getItem("custId");
     const [snackbarMessage, setSnackbarMessage] = useState("");
     const [cartItems, setCartItems] = useState([]);
+    const { cartCount, addToCart:addtocartContext, removeFromCart } = useCart();
 
 
     useEffect(() => {
@@ -67,6 +69,7 @@ const Wishlist = () => {
             });
 
             if (response.status) {
+                addtocartContext(productId);
                 showSnackbar("Added to Cart");
                 setCartItems(prev => [...prev, productId]);
             } else {

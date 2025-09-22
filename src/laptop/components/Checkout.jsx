@@ -217,6 +217,11 @@ const Checkout = () => {
         setIsPincodeServiceable(true); // ✅ pincode is serviceable
         setShowAddressForm(false);
         setAddress(response.data.data.address || {});
+        window.dispatchEvent(
+          new CustomEvent("snackbar", {
+            detail: { message: "Pincode is serviceable", type: "success" },
+          })
+        );
       } else {
         setIsPincodeServiceable(false); // ❌ pincode not serviceable
         window.dispatchEvent(
@@ -285,6 +290,8 @@ const Checkout = () => {
       <div className="laptop-checkout-layout">
         {/* ✅ Sidebar product summary */}
         <div className="laptop-checkout-sidebar">
+          <span className="productSummary"><u>Product Summary:</u></span>
+          <br />
           {Array.isArray(product) ? (
             product.map((p, index) => (
               <details key={index} className="laptop-product-accordion">
@@ -347,7 +354,7 @@ const Checkout = () => {
               </div>
             </div>
 
-            <div className="laptop-checkout-section"> <div className="laptop-checkout-section-header">DELIVERY ADDRESS ✔</div> {isAddressValid && <div className="laptop-checkout-section-body"> <span> <strong>{address.name}</strong> {address.addressLine1} {address.addressLine2} {address.city} {address.state} <strong>{address.pinCode}</strong> <br /> Landmark: {address.landmark} </span> <button className="laptop-change-btn" onClick={() => setShowAddressForm(!showAddressForm)} > CHANGE </button> </div>} {!isAddressValid && <div className="laptop-checkout-section-body"> <span>Please fill in your address details.</span> <button className="laptop-change-btn" onClick={() => setShowAddressForm(!showAddressForm)} > ADD ADDRESS </button> </div>} </div>
+            <div className="laptop-checkout-section"> <div className="laptop-checkout-section-header">DELIVERY ADDRESS ✔</div> {isAddressValid && <div className="laptop-checkout-section-body"> <span> <strong>{address.name}</strong> {address.addressLine1} {address.addressLine2} {address.city} {address.state} <strong>{address.pinCode}</strong> <br />  </span> <button className="laptop-change-btn" onClick={() => setShowAddressForm(!showAddressForm)} > CHANGE </button> </div>} {!isAddressValid && <div className="laptop-checkout-section-body"> <span>Please fill in your address details.</span> <button className="laptop-change-btn" onClick={() => setShowAddressForm(!showAddressForm)} > ADD ADDRESS </button> </div>} </div>
           </div>
 
           <div>
@@ -416,72 +423,72 @@ const Checkout = () => {
 
 
 
-          
-            <form className="laptop-address-form" onSubmit={addCustomerAddress}>
-              <div className="laptop-checkout-address-form">
-                <input
-                  type="text"
-                  name="name"
-                  placeholder="Full Name*"
-                  value={address.name}
-                  onChange={handleInputChange}
-                  required
-                />
-              </div>
+
+          <form className="laptop-address-form" onSubmit={addCustomerAddress}>
+            <div className="laptop-checkout-address-form">
               <input
                 type="text"
-                name="addressLine1"
-                placeholder="Address Line 1 *"
-                value={address.addressLine1}
+                name="name"
+                placeholder="Full Name*"
+                value={address.name}
+                onChange={handleInputChange}
+                required
+              />
+            </div>
+            <input
+              type="text"
+              name="addressLine1"
+              placeholder="Address Line 1 *"
+              value={address.addressLine1}
+              onChange={handleInputChange}
+              required
+            />
+            <input
+              type="text"
+              name="addressLine2"
+              placeholder="Address Line 2 *"
+              value={address.addressLine2}
+              onChange={handleInputChange}
+            />
+            <input
+              type="text"
+              name="landmark"
+              placeholder="Landmark"
+              value={address.landmark}
+              onChange={handleInputChange}
+            />
+            <div className="laptop-checkout-address-form">
+              <input
+                type="tel"
+                name="pinCode"
+                placeholder="Pin Code *"
+                value={address.pinCode}
+                onChange={handleInputChange}
+                maxLength={6}
+                required
+              />
+              <input
+                type="text"
+                name="city"
+                placeholder="City/Town *"
+                value={address.city}
                 onChange={handleInputChange}
                 required
               />
               <input
                 type="text"
-                name="addressLine2"
-                placeholder="Address Line 2 *"
-                value={address.addressLine2}
+                name="state"
+                placeholder="State *"
+                value={address.state}
                 onChange={handleInputChange}
+                required
               />
-              <input
-                type="text"
-                name="landmark"
-                placeholder="Landmark"
-                value={address.landmark}
-                onChange={handleInputChange}
-              />
-              <div className="laptop-checkout-address-form">
-                <input
-                  type="tel"
-                  name="pinCode"
-                  placeholder="Pin Code *"
-                  value={address.pinCode}
-                  onChange={handleInputChange}
-                  maxLength={6}
-                  required
-                />
-                <input
-                  type="text"
-                  name="city"
-                  placeholder="City/Town *"
-                  value={address.city}
-                  onChange={handleInputChange}
-                  required
-                />
-                <input
-                  type="text"
-                  name="state"
-                  placeholder="State *"
-                  value={address.state}
-                  onChange={handleInputChange}
-                  required
-                />
-              </div>
-              <button type="submit" className="addadrsbtn">
-                ADD ADDRESS
-              </button>
-            </form>
-          
+            </div>
+            <button type="submit" className="addadrsbtn">
+              ADD ADDRESS
+            </button>
+          </form>
+
 
           {/* ✅ Coupon apply section */}
 
