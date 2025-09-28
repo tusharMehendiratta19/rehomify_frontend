@@ -6,7 +6,7 @@ import Header from './Header';
 import Footer from './Footer';
 // import dummyProducts from '../../data/dummyProductData';
 import EMIPanel from './EMIPanel';
-
+import { useCart } from "../../data/CartContext";
 
 const ProductPage = () => {
   const { id } = useParams();
@@ -25,7 +25,7 @@ const ProductPage = () => {
   const [selectedVariety, setSelectedVariety] = useState(null);
   const [pincode, setPincode] = useState("")
   const [message, setMessage] = useState("");
-
+  const { addToCart, removeFromCart } = useCart();
 
   const similarProducts = [
     { id: 1, name: 'Product A', price: 999, description: 'Description A', image: 'https://images.pexels.com/photos/7850509/pexels-photo-7850509.jpeg' },
@@ -94,7 +94,7 @@ const ProductPage = () => {
   //   setTimeout(() => setSnackbarOpen(false), 3000); // auto hide in 3s
   // };
 
-  const addToCart = async (productId) => {
+  const addToCarts = async (productId) => {
     if (!localStorage.getItem("token") || !localStorage.getItem("custId")) {
       window.dispatchEvent(new CustomEvent("snackbar", {
         detail: { message: "Please login to add products to cart", type: "error" }
@@ -113,6 +113,7 @@ const ProductPage = () => {
       });
 
       if (response.status) {
+        addToCart(productId)
         window.dispatchEvent(new CustomEvent("snackbar", {
           detail: { message: "Added to Cart", type: "success" }
         }));
@@ -265,7 +266,7 @@ const ProductPage = () => {
                   className="mobile-add-to-cart"
                   onClick={(e) => {
                     e.stopPropagation();
-                    addToCart(product.id);
+                    addToCarts(product.id);
                   }}
                 >
                   Add to cart

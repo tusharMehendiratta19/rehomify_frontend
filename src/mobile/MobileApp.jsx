@@ -27,6 +27,7 @@ import Checkout from "./components/Checkout";
 import ExploreMoreProductsPage from "./components/ExploreMoreProductsPage";
 import SellOption from "./components/SellOption";
 import Wishlist from "./components/Wishlist";
+import { CartProvider } from "../data/CartContext"
 
 // Seller-related imports
 import MobileSellerHubLayout from "./sellers/components/MobileSellerHubLayout";
@@ -58,7 +59,7 @@ function MobileApp() {
   };
 
   return (
-    <>
+    <CartProvider>
       <Router>
         <Routes>
           {/* Public Routes */}
@@ -116,7 +117,7 @@ function MobileApp() {
         </Routes>
       </Router>
       <Snackbar />
-    </>
+    </CartProvider>
   );
 }
 

@@ -17,7 +17,7 @@
 }
 
 .laptop-product-images-column {
-  width: 90%;
+  width: 100%;
   display: flex;
   align-items: center;
   /* flex-direction: column; */
@@ -29,7 +29,7 @@
   flex-direction: column;
   justify-content: center;
   /* background-color: yellow; */
-  margin-top: -30%;
+  margin-top: -15%;
   padding-left: 10px;
   gap: 20px;
   margin-bottom: 1rem;
@@ -52,8 +52,8 @@
 
 .laptop-main-product-image {
   /* margin-top: -20%; */
-  width: 85%;
-  height: 600px;
+  width: 65%;
+  height: 500px;
   /* margin-top: 10px; */
   /* margin-bottom: 20px; */
   border-radius: 8px;

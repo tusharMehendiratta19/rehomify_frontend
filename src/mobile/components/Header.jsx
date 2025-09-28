@@ -7,6 +7,7 @@ import {
 } from "react-icons/fa";
 import axios from "axios";
 import "../allstyles/header.css";
+import { useCart } from "../../data/CartContext";
 
 const slogans = ["Table", "Chair", "Sofa", "Bed", "Cupboard"];
 
@@ -23,6 +24,7 @@ const MobileHeader = () => {
 
   const dropdownRef = useRef(null);
   const sideNavRef = useRef(null);
+  const { cartCount } = useCart();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -238,6 +240,9 @@ const MobileHeader = () => {
           className="mobile-cart-link"
         >
           <FaShoppingCart className="mobile-cart-icon" size={20} />
+          {cartCount > 0 && (
+            <span className="cartCount">{cartCount}</span>
+          )}
         </span>
 
         {/* Suggestions Box */}

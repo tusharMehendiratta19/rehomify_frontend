@@ -11,6 +11,7 @@ import { FiHeart } from "react-icons/fi";     // Outline heart
 import Loader from "../components/Loader";
 // import AddProductForm from "../sellers/components/MobileSellerAddProduct";
 import CustomerAddProductForm from "../components/CustomerAddProduct";
+import { useCart } from "../../data/CartContext";
 
 const categories = [
   "All Products",
@@ -41,6 +42,7 @@ const Products = () => {
   const [cartItems, setCartItems] = useState([]);
   const navigate = useNavigate();
   const isLoggedIn = !!localStorage.getItem("token") && !!localStorage.getItem("custId");
+  const { cartCount, addToCart: addToCartContext, removeFromCart } = useCart();
 
   const [allProducts, setAllProducts] = useState([]);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -104,6 +106,7 @@ const Products = () => {
 
       if (response.status) {
         showSnackbar("Added to Cart");
+        addToCartContext(productId);
         setCartItems(prev => [...prev, productId]);
       } else {
         showSnackbar("Error adding to Cart");

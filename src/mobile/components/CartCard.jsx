@@ -5,12 +5,14 @@ import Header from "./Header";
 import Footer from "./Footer";
 import axios from "axios";
 import CartSummary from "./CartSummary"; // Assuming CartSummary is in the same directory
+import { useCart } from "../../data/CartContext";
 
 const CartCard = () => {
   const [cartItems, setCartItems] = useState([]);
   const [snackbarMsg, setSnackbarMsg] = useState("");
   const [snackbarVisible, setSnackbarVisible] = useState(false);
   const navigate = useNavigate();
+  const { cartCount, removeFromCart } = useCart();
 
   useEffect(() => {
     fetchCart();
@@ -40,6 +42,7 @@ const CartCard = () => {
         productId: id,
       });
       setCartItems((prev) => prev.filter(item => item.id !== id));
+      removeFromCart(id);
       showSnackbar("Product removed from cart");
     } catch (e) {
       console.error("Remove failed", e);
