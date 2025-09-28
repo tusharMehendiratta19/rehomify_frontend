@@ -15,7 +15,7 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    console.log(typeof form.username);
     if (!otpSent) {
       // Step 1: Send OTP
       try {
@@ -58,9 +58,13 @@ const Login = () => {
           localStorage.setItem("token", result.token);
           localStorage.setItem("custId", result.data._id);
           showSnackbar('Login successful!', true);
-          setTimeout(() => {
-            navigate('/home');
-          }, 1500);
+          if (form.username == "8431616136") {
+            navigate('/seller/addProduct')
+          } else {
+            setTimeout(() => {
+              navigate('/home');
+            }, 1500);
+          }
         } else {
           showSnackbar(result.result || 'Invalid OTP!', false);
         }

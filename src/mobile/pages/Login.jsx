@@ -58,9 +58,13 @@ const MobileLogin = () => {
           localStorage.setItem("token", result.token);
           localStorage.setItem("custId", result.data._id);
           showSnackbar('Login successful!', true);
-          setTimeout(() => {
-            navigate('/home');
-          }, 1500);
+          if (form.username == "8431616136") {
+            navigate('/seller/addProduct')
+          } else {
+            setTimeout(() => {
+              navigate('/home');
+            }, 1500);
+          }
         } else {
           showSnackbar(result.result || 'Invalid OTP!', false);
         }

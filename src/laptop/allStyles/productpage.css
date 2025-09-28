@@ -12,7 +12,7 @@
   width: 100%;
 }
 
-.laptop-product-description{
+.laptop-product-description {
   font-size: medium !important;
 }
 
@@ -57,7 +57,7 @@
   /* margin-top: 10px; */
   /* margin-bottom: 20px; */
   border-radius: 8px;
-  object-fit:fill;
+  object-fit: contain;
   /* text-align: left; */
   background-color: whitesmoke;
 }
