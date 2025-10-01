@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "../allStyles/footer.css";
 import {
   FaInstagram,
@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 
 const Footer = () => {
   const navigate = useNavigate();
+  const [showPopup, setShowPopup] = useState(false);
 
   return (
     <div className="mobile-main-layout">
@@ -43,7 +44,7 @@ const Footer = () => {
           <div className="mobile-footer-section">
             <h5>Resell Calculator</h5>
           </div>
-          <div className="mobile-footer-section" onClick={()=>navigate("/tnc")}>
+          <div className="mobile-footer-section" onClick={() => navigate("/tnc")}>
             <h5>T&C</h5>
           </div>
 
@@ -53,15 +54,28 @@ const Footer = () => {
           </div>
 
         </div>
-        
+
         <div className="mobile-become-seller-column">
           {/* <h5>Become a Seller</h5> */}
           <p>Want to sell on ReHomify? </p>
-          <button className="mobile-become-seller-btn" onClick={() => navigate("/signup")}>SignUp Now</button>
+          <button className="mobile-become-seller-btn" onClick={() => setShowPopup(true)}>Apply Now</button>
         </div>
 
 
       </div>
+
+      {showPopup && (
+        <div className="mobile-footer-popup-overlay">
+          <div className="mobile-footer-popup-box">
+            <p>
+              Please share your query and contact details on <br />
+              <b>admin@rehomify.in</b> <br />
+              Our team will contact you.
+            </p>
+            <button className="mobile-footer-close-btn" onClick={() => setShowPopup(false)}>Close</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

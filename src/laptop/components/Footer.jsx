@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "../allStyles/footer.css";
 import {
   FaInstagram,
@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 
 const Footer = () => {
   const navigate = useNavigate();
+  const [showPopup, setShowPopup] = useState(false);
 
   return (
     <div className="main-layout">
@@ -57,9 +58,23 @@ const Footer = () => {
         <div className="become-seller-column">
           <h4>Become a Seller</h4>
           <p>Interested in selling furniture on ReHomify? Join us today!</p>
-          <button className="become-seller-btn" onClick={() => navigate("/signup")}>Apply Now</button>
+          <button className="become-seller-btn" onClick={() => setShowPopup(true)}>Apply Now</button>
         </div>
       </div>
+
+      {/* Popup Modal */}
+      {showPopup && (
+        <div className="footer-popup-overlay">
+          <div className="footer-popup-box">
+            <p>
+              Please share your query and contact details on <br />
+              <b>admin@rehomify.in</b> <br />
+              Our team will contact you.
+            </p>
+            <button className="footer-close-btn" onClick={() => setShowPopup(false)}>Close</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

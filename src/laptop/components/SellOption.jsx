@@ -10,7 +10,7 @@ import axios from "axios";
 
 const SellOptions = () => {
   const navigate = useNavigate();
-  const [selectedOption, setSelectedOption] = useState(null);
+  const [selectedOption, setSelectedOption] = useState("customer");
   const [showProductForm, setShowProductForm] = useState(false);
   const [orders, setOrders] = useState([]);
 
@@ -58,20 +58,20 @@ const SellOptions = () => {
       <Header />
       <div className="laptop-sell-options-container">
         <div className="laptop-button-group">
-          <button
+          {/* <button
             className={`laptop-option-button ${selectedOption === "customer" ? "laptop-active-customer" : ""
               }`}
             onClick={() => setSelectedOption("customer")}
           >
             Sell as Customer
-          </button>
-          <button
+          </button> */}
+          {/* <button
             className={`laptop-option-button ${selectedOption === "seller" ? "laptop-active-seller" : ""
               }`}
             onClick={() => setSelectedOption("seller")}
           >
             Sell as Vendor
-          </button>
+          </button> */}
         </div>
 
         <div className="laptop-option-content">
