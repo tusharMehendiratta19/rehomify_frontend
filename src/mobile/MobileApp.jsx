@@ -45,6 +45,13 @@ import MobileSellerAddProduct from "./sellers/components/MobileSellerAddProduct"
 import Snackbar from "./components/Snackbar";
 import OrdersPage from "./components/OrdersPage";
 import TNC from "./components/TNC";
+import ChooseWardrobe from "./components/ChooseWardrobe";
+import FurnishMumbai from "./components/FurnishMumbai";
+import RentingVsBuying from "./components/RentingvsBuying";
+import BudgetFriendly from "./components/BudgetFriendly";
+import DoubleBedBlog from "./components/DoubleBedBlog";
+import SingleBedBlog from "./components/DoubleBedBlog";
+import TableBlog from "./components/DoubleBedBlog";
 
 function MobileApp() {
   const [userType, setUserType] = useState(null);
@@ -84,6 +91,13 @@ function MobileApp() {
           <Route path="/sellOptions" element={<SellOption />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/aboutus" element={<AboutUs />} />
+          <Route path="/blogs/furnish" element={<FurnishMumbai />} />
+          <Route path="/blogs/wardrobe" element={<ChooseWardrobe />} />
+          <Route path="/blogs/rentVsBuy" element={<RentingVsBuying />} />
+          <Route path="/blogs/budgetFriendly" element={<BudgetFriendly />} />
+          <Route path="/blogs/doubleBed" element={<DoubleBedBlog />} />
+          <Route path="/blogs/singleBed" element={<SingleBedBlog />} />
+          <Route path="/blogs/table" element={<TableBlog />} />
           <Route path="/category/:categoryName" element={<ExploreMoreProductsPage />} />
 
           {/* Role-Based Redirect from /dashboard */}

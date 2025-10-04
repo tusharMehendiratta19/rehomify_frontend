@@ -39,6 +39,13 @@ import AddProductForm from "./sellers/components/SellerAddProduct";
 import TNC from "./components/TNC";
 import OrdersPage from "./components/OrdersPage";
 import Snackbar from "./components/Snackbar";
+import ChooseWardrobe from "./components/ChooseWardrobe";
+import FurnishMumbai from "./components/FurnishMumbai";
+import RentingVsBuying from "./components/RentingvsBuying";
+import BudgetFriendly from "./components/BudgetFriendly";
+import DoubleBedBlog from "./components/DoubleBedBlog";
+import SingleBedBlog from "./components/DoubleBedBlog";
+import TableBlog from "./components/DoubleBedBlog";
 
 function LaptopApp() {
   const [userType, setUserType] = useState(null);
@@ -78,6 +85,13 @@ function LaptopApp() {
           <Route path="/sellOptions" element={<SellOption />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/aboutus" element={<AboutUs />} />
+          <Route path="/blogs/furnish" element={<FurnishMumbai />} />
+          <Route path="/blogs/wardrobe" element={<ChooseWardrobe />} />
+          <Route path="/blogs/rentVsBuy" element={<RentingVsBuying />} />
+          <Route path="/blogs/budgetFriendly" element={<BudgetFriendly />} />
+          <Route path="/blogs/doubleBed" element={<DoubleBedBlog />} />
+          <Route path="/blogs/singleBed" element={<SingleBedBlog />} />
+          <Route path="/blogs/table" element={<TableBlog />} />
           <Route
             path="/category/:categoryName"
             element={<ExploreMoreProductsPage />}

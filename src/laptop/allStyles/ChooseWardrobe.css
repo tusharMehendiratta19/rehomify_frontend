@@ -1,0 +1,132 @@
+.chooseWardrobe-container {
+  width: 90%;
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px 30px;
+  background: #fffdfc;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.7;
+  color: #333;
+}
+
+.chooseWardrobe-title {
+  font-size: 2.2rem;
+  color: #e6735c;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.chooseWardrobe-subtitle {
+  font-size: 1.5rem;
+  margin-top: 25px;
+  color: #444;
+  border-left: 4px solid #e6735c;
+  padding-left: 10px;
+}
+
+.chooseWardrobe-subsubtitle {
+  font-size: 1.2rem;
+  margin-top: 18px;
+  color: #555;
+}
+
+.chooseWardrobe-paragraph {
+  margin: 12px 0;
+  font-size: 1rem;
+}
+
+.chooseWardrobe-list {
+  margin: 12px 0 20px 25px;
+}
+
+.chooseWardrobe-list li {
+  margin: 6px 0;
+  font-size: 1rem;
+}
+
+.chooseWardrobe-cta-box {
+  background: #fff3f0;
+  border: 1px solid #f0c2b5;
+  padding: 15px;
+  margin-top: 25px;
+  text-align: center;
+  border-radius: 10px;
+  font-weight: 500;
+}
+
+.chooseWardrobe-brand {
+  font-weight: 700;
+  color: #e6735c;
+}
+
+/* ---------------------------- */
+/* RESPONSIVE DESIGN */
+/* ---------------------------- */
+@media (max-width: 768px) {
+  .chooseWardrobe-container {
+    padding: 15px 20px;
+    margin: 20px;
+  }
+
+  .chooseWardrobe-title {
+    font-size: 1.8rem;
+  }
+
+  .chooseWardrobe-subtitle {
+    font-size: 1.3rem;
+    padding-left: 8px;
+  }
+
+  .chooseWardrobe-subsubtitle {
+    font-size: 1.1rem;
+  }
+
+  .chooseWardrobe-paragraph,
+  .chooseWardrobe-list li {
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  .chooseWardrobe-list {
+    margin-left: 18px;
+  }
+
+  .chooseWardrobe-cta-box {
+    font-size: 0.95rem;
+    padding: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .chooseWardrobe-container {
+    padding: 12px 15px;
+    margin: 15px;
+    border-radius: 10px;
+  }
+
+  .chooseWardrobe-title {
+    font-size: 1.5rem;
+  }
+
+  .chooseWardrobe-subtitle {
+    font-size: 1.1rem;
+    border-left: 3px solid #e6735c;
+  }
+
+  .chooseWardrobe-subsubtitle {
+    font-size: 1rem;
+  }
+
+  .chooseWardrobe-paragraph,
+  .chooseWardrobe-list li {
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  .chooseWardrobe-cta-box {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+}

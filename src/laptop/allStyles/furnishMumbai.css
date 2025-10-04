@@ -1,0 +1,135 @@
+.furnishMumbai-container {
+  width: 90%;
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px 30px;
+  background: #fffdfc;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.7;
+  color: #333;
+}
+
+.furnishMumbai-title {
+  font-size: 2.2rem;
+  color: #e6735c;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.furnishMumbai-subtitle {
+  font-size: 1.5rem;
+  margin-top: 25px;
+  color: #444;
+  border-left: 4px solid #e6735c;
+  padding-left: 10px;
+}
+
+.furnishMumbai-paragraph {
+  margin: 12px 0;
+  font-size: 1rem;
+}
+
+.furnishMumbai-list {
+  margin: 12px 0 20px 25px;
+}
+
+.furnishMumbai-list li {
+  margin: 6px 0;
+  font-size: 1rem;
+}
+
+.furnishMumbai-brand {
+  font-weight: 700;
+  color: #e6735c;
+}
+
+.furnishMumbai-cta-box {
+  background: #fff3f0;
+  border: 1px solid #f0c2b5;
+  padding: 12px 15px;
+  margin: 18px 0;
+  text-align: center;
+  border-radius: 10px;
+  font-weight: 500;
+}
+
+.furnishMumbai-cta-box .furnishMumbai-link {
+  color: #e6735c;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s ease;
+}
+
+.furnishMumbai-cta-box .furnishMumbai-link:hover {
+  text-decoration: underline;
+}
+
+.furnishMumbai-final-cta {
+  background: #ffe7e2;
+  border-color: #f2b5a8;
+  font-size: 1rem;
+}
+
+.furnishMumbai-closing-text {
+  margin-top: 20px;
+  font-size: 1rem;
+  font-style: italic;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .furnishMumbai-container {
+    padding: 15px 20px;
+    margin: 20px;
+  }
+
+  .furnishMumbai-title {
+    font-size: 1.8rem;
+  }
+
+  .furnishMumbai-subtitle {
+    font-size: 1.3rem;
+    padding-left: 8px;
+  }
+
+  .furnishMumbai-paragraph,
+  .furnishMumbai-list li {
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  .furnishMumbai-cta-box {
+    font-size: 0.95rem;
+    padding: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .furnishMumbai-container {
+    padding: 12px 15px;
+    margin: 15px;
+    border-radius: 10px;
+  }
+
+  .furnishMumbai-title {
+    font-size: 1.5rem;
+  }
+
+  .furnishMumbai-subtitle {
+    font-size: 1.1rem;
+    border-left: 3px solid #e6735c;
+  }
+
+  .furnishMumbai-paragraph,
+  .furnishMumbai-list li {
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  .furnishMumbai-cta-box {
+    font-size: 0.9rem;
+    padding: 8px;
+  }
+}

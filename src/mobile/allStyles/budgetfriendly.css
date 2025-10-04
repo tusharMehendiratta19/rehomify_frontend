@@ -1,0 +1,112 @@
+.budgetfriendly-container {
+  max-width: 900px;
+  margin: auto;
+  width: 90%;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  color: #333;
+}
+
+.budgetfriendly-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.budgetfriendly-subtitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-top: 30px;
+  margin-bottom: 15px;
+}
+
+.budgetfriendly-paragraph {
+  font-size: 1rem;
+  margin-bottom: 15px;
+}
+
+.budgetfriendly-list {
+  list-style-type: disc;
+  padding-left: 20px;
+  margin-bottom: 20px;
+}
+
+.budgetfriendly-button {
+  background-color: #ff6b6b;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  margin: 10px 0;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.budgetfriendly-button:hover {
+  background-color: #ff5252;
+}
+
+.budgetfriendly-image-placeholder {
+  background-color: #e0e0e0;
+  height: 200px;
+  margin: 15px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #555;
+  font-style: italic;
+}
+
+.budgetfriendly-ai-note {
+  font-size: 0.85rem;
+  color: #888;
+  margin-bottom: 15px;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .budgetfriendly-container {
+    padding: 15px;
+  }
+
+  .budgetfriendly-title {
+    font-size: 1.7rem;
+  }
+
+  .budgetfriendly-subtitle {
+    font-size: 1.3rem;
+  }
+
+  .budgetfriendly-paragraph {
+    font-size: 0.95rem;
+  }
+
+  .budgetfriendly-button {
+    font-size: 0.95rem;
+    padding: 8px 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .budgetfriendly-title {
+    font-size: 1.5rem;
+  }
+
+  .budgetfriendly-subtitle {
+    font-size: 1.2rem;
+  }
+
+  .budgetfriendly-paragraph {
+    font-size: 0.9rem;
+  }
+
+  .budgetfriendly-button {
+    font-size: 0.9rem;
+    padding: 7px 12px;
+  }
+
+  .budgetfriendly-image-placeholder {
+    height: 150px;
+  }
+}

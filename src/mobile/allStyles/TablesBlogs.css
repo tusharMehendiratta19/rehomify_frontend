@@ -1,0 +1,106 @@
+.tbBlog-container {
+  width: 90%;
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  color: #333;
+}
+
+.tbBlog-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.tbBlog-subtitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-top: 30px;
+  margin-bottom: 15px;
+}
+
+.tbBlog-subsubtitle {
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.tbBlog-paragraph {
+  font-size: 1rem;
+  margin-bottom: 15px;
+}
+
+.tbBlog-list {
+  list-style-type: disc;
+  padding-left: 20px;
+  margin-bottom: 20px;
+}
+
+.tbBlog-button {
+  background-color: #ff6b6b;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  margin: 10px 10px 10px 0;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.tbBlog-button:hover {
+  background-color: #ff5252;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .tbBlog-container {
+    padding: 15px;
+  }
+
+  .tbBlog-title {
+    font-size: 1.7rem;
+  }
+
+  .tbBlog-subtitle {
+    font-size: 1.3rem;
+  }
+
+  .tbBlog-subsubtitle {
+    font-size: 1.1rem;
+  }
+
+  .tbBlog-paragraph {
+    font-size: 0.95rem;
+  }
+
+  .tbBlog-button {
+    font-size: 0.95rem;
+    padding: 8px 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .tbBlog-title {
+    font-size: 1.5rem;
+  }
+
+  .tbBlog-subtitle {
+    font-size: 1.2rem;
+  }
+
+  .tbBlog-subsubtitle {
+    font-size: 1rem;
+  }
+
+  .tbBlog-paragraph {
+    font-size: 0.9rem;
+  }
+
+  .tbBlog-button {
+    font-size: 0.9rem;
+    padding: 7px 12px;
+  }
+}
