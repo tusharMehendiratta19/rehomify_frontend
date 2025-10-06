@@ -51,6 +51,7 @@ const Footer = () => {
           <div className="mobile-footer-section">
             <h5>Contact Us</h5>
             <p>admin@rehomify.in</p>
+            <p>9131175240</p>
           </div>
 
         </div>
@@ -70,6 +71,8 @@ const Footer = () => {
             <p>
               Please share your query and contact details on <br />
               <b>admin@rehomify.in</b> <br />
+              <b>OR</b> <br />
+              <b>9131175240</b> <br />
               Our team will contact you.
             </p>
             <button className="mobile-footer-close-btn" onClick={() => setShowPopup(false)}>Close</button>

@@ -30,7 +30,7 @@ const faqData = [
   },
   {
     "question": "How can I contact ReHomify customer support?",
-    "answer": "You can email us at admin@rehomify.in or reach us through the Contact Us page on our website."
+    "answer": "You can email us at admin@rehomify.in or reach us through the Contact Number: 9131175240"
   },
   {
     "question": "Where can I buy affordable wardrobes, beds, and tables in Mumbai?",

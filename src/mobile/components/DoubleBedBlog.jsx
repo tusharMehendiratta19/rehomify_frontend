@@ -2,8 +2,10 @@ import React from "react";
 import "../allStyles/DoubleBedBlog.css";
 import Header from "./Header";
 import Footer from "./Footer";
+import { useNavigate } from "react-router-dom";
 
 const DoubleBedBlog = () => {
+    const navigate = useNavigate()
     return (
         <>
             <Header />
@@ -48,7 +50,7 @@ const DoubleBedBlog = () => {
                     <li><strong>Metal Beds:</strong> Lightweight and minimal, but may rust, squeak, and lack the warmth and luxury feel of wood.</li>
                 </ul>
 
-                <button className="dbedblog-button">👉 Explore Double Beds</button>
+                <button className="dbedblog-button" onClick={() => navigate("/products", { state: { selectedCategory: "Double Bed" } })}>👉 Explore Double Beds</button>
 
                 <p className="dbedblog-paragraph">
                     Engineered wood strikes the perfect balance—reliable, stylish, and practical for double, queen, and king size beds.
@@ -81,8 +83,8 @@ const DoubleBedBlog = () => {
                     <li>Personalized options for finishes, headboards, and storage</li>
                 </ul>
 
-                <button className="dbedblog-button">👉 Explore Wardrobes</button>
-                <button className="dbedblog-button">👉 Explore Single Beds</button>
+                <button className="dbedblog-button" onClick={() => navigate("/products", { state: { selectedCategory: "Cupboard" } })}>👉 Explore Wardrobes</button>
+                <button className="dbedblog-button" onClick={() => navigate("/products", { state: { selectedCategory: "Single Bed" } })}>👉 Explore Single Beds</button>
 
                 <h2 className="dbedblog-subtitle">Final Thoughts</h2>
 
@@ -94,7 +96,7 @@ const DoubleBedBlog = () => {
                     With Rehomify, you enjoy stylish designs, durable craftsmanship, and the flexibility of a buyback guarantee. Don’t just settle—upgrade to a bed that makes every night restful and every room stylish.
                 </p>
 
-                <button className="dbedblog-button">👉 Start your search today—your dream engineered wood bed awaits at REHOMIFY</button>
+                <button className="dbedblog-button"  onClick={() => navigate("/products", { state: { selectedCategory: "Double Bed" } })}>👉 Start your search today—your dream engineered wood bed awaits at REHOMIFY</button>
             </div>
             <Footer />
         </>

@@ -43,6 +43,7 @@
 .furnishMumbai-brand {
   font-weight: 700;
   color: #e6735c;
+  cursor: pointer;
 }
 
 .furnishMumbai-cta-box {

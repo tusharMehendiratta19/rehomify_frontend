@@ -58,6 +58,7 @@
 
 .chooseWardrobe-brand {
   font-weight: 700;
+  cursor: pointer;
   color: #e6735c;
 }
 

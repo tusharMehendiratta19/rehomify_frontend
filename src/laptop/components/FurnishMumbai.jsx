@@ -2,8 +2,10 @@ import React from "react";
 import "../allStyles/furnishMumbai.css";
 import Header from "./Header";
 import Footer from "./Footer";
+import { useNavigate } from "react-router-dom";
 
 const FurnishMumbai = () => {
+    const navigate = useNavigate()
     return (
         <>
             <Header />
@@ -27,7 +29,7 @@ const FurnishMumbai = () => {
                 </p>
 
                 <p className="furnishMumbai-paragraph">
-                    That’s exactly what <span className="furnishMumbai-brand">Rehomify</span> offers. We
+                    That’s exactly what <span className="furnishMumbai-brand" onClick={()=>navigate("/home")}>Rehomify</span> offers. We
                     make it simple with a thoughtful balance of new and refurbished
                     furniture. Each piece is chosen for durability, style, and practicality.
                     And with our <strong>100% buyback guarantee</strong>, you can upgrade or
@@ -56,7 +58,7 @@ const FurnishMumbai = () => {
                     </li>
                 </ul>
                 <div className="furnishMumbai-cta-box">
-                    👉 <span className="furnishMumbai-link">Explore Our Wardrobe Collection</span>
+                    👉 <span className="furnishMumbai-link" onClick={() => navigate("/products", { state: { selectedCategory: "Cupboard" } })}>Explore Our Wardrobe Collection</span>
                 </div>
 
                 <h2 className="furnishMumbai-subtitle">Beds</h2>
@@ -81,8 +83,8 @@ const FurnishMumbai = () => {
                     </li>
                 </ul>
                 <div className="furnishMumbai-cta-box">
-                    👉 <span className="furnishMumbai-link">Shop Single Beds</span> | 👉{" "}
-                    <span className="furnishMumbai-link">Shop Double Beds</span>
+                    👉 <span className="furnishMumbai-link" onClick={() => navigate("/products", { state: { selectedCategory: "Single Bed" } })}>Shop Single Beds</span> | 👉{" "}
+                    <span className="furnishMumbai-link" onClick={() => navigate("/products", { state: { selectedCategory: "Double Bed" } })}>Shop Double Beds</span>
                 </div>
 
                 <h2 className="furnishMumbai-subtitle">Study Tables</h2>
@@ -105,7 +107,7 @@ const FurnishMumbai = () => {
                     </li>
                 </ul>
                 <div className="furnishMumbai-cta-box">
-                    👉 <span className="furnishMumbai-link">Browse Study Tables</span>
+                    👉 <span className="furnishMumbai-link" onClick={() => navigate("/products", { state: { selectedCategory: "Table" } })}>Browse Study Tables</span>
                 </div>
 
                 <h2 className="furnishMumbai-subtitle">Why Choose Rehomify?</h2>
@@ -125,7 +127,7 @@ const FurnishMumbai = () => {
                 </p>
 
                 <div className="furnishMumbai-cta-box furnishMumbai-final-cta">
-                    Start your journey with <span className="furnishMumbai-brand">Rehomify</span> and turn
+                    Start your journey with <span className="furnishMumbai-brand" onClick={()=>navigate("/home")}>Rehomify</span> and turn
                     your Mumbai apartment into a home you’ll love.
                 </div>
             </div>

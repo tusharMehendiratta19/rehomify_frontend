@@ -2,8 +2,10 @@ import React from "react";
 import "../allStyles/ChooseWardrobe.css";
 import Header from "./Header";
 import Footer from "./Footer";
+import { useNavigate } from "react-router-dom";
 
 const ChooseWardrobe = () => {
+  const navigate = useNavigate()
   return (
     <>
       <Header />
@@ -111,7 +113,7 @@ const ChooseWardrobe = () => {
         <div className="chooseWardrobe-cta-box">
           <p>
             For finding your smart choice, visit{" "}
-            <span className="chooseWardrobe-brand">Rehomify</span>
+            <span className="chooseWardrobe-brand" onClick={()=>navigate("/home")}>Rehomify</span>
           </p>
         </div>
       </div>

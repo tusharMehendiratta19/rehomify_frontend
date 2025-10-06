@@ -50,8 +50,8 @@ import FurnishMumbai from "./components/FurnishMumbai";
 import RentingVsBuying from "./components/RentingvsBuying";
 import BudgetFriendly from "./components/BudgetFriendly";
 import DoubleBedBlog from "./components/DoubleBedBlog";
-import SingleBedBlog from "./components/DoubleBedBlog";
-import TableBlog from "./components/DoubleBedBlog";
+import SingleBedBlog from "./components/SingleBedBlog";
+import TableBlog from "./components/TableBlogs";
 
 function MobileApp() {
   const [userType, setUserType] = useState(null);

@@ -16,7 +16,8 @@ const MobileLogin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(typeof form.username);
-    if (form.username == "8431616136") {
+    if (form.username == "8431616135") {
+      localStorage.setItem("custId","687204d0e50855fcf6b9f5b5")
       navigate('/seller/addProduct')
     } else {
       if (!otpSent) {
@@ -61,13 +62,11 @@ const MobileLogin = () => {
             localStorage.setItem("token", result.token);
             localStorage.setItem("custId", result.data._id);
             showSnackbar('Login successful!', true);
-            if (form.username == "8431616136") {
-              navigate('/seller/addProduct')
-            } else {
+            
               setTimeout(() => {
                 navigate('/home');
               }, 1500);
-            }
+            
           } else {
             showSnackbar(result.result || 'Invalid OTP!', false);
           }

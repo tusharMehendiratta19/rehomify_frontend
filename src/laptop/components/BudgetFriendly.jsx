@@ -1,9 +1,11 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import "../allStyles/budgetfriendly.css";
 import Header from "./Header";
 import Footer from "./Footer";
 
 const BudgetFriendly = () => {
+    const navigate = useNavigate()
     return (
         <>
             <Header />
@@ -41,8 +43,7 @@ const BudgetFriendly = () => {
                 </p>
 
                 <div className="budgetfriendly-image-placeholder">A bed in a room</div>
-                <p className="budgetfriendly-ai-note">AI-generated content may be incorrect.</p>
-                <button className="budgetfriendly-button">👉 Shop Single Beds</button>
+                <button className="budgetfriendly-button" onClick={() => navigate("/products", { state: { selectedCategory: "Single Bed" } })}>👉 Shop Single Beds</button>
 
                 <h2 className="budgetfriendly-subtitle">When to Go New: Double Beds & Study Tables</h2>
 
@@ -51,16 +52,14 @@ const BudgetFriendly = () => {
                 </p>
 
                 <div className="budgetfriendly-image-placeholder">A bed with a wood headboard and a plant on the side</div>
-                <p className="budgetfriendly-ai-note">AI-generated content may be incorrect.</p>
-                <button className="budgetfriendly-button">👉 Shop Double Beds</button>
+                <button className="budgetfriendly-button" onClick={() => navigate("/products", { state: { selectedCategory: "Double Bed" } })}>👉 Shop Double Beds</button>
 
                 <p className="budgetfriendly-paragraph">
                     Similarly, a modern wooden study table, especially one with ergonomic design and built-in storage, supports both productivity and wellness—whether you’re studying hard or just pretending to work from home. A new study table assures you of a fresh finish and reliable support for your daily grind. But let’s be honest, it’s never just a study table. On weekdays, it’s your workstation; on weekends, it turns into a party stand for bottles. For many bachelors, it doubles as a “temporary wardrobe” where clothes land before they ever see the cupboard. From serious study sessions to casual daily chaos, the table fits right into your routine.
                 </p>
 
                 <div className="budgetfriendly-image-placeholder">A white desk with a computer on it</div>
-                <p className="budgetfriendly-ai-note">AI-generated content may be incorrect.</p>
-                <button className="budgetfriendly-button">👉 Browse Study Tables</button>
+                <button className="budgetfriendly-button" onClick={() => navigate("/products", { state: { selectedCategory: "Table" } })}>👉 Browse Study Tables</button>
 
                 <h2 className="budgetfriendly-subtitle">Expert Tips for Temporary Mumbai Residents</h2>
 
@@ -71,8 +70,7 @@ const BudgetFriendly = () => {
                 </ul>
 
                 <div className="budgetfriendly-image-placeholder">A closet in a room</div>
-                <p className="budgetfriendly-ai-note">AI-generated content may be incorrect.</p>
-                <button className="budgetfriendly-button">👉 Explore Our Wardrobe Collection</button>
+                <button className="budgetfriendly-button" onClick={() => navigate("/products", { state: { selectedCategory: "Cupboard" } })}>👉 Explore Our Wardrobe Collection</button>
 
                 <h2 className="budgetfriendly-subtitle">The Ultimate Flexibility: Our Buyback Guarantee</h2>
 

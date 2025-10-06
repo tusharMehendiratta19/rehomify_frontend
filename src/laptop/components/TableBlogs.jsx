@@ -2,8 +2,10 @@ import React from "react";
 import "../allStyles/TablesBlogs.css";
 import Header from "./Header";
 import Footer from "./Footer";
+import { useNavigate } from "react-router-dom";
 
 const TableBlogs = () => {
+    const navigate = useNavigate()
     return (
         <>
             <Header />
@@ -107,7 +109,7 @@ const TableBlogs = () => {
                     With Rehomify, you don’t just buy furniture—you invest in comfort, flexibility, and design that adapts to your lifestyle.
                 </p>
 
-                <button className="tbBlog-button">👉 Start exploring our wooden tables today</button>
+                <button className="tbBlog-button" onClick={() => navigate("/products", { state: { selectedCategory: "Table" } })}>👉 Start exploring our wooden tables today</button>
             </div>
             <Footer />
         </>

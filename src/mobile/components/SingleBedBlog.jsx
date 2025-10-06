@@ -2,8 +2,10 @@ import React from "react";
 import "../allStyles/SingleBedBlog.css";
 import Header from "./Header";
 import Footer from "./Footer";
+import { useNavigate } from "react-router-dom";
 
 const SingleBedBlog = () => {
+    const navigate = useNavigate()
     return (
         <>
             <Header />
@@ -22,7 +24,7 @@ const SingleBedBlog = () => {
                     Before buying a single bed, measure your room carefully. A standard single bed measures around 72 x 36 inches, but compact single beds are perfect for small rooms and studio apartments where every inch matters.
                 </p>
 
-                <button className="sbBlog-button">👉 Explore Single Bed</button>
+                <button className="sbBlog-button" onClick={() => navigate("/products", { state: { selectedCategory: "Single Bed" } })}>👉 Explore Single Bed</button>
 
                 <p className="sbBlog-paragraph">
                     For students or renters, compact designs help maximize floor area while still providing restful sleep. Always check that your single bed frame and mattress fit comfortably without overcrowding your space.
@@ -62,7 +64,7 @@ const SingleBedBlog = () => {
                     <li>Versatile modern single bed designs that match minimalist or cozy interiors.</li>
                 </ul>
 
-                <button className="sbBlog-button">👉 Explore More Single Bed Designs</button>
+                <button className="sbBlog-button" onClick={() => navigate("/products", { state: { selectedCategory: "Single Bed" } })}>👉 Explore More Single Bed Designs</button>
 
                 <h2 className="sbBlog-subtitle">Design Trends for 2025</h2>
 

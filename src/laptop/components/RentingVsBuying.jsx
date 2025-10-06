@@ -2,8 +2,10 @@ import React from "react";
 import "../allStyles/rentingvsbuying.css";
 import Header from "./Header";
 import Footer from "./Footer";
+import { useNavigate } from "react-router-dom";
 
 const RentingVsBuying = () => {
+    const navigate = useNavigate()
     return (
         <>
             <Header />
@@ -45,7 +47,7 @@ const RentingVsBuying = () => {
                             Our sturdy, space-saving 2-door wardrobes are priced close to annual
                             rental costs—but they’re yours to own.
                         </p>
-                        <button className="rvb-shop-btn">👉 Shop Wardrobes</button>
+                        <button className="rvb-shop-btn" onClick={() => navigate("/products", { state: { selectedCategory: "Cupboard" } })}>👉 Shop Wardrobes</button>
                     </div>
 
                     <div className="rvb-product-card">
@@ -54,16 +56,16 @@ const RentingVsBuying = () => {
                             Instead of paying rent forever, choose a refurbished solid wood
                             single bed or a single bed with storage.
                         </p>
-                        <button className="rvb-shop-btn">👉 Shop Single Beds</button>
+                        <button className="rvb-shop-btn" onClick={() => navigate("/products", { state: { selectedCategory: "Single Bed" } })}>👉 Shop Single Beds</button>
                     </div>
 
                     <div className="rvb-product-card">
-                        <h3 className="rvb-product-title">Double Beds</h3>
+                        <h3 className="rvb-product-title" onClick={() => navigate("/products", { state: { selectedCategory: "Double Bed" } })}>Double Beds</h3>
                         <p className="rvb-paragraph">
                             For couples or longer stays, a new double bed with drawers or a
                             queen size bed is the best investment.
                         </p>
-                        <button className="rvb-shop-btn">👉 Shop Double Beds</button>
+                        <button className="rvb-shop-btn" onClick={() => navigate("/products", { state: { selectedCategory: "Double Bed" } })}>👉 Shop Double Beds</button>
                     </div>
 
                     <div className="rvb-product-card">
@@ -71,7 +73,7 @@ const RentingVsBuying = () => {
                         <p className="rvb-paragraph">
                             An ergonomic wooden study table with storage is a daily necessity.
                         </p>
-                        <button className="rvb-shop-btn">👉 Browse Study Tables</button>
+                        <button className="rvb-shop-btn" onClick={() => navigate("/products", { state: { selectedCategory: "Table" } })}>👉 Browse Study Tables</button>
                     </div>
                 </section>
 
