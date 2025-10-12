@@ -50,7 +50,21 @@ const Products = () => {
   const [wishlist, setWishlist] = useState([]);
   const [loading, setLoading] = useState(true);
   const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const category = queryParams.get("cat");
+  console.log("category", category)
   // const [selectedCategory, setSelectedCategory] = useState("All Products");
+
+  useEffect(() => {
+      if (category) {
+        // Match category to the format you’re using in categories array
+        const formattedCategory =
+          Object.keys(categoryMap).find(
+            key => categoryMap[key] === category.toLowerCase()
+          ) || "All Products";
+        setSelectedCategory(formattedCategory);
+      }
+    }, [category]);
 
   useEffect(() => {
     if (location.state?.selectedCategory) {
