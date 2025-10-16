@@ -311,7 +311,7 @@ const Checkout = () => {
           },
         };
 
-        instance.renderCheckout(checkoutConfig);
+        instance.openCheckout(checkoutConfig);
       } else {
         console.error("ZPayments SDK not loaded.");
       }
