@@ -299,33 +299,33 @@ const Checkout = () => {
 
         let instance = new window.ZPayments(config);
 
-        try {
-          await instance.requestPaymentMethod({
-            payments_session_id: sessionId, // use backend session
-            amount: subtotal.toString(),
-            currency_code: "INR",
-            description: "Purchase on ReHomify",
-            business: "ReHomify",
-            invoice_number: `INV-${Date.now()}`,
-            address: {
-              name: address.name,
-              email: "customer@example.com", // optional
-              phone: userPhone,
-            },
-            success: (res) => {
-              console.log("Payment successful:", res);
-            },
-            failure: (res) => {
-              console.error("Payment failed:", res);
-            },
-          });
-        } catch (err) {
-          if (err.code !== "widget_closed") {
-            console.error("Payment error:", err);
+        async function initiatePayment() {
+          try {
+            let options = {
+              "amount": "100.5",
+              "currency_code": "INR",
+              "payments_session_id": sessionId,
+              "currency_symbol": "₹",
+              "business": "Zylker",
+              "description": "Purchase of Zylker electronics.",
+              "invoice_number": "INV-12345",
+              "reference_number": "REF-12345",
+              "address": {
+                "name": "Canon",
+                "email": "canonbolt@zylker.com",
+                "phone": "9876543210"
+              }
+            };
+            let data = await instance.requestPaymentMethod(options);
+          } catch (err) {
+            if (err.code != 'widget_closed') {
+              console.log("error: ", err)
+            }
+          } finally {
+            await instance.close();
           }
-        } finally {
-          await instance.close();
         }
+        initiatePayment();
       } else {
         console.error("ZPayments SDK not loaded.");
       }
