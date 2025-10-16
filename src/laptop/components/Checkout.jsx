@@ -282,7 +282,7 @@ const Checkout = () => {
       };
 
       let paymentSession = await axios.post(
-        "http://localhost:5000/v1/payments/payment-session",
+        "https://rehomify.in/v1/payments/payment-session",
         payment_session_body
       );
 
