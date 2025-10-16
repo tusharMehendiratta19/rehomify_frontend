@@ -299,19 +299,33 @@ const Checkout = () => {
 
         let instance = new window.ZPayments(config);
 
-        let checkoutConfig = {
-          payment_session_id: sessionId,
-          success: (response) => {
-            console.log("✅ Payment Success:", response);
-            // Optionally call your backend to verify and create the order here
-            // navigate("/thank-you") or update DB accordingly
-          },
-          failure: (response) => {
-            console.error("❌ Payment Failed:", response);
-          },
-        };
-
-        instance.openCheckout(checkoutConfig);
+        try {
+          await instance.requestPaymentMethod({
+            payments_session_id: sessionId, // use backend session
+            amount: subtotal.toString(),
+            currency_code: "INR",
+            description: "Purchase on ReHomify",
+            business: "ReHomify",
+            invoice_number: `INV-${Date.now()}`,
+            address: {
+              name: address.name,
+              email: "customer@example.com", // optional
+              phone: userPhone,
+            },
+            success: (res) => {
+              console.log("Payment successful:", res);
+            },
+            failure: (res) => {
+              console.error("Payment failed:", res);
+            },
+          });
+        } catch (err) {
+          if (err.code !== "widget_closed") {
+            console.error("Payment error:", err);
+          }
+        } finally {
+          await instance.close();
+        }
       } else {
         console.error("ZPayments SDK not loaded.");
       }
