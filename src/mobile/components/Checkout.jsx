@@ -27,6 +27,8 @@ const Checkout = () => {
     city: "",
     state: "",
   });
+
+  const [paymentSessionId, setPaymentSessionId] = useState("");
   const [isAddressValid, setIsAddressValid] = useState(false);
   const [couponVisible, setCouponVisible] = useState(false);
   const [selectedCode, setSelectedCode] = useState("");
