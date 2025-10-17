@@ -294,7 +294,10 @@ const Checkout = () => {
       if (window.ZPayments) {
         let config = {
           account_id: "60045613995", // your Zoho account id
-          domain: "IN"
+          domain: "IN",
+          otherOptions: {
+            api_key: "1003.0050a413af83c75db3f48487628e4af7.4e436d47cc165a0d9c36f9b1108ee4a5"
+          }
         };
 
         let instance = new window.ZPayments(config);
@@ -304,7 +307,7 @@ const Checkout = () => {
             let options = {
               "amount": "100.5",
               "currency_code": "INR",
-              "payments_session_id": sessionId,
+              "payments_session_id": sessionId.toString(),
               "currency_symbol": "₹",
               "business": "Zylker",
               "description": "Purchase of Zylker electronics.",
