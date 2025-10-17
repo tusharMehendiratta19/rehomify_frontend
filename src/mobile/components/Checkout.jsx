@@ -261,24 +261,64 @@ const Checkout = () => {
     if (!isAddressValid) return;
 
     try {
-      const productsToOrder = Array.isArray(product) ? product : [product];
-      for (const p of productsToOrder) {
-        const response = await axios.post(
-          "https://rehomify.in/v1/orders/addOrder",
-          {
-            customerId: custId,
-            productId: p.id,
-            quantity: p.quantity || 1,
+      let payment_session_body = {
+        amount: 10,
+        currency: "INR"
+      };
+
+      let paymentSession = await axios.post(
+        "https://rehomify.in/v1/payments/payment-session",
+        payment_session_body
+      );
+
+      const sessionId = paymentSession.data.data.payments_session.payments_session_id;
+      setPaymentSessionId(sessionId);
+      console.log("paymentSession", sessionId);
+
+      // --- Zoho Checkout Integration ---
+      if (window.ZPayments) {
+        let config = {
+          account_id: "60045613995", // your Zoho account id
+          domain: "IN",
+          otherOptions: {
+            api_key: "1003.0050a413af83c75db3f48487628e4af7.4e436d47cc165a0d9c36f9b1108ee4a5"
           }
-        );
-        if (response.data?.status) {
-          await axios.post("https://rehomify.in/v1/auth/saveOrder", {
-            customerId: custId,
-            orderId: response.data.order._id,
-          });
+        };
+
+        let instance = new window.ZPayments(config);
+
+        async function initiatePayment() {
+          try {
+            let options = {
+              "amount": "100.5",
+              "currency_code": "INR",
+              "payments_session_id": sessionId.toString(),
+              "currency_symbol": "₹",
+              "business": "Zylker",
+              "description": "Purchase of Zylker electronics.",
+              "invoice_number": "INV-12345",
+              "reference_number": "REF-12345",
+              "address": {
+                "name": "Canon",
+                "email": "canonbolt@zylker.com",
+                "phone": "9876543210"
+              }
+            };
+            let data = await instance.requestPaymentMethod(options);
+          } catch (err) {
+            if (err.code != 'widget_closed') {
+              console.log("error: ", err)
+            }
+          } finally {
+            await instance.close();
+          }
         }
+        initiatePayment();
+      } else {
+        console.error("ZPayments SDK not loaded.");
       }
-      navigate("/home");
+      // ---------------------------------
+
     } catch (error) {
       console.error("Error placing order:", error);
     }
