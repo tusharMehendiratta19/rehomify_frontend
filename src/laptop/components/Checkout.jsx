@@ -36,21 +36,6 @@ const Checkout = () => {
   const [applied, setApplied] = useState(null);
   const [isPincodeServiceable, setIsPincodeServiceable] = useState(false); // ✅ new state
 
-  // Dynamically load Zoho Payments SDK once
-  const loadZohoScript = () => {
-    return new Promise((resolve, reject) => {
-      if (window.ZPayments) return resolve(window.ZPayments);
-      const script = document.createElement("script");
-      script.src = "https://static.zohocdn.com/zpay/zpay-js/v1/zpayments.js";
-      script.async = true;
-      script.onload = () => resolve(window.ZPayments);
-      script.onerror = () => reject("Failed to load Zoho Payments SDK");
-      document.body.appendChild(script);
-    });
-  };
-
-
-  // ✅ Function to apply discount and update total
   const applyDiscount = (coupon) => {
     if (!coupon) return;
 
@@ -277,7 +262,7 @@ const Checkout = () => {
 
     try {
       let payment_session_body = {
-        amount: 10,
+        amount: subtotal,
         currency: "INR"
       };
 
@@ -305,7 +290,7 @@ const Checkout = () => {
         async function initiatePayment() {
           try {
             let options = {
-              "amount": "100.5",
+              "amount": subtotal.toString(),
               "currency_code": "INR",
               "payments_session_id": sessionId.toString(),
               "currency_symbol": "₹",
