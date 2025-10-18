@@ -262,7 +262,7 @@ const Checkout = () => {
 
     try {
       let payment_session_body = {
-        amount: subtotal,
+        amount: 10,
         currency: "INR"
       };
 
@@ -290,14 +290,14 @@ const Checkout = () => {
         async function initiatePayment() {
           try {
             let options = {
-              "amount": subtotal.toString(),
+              "amount": "10",
               "currency_code": "INR",
               "payments_session_id": sessionId.toString(),
               "currency_symbol": "₹",
               "business": "Zylker",
               "description": "Purchase of Zylker electronics.",
               "invoice_number": "INV-12345",
-              "reference_number": "REF-12345",
+              "reference_number": `REF-${custId}`,
               "address": {
                 "name": "Canon",
                 "email": "canonbolt@zylker.com",
@@ -314,6 +314,25 @@ const Checkout = () => {
           }
         }
         initiatePayment();
+
+        try {
+          const productsToOrder = Array.isArray(product) ? product : [product];
+          for (const p of productsToOrder) {
+            const response = await axios.post(
+              "https://rehomify.in/v1/orders/addOrder",
+              { customerId: custId, productId: p.id, quantity: p.quantity || 1 }
+            );
+            if (response.data?.status) {
+              await axios.post("https://rehomify.in/v1/auth/saveOrder", {
+                customerId: custId,
+                orderId: response.data.order._id,
+              });
+            }
+          }
+          navigate("/home");
+        } catch (err) {
+          console.error("Error saving order after payment:", err);
+        }
       } else {
         console.error("ZPayments SDK not loaded.");
       }

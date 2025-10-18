@@ -299,7 +299,7 @@ const Checkout = () => {
               "business": "Zylker",
               "description": "Purchase of Zylker electronics.",
               "invoice_number": "INV-12345",
-              "reference_number": "REF-12345",
+              "reference_number": `REF-${custId}`,
               "address": {
                 "name": "Canon",
                 "email": "canonbolt@zylker.com",
@@ -316,6 +316,26 @@ const Checkout = () => {
           }
         }
         initiatePayment();
+
+        try {
+          const productsToOrder = Array.isArray(product) ? product : [product];
+          for (const p of productsToOrder) {
+            const response = await axios.post(
+              "https://rehomify.in/v1/orders/addOrder",
+              { customerId: custId, productId: p.id, quantity: p.quantity || 1 }
+            );
+            if (response.data?.status) {
+              await axios.post("https://rehomify.in/v1/auth/saveOrder", {
+                customerId: custId,
+                orderId: response.data.order._id,
+              });
+            }
+          }
+          navigate("/home");
+        } catch (err) {
+          console.error("Error saving order after payment:", err);
+        }
+
       } else {
         console.error("ZPayments SDK not loaded.");
       }
