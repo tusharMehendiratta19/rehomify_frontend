@@ -487,7 +487,12 @@ const Checkout = () => {
             </form>
           )}
 
-          <div className="mobile-payment-section"> <div className="mobile-checkout-section-header">PAYMENT OPTIONS</div> <div className="mobile-payment-option"><label>Pay with UPI</label><input type="radio" name="payment" /></div> <div className="mobile-payment-option"><label>EMI</label><input type="radio" name="payment" /></div> <div className="mobile-payment-option"><label>Debit/Credit Cards</label><input type="radio" name="payment" /></div> </div>
+          {/*<div className="mobile-payment-section">
+            <div className="mobile-checkout-section-header">PAYMENT OPTIONS</div>
+            <div className="mobile-payment-option"><label>Pay with UPI</label><input type="radio" name="payment" /></div>
+            <div className="mobile-payment-option"><label>EMI</label><input type="radio" name="payment" /></div>
+            <div className="mobile-payment-option"><label>Debit/Credit Cards</label><input type="radio" name="payment" /></div>
+          </div>*/}
 
           {/* ✅ Coupon apply section */}
 

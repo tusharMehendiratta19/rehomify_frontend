@@ -447,7 +447,7 @@ const Checkout = () => {
               </div>}
             </div>
 
-            <div className="laptop-payment-section"> <div className="laptop-checkout-section-header">PAYMENT OPTIONS</div> <div className="laptop-payment-option"><label>Pay with UPI</label><input type="radio" name="payment" /></div> <div className="laptop-payment-option"><label>EMI</label><input type="radio" name="payment" /></div> <div className="laptop-payment-option"><label>Debit/Credit Cards</label><input type="radio" name="payment" /></div> </div>
+            {/* <div className="laptop-payment-section"> <div className="laptop-checkout-section-header">PAYMENT OPTIONS</div> <div className="laptop-payment-option"><label>Pay with UPI</label><input type="radio" name="payment" /></div> <div className="laptop-payment-option"><label>EMI</label><input type="radio" name="payment" /></div> <div className="laptop-payment-option"><label>Debit/Credit Cards</label><input type="radio" name="payment" /></div> </div> */}
 
             {/* ✅ Order summary */}
             <div className="laptop-order-summary">
