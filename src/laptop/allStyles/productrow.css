@@ -66,8 +66,8 @@
   /* margin-bottom: 10px; */
 }
 
-.laptop-product-name {
-  font-size: 15px;
+.pr-laptop-product-name {
+  font-size: 13px;
   font-weight: 600;
   margin: 0;
 }
@@ -110,6 +110,7 @@
   /* position: relative;
   flex: 0 0 auto; */
   width: 230px;
+  margin-bottom: 20px;
   /* background-color: #fff;
   border: 1px solid #eee;
   border-radius: 10px;
@@ -127,7 +128,7 @@
 .pr-laptop-product-cardproduct-image {
   width: 100%;
   height: 160px;
-  object-fit: cover;
+  object-fit: contain;
   border-radius: 6px;
 }
 

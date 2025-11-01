@@ -168,11 +168,11 @@ const ProductRow = ({ title, type, allproducts }) => {
                   {wishlist.includes(product._id) ? <AiFillHeart color="red" /> : <FiHeart />}
                 </button>
               </div>
-              <h3 className="laptop-product-name" onClick={() => handleProductClick(product._id)}>{product.name}</h3>
+              <p className="pr-laptop-product-name" onClick={() => handleProductClick(product._id)}>{product.name}</p>
             </div>
 
             <div className="laptop-product-info">
-              <p className="laptop-product-description" onClick={() => handleProductClick(product._id)}>Color: {product.color}</p>
+              {/* <p className="laptop-product-description" onClick={() => handleProductClick(product._id)}>Color: {product.color}</p> */}
               <p className="laptop-product-price" onClick={() => handleProductClick(product._id)}>Price: ₹{product.price}</p>
               <div className="product-actions">
                 {cartItems.includes(product._id) ? (
