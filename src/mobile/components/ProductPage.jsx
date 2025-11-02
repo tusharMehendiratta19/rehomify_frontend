@@ -337,7 +337,7 @@ const ProductPage = () => {
         </div>
       </div>
 
-      <div className="mobile-suggestions">
+      {/* <div className="mobile-suggestions">
         <span className="mobile-suggestions-title">You might like</span>
         <div className="mobile-suggestion-row">
           {similarProducts.map(product => (
@@ -353,7 +353,7 @@ const ProductPage = () => {
             </div>
           ))}
         </div>
-      </div>
+      </div> */}
 
       {showEMI && <EMIPanel onClose={() => setShowEMI(false)} />}
       <Footer />

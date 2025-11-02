@@ -1,6 +1,7 @@
 .laptop-product-page {
   font-family: Arial, sans-serif;
   padding: 0.5rem;
+  margin-bottom: 5%;
 }
 
 .laptop-product-details-container {
@@ -134,7 +135,7 @@
   padding: 8px;
   border-radius: 6px;
   background-color: bisque;
-  height: 180px;
+  height: 160px;
   width: 60%;
   /* margin-top: 15px; */
   box-shadow: 1px 1px 3px #3e3e3e;
@@ -317,8 +318,8 @@
   /* background-color: yellowgreen; */
 }
 .laptop-offerImage {
-  width: 21%;
-  margin-left: 2%;
+  width: 22%;
+  margin-left: 3%;
 }
 .laptop-offerImage img {
   border-radius: 15px;

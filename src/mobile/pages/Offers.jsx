@@ -14,9 +14,9 @@ const OffersMobile = () => {
       try {
         const res = await axios.get("https://rehomify.in/v1/offers/");
 
-        if (Array.isArray(res.data)) {
+        if (Array.isArray(res.data.data)) {
           // ✅ Filter only active offers
-          const activeOffers = res.data.filter((offer) => offer.isActive);
+          const activeOffers = res.data.data.filter((offer) => offer.isActive);
           setOffers(activeOffers);
         } else {
           setOffers([]); // fallback if response is not array

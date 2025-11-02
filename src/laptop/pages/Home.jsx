@@ -62,9 +62,9 @@ const Home = ({ isLoggedIn }) => {
         <Blogs />
       </div> */}
 
-      <div className="section">
+      {/* <div className="section">
         <Testimonials reviews={reviews} />
-      </div>
+      </div> */}
 
       {/* <div id="bulk-request" className="section">
         <h2>Bulk Request</h2>
