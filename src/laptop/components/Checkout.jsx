@@ -87,7 +87,7 @@ const Checkout = () => {
     {
       id: 3,
       type: "Website Offer",
-      description: "Get ₹500 off on orders above ₹4999",
+      description: "Get ₹500 off on orders above ₹9999",
       code: "EXTRA500",
       amount: 500,
     },
@@ -294,14 +294,14 @@ const Checkout = () => {
               "currency_code": "INR",
               "payments_session_id": sessionId.toString(),
               "currency_symbol": "₹",
-              "business": "Zylker",
-              "description": "Purchase of Zylker electronics.",
+              "business": "ReHomify",
+              "description": "",
               "invoice_number": "INV-12345",
               "reference_number": `REF-${custId}`,
               "address": {
-                "name": "Canon",
-                "email": "canonbolt@zylker.com",
-                "phone": "9876543210"
+                "name": "Rehomify",
+                "email": "admin@rehomify.in",
+                "phone": "9131175240"
               }
             };
             let data = await instance.requestPaymentMethod(options);
