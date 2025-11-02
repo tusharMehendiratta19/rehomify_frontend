@@ -52,6 +52,7 @@ import BudgetFriendly from "./components/BudgetFriendly";
 import DoubleBedBlog from "./components/DoubleBedBlog";
 import SingleBedBlog from "./components/SingleBedBlog";
 import TableBlog from "./components/TableBlogs";
+import BuybackPolicy from "./components/BuybackPolicy";
 
 function MobileApp() {
   const [userType, setUserType] = useState(null);
@@ -89,6 +90,7 @@ function MobileApp() {
           <Route path="/returns" element={<Returns />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/sellOptions" element={<SellOption />} />
+          <Route path="/bbp" element={<BuybackPolicy />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/aboutus" element={<AboutUs />} />
           <Route path="/blogs/furnish" element={<FurnishMumbai />} />

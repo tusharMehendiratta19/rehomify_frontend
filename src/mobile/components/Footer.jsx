@@ -47,6 +47,9 @@ const Footer = () => {
           <div className="mobile-footer-section" onClick={() => navigate("/tnc")}>
             <h5>T&C</h5>
           </div>
+          <div className="mobile-footer-section">
+            <h5 onClick={() => navigate("/bbp")} style={{ cursor: 'pointer' }}>Buy Back Policy</h5>
+          </div>
 
           <div className="mobile-footer-section">
             <h5>Contact Us</h5>

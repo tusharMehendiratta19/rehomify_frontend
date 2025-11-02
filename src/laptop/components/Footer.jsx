@@ -26,14 +26,14 @@ const Footer = () => {
           </div>
 
           <div className="footer-section">
-            <h4 onClick={()=>navigate("/tnc")} style={{ cursor: 'pointer' }}>T&C</h4>
+            <h4 onClick={() => navigate("/tnc")} style={{ cursor: 'pointer' }}>T&C</h4>
           </div>
 
           <div className="footer-section">
-            <h4>Contact Us</h4>
-            <p>admin@rehomify.in</p>
-            <p>9131175240</p>
+            <h4 onClick={() => navigate("/bbp")} style={{ cursor: 'pointer' }}>Buy Back Policy</h4>
           </div>
+
+
         </div>
 
         {/* Second Column - Social Media Links */}
@@ -52,6 +52,11 @@ const Footer = () => {
             <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="social-icon">
               <FaFacebookF size={20} />
             </a>
+          </div>
+          <div className="footer-section-2">
+            <h4>Contact Us</h4>
+            <p>admin@rehomify.in</p>
+            <p>9131175240</p>
           </div>
         </div>
 

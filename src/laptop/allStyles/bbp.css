@@ -1,0 +1,175 @@
+/* ===========================
+   Buyback Policy Styles
+   =========================== */
+
+.policy-container {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #fff8f6;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  line-height: 1.6;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+}
+
+.policy-title {
+  color: #c04a3c;
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.policy-section {
+  margin-bottom: 2rem;
+}
+
+.policy-section h2 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #c04a3c;
+  margin-bottom: 0.6rem;
+  border-left: 4px solid #c04a3c;
+  padding-left: 8px;
+}
+
+.policy-section h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #333;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.policy-section p {
+  margin-bottom: 0.8rem;
+  text-align: justify;
+}
+
+.policy-section ul,
+.policy-section ol {
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.policy-section li {
+  margin-bottom: 0.4rem;
+}
+
+/* Buyback Table Styling */
+.policy-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-size: 0.95rem;
+  background-color: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  table-layout: fixed;
+}
+
+.policy-table th,
+.policy-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+  word-wrap: break-word;
+}
+
+/* Column widths */
+.policy-table th:nth-child(1),
+.policy-table td:nth-child(1),
+.policy-table th:nth-child(2),
+.policy-table td:nth-child(2) {
+  width: 25%;
+}
+
+.policy-table th:nth-child(3),
+.policy-table td:nth-child(3) {
+  width: 50%;
+}
+
+.policy-table th {
+  background-color: #ffe3de;
+  color: #333;
+  font-weight: 600;
+}
+
+.policy-table tr:nth-child(even) {
+  background-color: #fff6f4;
+}
+
+.policy-table tr:hover {
+  background-color: #ffece8;
+  transition: 0.2s ease;
+}
+
+/* Disclaimer */
+.policy-disclaimer {
+  margin-top: 2.5rem;
+  font-size: 0.95rem;
+  color: #555;
+  text-align: center;
+  border-top: 1px solid #e0c9c5;
+  padding-top: 1rem;
+}
+
+.policy-disclaimer strong {
+  color: #c04a3c;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .policy-container {
+    padding: 1.5rem;
+  }
+
+  .policy-title {
+    font-size: 1.5rem;
+  }
+
+  .policy-section h2 {
+    font-size: 1.05rem;
+  }
+
+  .policy-section h3 {
+    font-size: 1rem;
+  }
+
+  .policy-table {
+    font-size: 0.9rem;
+  }
+
+  .policy-table th,
+  .policy-table td {
+    padding: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .policy-container {
+    padding: 1rem;
+  }
+
+  .policy-title {
+    font-size: 1.3rem;
+  }
+
+  .policy-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    border: none;
+  }
+
+  .policy-table th,
+  .policy-table td {
+    width: auto;
+    min-width: 150px;
+    font-size: 0.85rem;
+    padding: 6px 8px;
+  }
+}

@@ -46,6 +46,7 @@ import BudgetFriendly from "./components/BudgetFriendly";
 import DoubleBedBlog from "./components/DoubleBedBlog";
 import SingleBedBlog from "./components/SingleBedBlog";
 import TableBlog from "./components/TableBlogs";
+import BuybackPolicy from "./components/BuybackPolicy";
 
 function LaptopApp() {
   const [userType, setUserType] = useState(null);
@@ -68,6 +69,7 @@ function LaptopApp() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/home" element={<Home />} />
           <Route path="/products" element={<Products />} />
+          <Route path="/bbp" element={<BuybackPolicy />} />
           <Route path="/product/:id" element={<ProductPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/tnc" element={<TNC />} />

@@ -33,6 +33,13 @@
   cursor: pointer;
   transition: color 0.3s;
 }
+.footer-section-2 h4 {
+  font-size: 18px;
+  color: #b63e2b;
+  /* margin-bottom: 10px; */
+  cursor: pointer;
+  transition: color 0.3s;
+}
 
 .footer-section h4:hover {
   color: #dd4d36;
@@ -41,6 +48,18 @@
 .footer-section p {
   font-size: 14px;
   line-height: 1.6;
+}
+.footer-section-2 h4:hover {
+  color: #dd4d36;
+}
+
+.footer-section-2 p {
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.footer-section-2{
+  margin-top: 15px;
 }
 
 /* .social-links {
