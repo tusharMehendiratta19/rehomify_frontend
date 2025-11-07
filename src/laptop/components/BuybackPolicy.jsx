@@ -147,10 +147,7 @@ const BuybackPolicy = () => {
               Requests made without 30 days’ notice may result in lower value or
               delayed pickup.
             </li>
-            <li>
-              Market demand and partner store capacity may influence acceptance
-              of a buyback request.
-            </li>
+           
           </ul>
         </section>
 

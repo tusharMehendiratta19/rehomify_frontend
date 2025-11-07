@@ -43,9 +43,9 @@ const Footer = () => {
             <a href="https://instagram.com/re_homify/" target="_blank" rel="noopener noreferrer" className="social-icon">
               <FaInstagram size={20} />
             </a>
-            <a href="https://x.com" target="_blank" rel="noopener noreferrer" className="social-icon">
+            {/* <a href="https://x.com" target="_blank" rel="noopener noreferrer" className="social-icon">
               <FaXTwitter size={20} />
-            </a>
+            </a> */}
             <a href="https://in.pinterest.com/Rehomify/" target="_blank" rel="noopener noreferrer" className="social-icon">
               <FaPinterest size={20} />
             </a>
