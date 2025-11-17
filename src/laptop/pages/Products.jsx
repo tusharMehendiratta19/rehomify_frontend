@@ -457,7 +457,7 @@ const Products = () => {
                         className="laptop-btn-primary"
                         onClick={(e) => {
                           e.stopPropagation();
-                          buyNow(product.id);
+                          buyNow(product.id, displayPrice);
                         }}
                       >
                         Buy Now
