@@ -137,7 +137,7 @@ const Products = () => {
       return;
     }
     try {
-      navigate('/checkout', { state: { productId, fromCart: true, total: price } });
+      navigate('/checkout', { state: { productId, fromCart: false, total: price } });
 
     } catch (error) {
       console.error('Error proceeding to Buy Now:', error);

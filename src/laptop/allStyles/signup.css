@@ -19,7 +19,7 @@
   position: relative;
   z-index: 1;
   max-width: 600px;
-  height: 55%;
+  height: 90%;
   margin: 0 auto;
   padding: 2rem;
   background-color: rgba(255, 255, 255, 0.9);
@@ -29,8 +29,12 @@
   transform: translateY(-50%);
 }
 
-.laptop-signup-content h4{
-    margin-bottom: 25px;
+.laptop-signup-content h4 {
+  /* margin-bottom: 25px; */
+  font-size: 1.3rem;
+  text-align: left;
+  margin-bottom: 1.5rem;
+  color: #333;
 }
 
 .laptop-signup-container {
@@ -142,11 +146,25 @@
 }
 
 @keyframes fadein {
-  from { bottom: 0; opacity: 0; }
-  to { bottom: 30px; opacity: 0.95; }
+  from {
+    bottom: 0;
+    opacity: 0;
+  }
+
+  to {
+    bottom: 30px;
+    opacity: 0.95;
+  }
 }
 
 @keyframes fadeout {
-  from { bottom: 30px; opacity: 0.95; }
-  to { bottom: 0; opacity: 0; }
+  from {
+    bottom: 30px;
+    opacity: 0.95;
+  }
+
+  to {
+    bottom: 0;
+    opacity: 0;
+  }
 }

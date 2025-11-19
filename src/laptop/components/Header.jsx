@@ -1,6 +1,7 @@
 // src/components/Header.jsx
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 import "../allStyles/header.css";
 import {
   FaUserCircle,
@@ -20,14 +21,16 @@ const slogans = ["Table", "Chair", "Sofa", "Bed", "Cupboard"];
 const Header = () => {
   const [index, setIndex] = useState(0);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [searchText, setSearchText] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+  const [allProducts, setAllProducts] = useState([]);
   const navigate = useNavigate();
 
-  // ✅ Get cart count from context
-  const { cartCount } = useCart();
-  // console.log("Cart count from context:", cartCount);
-
-
   const isLoggedIn = !!localStorage.getItem("token");
+
+  const dropdownRef = useRef(null);
+  const sideNavRef = useRef(null);
+  const { cartCount } = useCart();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -35,6 +38,39 @@ const Header = () => {
     }, 2000);
     return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    axios
+      .get("https://rehomify.in/v1/products/all")
+      .then((res) => setAllProducts(res.data.data || []))
+      .catch((err) => console.error("Error fetching products:", err));
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      // Close user dropdown
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target) &&   // not clicking inside dropdown
+        !e.target.closest(".userIcon")              // not clicking user avatar icon
+      ) {
+        setDropdownOpen(false);
+      }
+
+      // Close side nav
+      if (
+        sideNavRef.current &&
+        !sideNavRef.current.contains(e.target) &&
+        !e.target.closest(".burger-icon")
+      ) {
+        setSideNavOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
 
   const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
 
@@ -71,6 +107,33 @@ const Header = () => {
         break;
       default:
         break;
+    }
+  };
+
+  const handleSearchChange = (e) => {
+    const value = e.target.value;
+    setSearchText(value);
+    if (!value.trim()) {
+      setSuggestions([]);
+      return;
+    }
+    const filtered = allProducts.filter(
+      (product) =>
+        product.name?.toLowerCase().includes(value.toLowerCase()) ||
+        product.category?.toLowerCase().includes(value.toLowerCase())
+    );
+    setSuggestions(filtered.slice(0, 5));
+  };
+
+  const handleSearchSubmit = () => {
+    if (!searchText.trim()) return;
+    navigate(`/search?query=${encodeURIComponent(searchText.trim())}`);
+    setSuggestions([]);
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleSearchSubmit();
     }
   };
 
@@ -156,6 +219,9 @@ const Header = () => {
             type="text"
             placeholder="Search..."
             className="search-input"
+            value={searchText}
+            onChange={handleSearchChange}
+            onKeyDown={handleKeyDown}
           />
           <h4
             className="becomeSeller"
@@ -164,6 +230,26 @@ const Header = () => {
             Sell Your Furniture
           </h4>
         </div>
+        {searchText && suggestions.length > 0 && (
+          <div className="laptop-search-suggestions">
+            {suggestions.map((item) => (
+              <div
+                key={item._id}
+                className="laptop-suggestion-item"
+                onClick={() => {
+                  navigate(`/product/${item._id}`);
+                  setSearchText("");
+                  setSuggestions([]);
+                }}
+              >
+                {item.name} –{" "}
+                <span style={{ fontStyle: "italic", color: "#888" }}>
+                  {item.category}
+                </span>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

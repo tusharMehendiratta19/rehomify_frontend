@@ -86,7 +86,7 @@ const ProductRow = ({ title, type, allproducts }) => {
     if (!isLoggedIn) return showSnackbar("Please login to proceed");
 
     try {
-      navigate("/checkout", { state: { productId, fromCart: true, total: price } });
+      navigate("/checkout", { state: { productId, fromCart: false, total: price } });
     } catch (err) {
       console.error("Buy Now failed:", err);
       showSnackbar("Error proceeding to Buy Now");

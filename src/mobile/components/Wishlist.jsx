@@ -87,7 +87,7 @@ const Wishlist = () => {
             return;
         }
         try {
-            navigate('/checkout', { state: { productId, fromCart: true, total: price } });
+            navigate('/checkout', { state: { productId, fromCart: false, total: price } });
         } catch (error) {
             console.error('Error proceeding to Buy Now:', error);
             showSnackbar("Error proceeding to Buy Now");
@@ -174,7 +174,7 @@ const Wishlist = () => {
             });
 
             if (response.status) {
-                navigate('/checkout', { state: { productId, fromCart: true } });
+                navigate('/checkout', { state: { productId, fromCart: false } });
             } else {
                 window.dispatchEvent(new CustomEvent("snackbar", {
                     detail: { message: "Error proceeding to Buy Now", type: "error" }
