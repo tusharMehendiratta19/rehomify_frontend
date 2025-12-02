@@ -7,8 +7,9 @@ import Footer from "./Footer";
 
 const OrdersPage = () => {
     const location = useLocation();
-    const order = location.state?.order; // 👈 comes from navigate()
-    console.log("order page: ", order)
+    const order = location.state?.order;
+    const custId = localStorage.getItem("custId")
+    // console.log("order page: ", order)
     const [rating, setRating] = useState(0);
     const [review, setReview] = useState("");
 
@@ -22,7 +23,8 @@ const OrdersPage = () => {
 
     const submitReview = async () => {
         try {
-            await axios.post("https://rehomify.in/v1/orders/review", {
+            await axios.post("http://localhost:5000/v1/reviews/createReview", {
+                custId: custId,
                 orderId: order.id,
                 rating,
                 review,
@@ -37,21 +39,30 @@ const OrdersPage = () => {
     const downloadInvoice = async () => {
         try {
             const res = await axios.get(
-                `https://rehomify.in/v1/orders/${order.id}/invoice`,
-                { responseType: "blob" }
+                `http://localhost:5000/v1/orders/getInvoice/${order.id}`
             );
 
-            const url = window.URL.createObjectURL(new Blob([res.data]));
+            const signedUrl = res.data.url;
+            if (!signedUrl) {
+                alert("❌ Invoice URL not received");
+                return;
+            }
+
+            // Create link for direct S3 download
             const link = document.createElement("a");
-            link.href = url;
-            link.setAttribute("download", `invoice_${order.id}.pdf`);
+            link.href = signedUrl;
+            link.download = `invoice_${order.id}.pdf`;
             document.body.appendChild(link);
             link.click();
+            link.target = "_blank";
+            link.remove();
+
         } catch (err) {
             console.error("Error downloading invoice:", err);
             alert("❌ Failed to download invoice");
         }
     };
+
 
     // helper function
     const formatDate = (isoString) => {
