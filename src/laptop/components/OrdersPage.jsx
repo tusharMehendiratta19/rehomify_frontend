@@ -7,7 +7,8 @@ import Footer from "./Footer";
 
 const OrdersPage = () => {
     const location = useLocation();
-    const order = location.state?.order; // 👈 comes from navigate()
+    const order = location.state?.order;
+    const custId = localStorage.getItem("custId")
     console.log("order page: ", order)
     const [rating, setRating] = useState(0);
     const [review, setReview] = useState("");
@@ -22,7 +23,8 @@ const OrdersPage = () => {
 
     const submitReview = async () => {
         try {
-            await axios.post("https://rehomify.in/v1/orders/review", {
+            await axios.post("http://localhost:5000/v1/reviews/createReview", {
+                custId: custId,
                 orderId: order.id,
                 rating,
                 review,
