@@ -9,6 +9,8 @@ const OrdersPage = () => {
     const location = useLocation();
     const order = location.state?.order;
     const custId = localStorage.getItem("custId")
+    const [snackbarMsg, setSnackbarMsg] = useState("");
+    const [snackbarVisible, setSnackbarVisible] = useState(false);
     // console.log("order page: ", order)
     const [rating, setRating] = useState(0);
     const [review, setReview] = useState("");
@@ -21,6 +23,12 @@ const OrdersPage = () => {
         setRating(value);
     };
 
+    const showSnackbar = msg => {
+        setSnackbarMsg(msg);
+        setSnackbarVisible(true);
+        setTimeout(() => setSnackbarVisible(false), 3000);
+    };
+
     const submitReview = async () => {
         try {
             await axios.post("https://rehomify.in/v1/reviews/createReview", {
@@ -29,7 +37,7 @@ const OrdersPage = () => {
                 rating,
                 review,
             });
-            alert("✅ Review submitted successfully!");
+            showSnackbar("Review submitted successfully!");
         } catch (err) {
             console.error("Error submitting review:", err);
             alert("❌ Failed to submit review");
@@ -63,8 +71,6 @@ const OrdersPage = () => {
         }
     };
 
-
-    // helper function
     const formatDate = (isoString) => {
         const date = new Date(isoString);
 
@@ -80,7 +86,6 @@ const OrdersPage = () => {
 
         return `${month} ${day}, 20${year}`;
     };
-
 
     return (
         <>
@@ -139,6 +144,11 @@ const OrdersPage = () => {
                     📄 Download Invoice
                 </button>
             </div>
+            {snackbarVisible && (
+                <div className="snackbar">
+                    {snackbarMsg}
+                </div>
+            )}
             <Footer />
         </>
     );
