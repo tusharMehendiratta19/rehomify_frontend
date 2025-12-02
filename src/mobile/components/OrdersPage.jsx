@@ -23,7 +23,7 @@ const OrdersPage = () => {
 
     const submitReview = async () => {
         try {
-            await axios.post("http://localhost:5000/v1/reviews/createReview", {
+            await axios.post("https://rehomify.in/v1/reviews/createReview", {
                 custId: custId,
                 orderId: order.id,
                 rating,
@@ -39,7 +39,7 @@ const OrdersPage = () => {
     const downloadInvoice = async () => {
         try {
             const res = await axios.get(
-                `http://localhost:5000/v1/orders/getInvoice/${order.id}`
+                `https://rehomify.in/v1/orders/getInvoice/${order.id}`
             );
 
             const signedUrl = res.data.url;
