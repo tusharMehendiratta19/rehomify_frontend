@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import SellerNav from "./SellerNav";
 import SellerHeader from "./SellerHeader";
-// import Snackbar from "@mui/material/Snackbar";
-// import Alert from "@mui/material/Alert";
 import "../sellerstyles/sellerOrders.css";
 
 const SellerOrders = () => {
@@ -41,10 +39,10 @@ const SellerOrders = () => {
       );
 
       await axios.put(`https://rehomify.in/v1/orders/${id}`, { status });
-      showSnackbar("Order status is updated!");
+      alert("Order status is updated!");
     } catch (err) {
       console.error("Failed to update order:", err);
-      showSnackbar("Failed to update order");
+      alert("Failed to update order");
       // revert state if failed
       setOrders((prev) =>
         prev.map((o) =>
