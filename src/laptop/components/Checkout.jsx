@@ -262,7 +262,7 @@ const Checkout = () => {
 
     try {
       let payment_session_body = {
-        amount: 1,
+        amount: subtotal,
         currency: "INR"
       };
 
@@ -290,7 +290,7 @@ const Checkout = () => {
         async function initiatePayment() {
           try {
             let options = {
-              "amount": "1",
+              "amount": subtotal.toString(),
               "currency_code": "INR",
               "payments_session_id": sessionId.toString(),
               "currency_symbol": "₹",
