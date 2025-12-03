@@ -21,7 +21,7 @@ const SellerOrders = () => {
 
   const fetchAllOrders = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/v1/orders/");
+      const res = await axios.get("https://rehomify.in/v1/orders/");
       setOrders(res.data || []);
     } catch (error) {
       console.error("Failed to fetch orders:", error);
@@ -40,7 +40,7 @@ const SellerOrders = () => {
         )
       );
 
-      await axios.put(`http://localhost:5000/v1/orders/${id}`, { status });
+      await axios.put(`https://rehomify.in/v1/orders/${id}`, { status });
       showSnackbar("Order status is updated!");
     } catch (err) {
       console.error("Failed to update order:", err);
