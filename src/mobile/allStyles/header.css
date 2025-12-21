@@ -133,7 +133,7 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
   border-radius: 6px;
   padding: 0.5rem;
-  z-index: 100;
+  z-index: 1010;
   display: flex;
   flex-direction: column;
   width: 25%;
@@ -269,11 +269,12 @@
   margin-top: -10px;
   margin-bottom: -10px;
 }
-/* .mobile-search-suggestions {
+
+.mobile-search-suggestions {
   position: fixed;
-  top: 108px; 
-  left: 60px; 
-  width: 48%;
+  top: 60px; 
+  /* left: 60px;  */
+  width: 90%;
   background-color: #fff;
   border: 1px solid #ccc;
   border-radius: 8px;
@@ -283,16 +284,15 @@
   overflow-y: auto;
   padding: 5px 0; 
 }
-*/
 
-.mobile-search-suggestions {
+/* .mobile-search-suggestions {
   position: absolute;
   bottom: 100%;
   left: 0;
   right: 0;
   max-height: 240px;
   overflow-y: auto;
-}
+} */
 
 
 .mobile-search-suggestion {
