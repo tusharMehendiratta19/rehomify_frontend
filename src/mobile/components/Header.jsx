@@ -207,7 +207,26 @@ const MobileHeader = () => {
       )}
 
       {/* Bottom Bar */}
-      <div className="mobile-bottom-bar" style={{ position: "relative" }}>
+      <div
+        className="mobile-bottom-bar"
+        style={{
+          position: "fixed",
+          bottom: 0,
+          left: 0,
+          right: 0,
+          top: 70,
+          height: "50px",              // ✅ important
+          display: "flex",             // ✅ keeps items inside
+          alignItems: "center",
+          gap: "10px",
+          boxSizing: "border-box",
+          zIndex: 1000,
+          background: "#fff",          // or your existing bg
+          WebkitTransform: "translateZ(0)",
+          paddingBottom: "env(safe-area-inset-bottom)",
+        }}
+      >
+
         <FaBars
           size={20}
           onClick={toggleSideNav}
