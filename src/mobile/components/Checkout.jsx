@@ -60,39 +60,40 @@ const Checkout = () => {
     const c = coupons.find((c) => c.code === code);
     setApplied(c);
     setSelectedCode(code);
+    setCouponVisible(false);
     if (c) applyDiscount(c);
   };
 
 
   const coupons = [
-    {
-      id: 1,
-      type: "New User Offer",
-      description: "₹150 off for new users on first purchase",
-      code: "FIRST150",
-      amount: 150,
-    },
-    {
-      id: 2,
-      type: "New User Offer",
-      description: "Sign-up bonus of ₹200 for new users",
-      code: "SIGNUP200",
-      amount: 200,
-    },
+    // {
+    //   id: 1,
+    //   type: "New User Offer",
+    //   description: "₹150 off for new users on first purchase",
+    //   code: "FIRST150",
+    //   amount: 150,
+    // },
+    // {
+    //   id: 2,
+    //   type: "New User Offer",
+    //   description: "Sign-up bonus of ₹200 for new users",
+    //   code: "SIGNUP200",
+    //   amount: 200,
+    // },
     {
       id: 3,
-      type: "Website Offer",
-      description: "Extra 15% off on ReHomify exclusive sale",
-      code: "NEW15",
+      type: "New Year Offer",
+      description: "Extra 15% off on ReHomify all purchases",
+      code: "NEWYEAR15",
       percentage: 15,
     },
-    {
-      id: 3,
-      type: "Website Offer",
-      description: "Get ₹500 off on orders above ₹4999",
-      code: "EXTRA500",
-      amount: 500,
-    },
+    // {
+    //   id: 3,
+    //   type: "Website Offer",
+    //   description: "Get ₹500 off on orders above ₹4999",
+    //   code: "EXTRA500",
+    //   amount: 500,
+    // },
   ];
 
   useEffect(() => {
@@ -504,6 +505,7 @@ const Checkout = () => {
               onFocus={() => setCouponVisible(true)}
               onBlur={() => setTimeout(() => setCouponVisible(false), 200)}
               placeholder="Enter coupon code"
+              disabled={isDiscount}
             />
             {couponVisible && (
               <ul className="coupon-list">
