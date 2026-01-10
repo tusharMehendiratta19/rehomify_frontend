@@ -1,15 +1,11 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Header from "../components/Header";
 import axios from "axios";
 import Footer from "../components/Footer";
 import "../allStyles/products.css";
-import ProductPage from "../components/ProductPage";
 import { useNavigate, useLocation } from "react-router-dom";
-import dummyProducts from "../../data/dummyProductData";
-import { AiFillHeart } from "react-icons/ai";    // Filled heart
-import { FiHeart } from "react-icons/fi";     // Outline heart
-// import Loader from "../components/Loader";
-// import AddProductForm from "../sellers/components/MobileSellerAddProduct";
+import { AiFillHeart } from "react-icons/ai";
+import { FiHeart } from "react-icons/fi";
 import CustomerAddProductForm from "../components/CustomerAddProductForm";
 import { useCart } from "../../data/CartContext";
 
@@ -42,23 +38,20 @@ const Products = () => {
   const [cartItems, setCartItems] = useState([]);
   const navigate = useNavigate();
   const isLoggedIn = !!localStorage.getItem("token") && !!localStorage.getItem("custId");
-  const { cartCount, addToCart: addToCartContext, removeFromCart } = useCart();
+  const { addToCart: addToCartContext } = useCart();
 
   const [allProducts, setAllProducts] = useState([]);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [wishlist, setWishlist] = useState([]);
-  const [loading, setLoading] = useState(true);
   const location = useLocation();
   const [expanded, setExpanded] = useState({});
   const queryParams = new URLSearchParams(location.search);
   const category = queryParams.get("cat");
   console.log("category", category)
-  // const [selectedCategory, setSelectedCategory] = useState("All Products");
 
   useEffect(() => {
     if (category) {
-      // Match category to the format you’re using in categories array
       const formattedCategory =
         Object.keys(categoryMap).find(
           key => categoryMap[key] === category.toLowerCase()
@@ -139,7 +132,6 @@ const Products = () => {
     }
     try {
       navigate('/checkout', { state: { productId, fromCart: false, total: price } });
-
     } catch (error) {
       console.error('Error proceeding to Buy Now:', error);
       showSnackbar("Error proceeding to Buy Now");
@@ -230,8 +222,6 @@ const Products = () => {
 
     return products;
   };
-
-  const filteredProducts = getCategoryProducts();
 
   return (
     <div>
@@ -349,128 +339,131 @@ const Products = () => {
           </div>
 
           {/* Product Listing */}
-          <div className="laptop-product-list">
-            {getCategoryProducts().map((product) => {
-              const displayPrice =
-                (product?.varieties && product.varieties[0]?.price) ??
-                product?.price ??
-                0;
+          {selectedCategory === "Combo" ? (
+            <div className="laptop-coming-soon">
+              <h2>Combos will be available soon.</h2>
+            </div>
+          ) : (
+            <div className="laptop-product-list">
+              {getCategoryProducts().map((product) => {
+                const displayPrice =
+                  (product?.varieties && product.varieties[0]?.price) ??
+                  product?.varieties[0]?.price ??
+                  0;
 
-              return (
-                <div
-                  key={product.id}
-                  className="laptop-product-card"
-                  onClick={() => handleProductClick(product.id)}
-                >
-                  {/* image + wishlist */}
+                return (
                   <div
-                    className="laptop-product-image-wrapper"
+                    key={product.id}
+                    className="laptop-product-card"
                     onClick={() => handleProductClick(product.id)}
                   >
-                    <img
-                      src={product.image}
-                      alt={product.name}
-                      className="laptop-product-image"
-                    />
-                    <button
-                      className="laptop-wishlist-icon"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        addToWishlist(product.id);
-                      }}
-                      title={
-                        wishlist.includes(product.id)
-                          ? "Remove from Wishlist"
-                          : "Add to Wishlist"
-                      }
-                    >
-                      {wishlist.includes(product.id) ? (
-                        <AiFillHeart color="red" />
-                      ) : (
-                        <FiHeart />
-                      )}
-                    </button>
-                  </div>
-
-                  <div className="laptop-product-info">
-                    <h3
-                      className="laptop-product-name"
+                    {/* image + wishlist */}
+                    <div
+                      className="laptop-product-image-wrapper"
                       onClick={() => handleProductClick(product.id)}
                     >
-                      {product.name}
-                    </h3>
-
-                    {/* Description with Read More (60 chars default) */}
-                    <p className="laptop-product-description">
-                      {expanded[product.id]
-                        ? product.description
-                        : product.description.slice(0, 60) + (product.description.length > 60 ? "..." : "")
-                      }
-                      {product.description.length > 60 && (
-                        <span
-                          className="read-more-toggle"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setExpanded((prev) => ({
-                              ...prev,
-                              [product.id]: !prev[product.id],
-                            }));
-                          }}
-                        >
-                          {expanded[product.id] ? " Show Less" : " Read More"}
-                        </span>
-                      )}
-                    </p>
-
-
-                    {/* Price + Color */}
-                    <div className="laptop-price-color">
-                      <p className="laptop-product-price">Price: ₹{displayPrice}</p>
-                      <p className="laptop-product-color">Color: {product.color}</p>
-                    </div>
-
-                    {/* Buttons */}
-                    <div className="laptop-product-actions">
-                      {cartItems.includes(product.id) ? (
-                        <button
-                          className="laptop-btn-outline"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            navigate("/cart");
-                          }}
-                        >
-                          Go To Cart
-                        </button>
-                      ) : (
-                        <button
-                          className="laptop-btn-outline"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            addToCart(product.id);
-                          }}
-                        >
-                          Add to Cart
-                        </button>
-                      )}
-
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        className="laptop-product-image"
+                      />
                       <button
-                        className="laptop-btn-primary"
+                        className="laptop-wishlist-icon"
                         onClick={(e) => {
                           e.stopPropagation();
-                          buyNow(product.id, displayPrice);
+                          addToWishlist(product.id);
                         }}
+                        title={
+                          wishlist.includes(product.id)
+                            ? "Remove from Wishlist"
+                            : "Add to Wishlist"
+                        }
                       >
-                        Buy Now
+                        {wishlist.includes(product.id) ? (
+                          <AiFillHeart color="red" />
+                        ) : (
+                          <FiHeart />
+                        )}
                       </button>
                     </div>
+
+                    <div className="laptop-product-info">
+                      <h3
+                        className="laptop-product-name"
+                        onClick={() => handleProductClick(product.id)}
+                      >
+                        {product.name}
+                      </h3>
+
+                      {/* Description with Read More (60 chars default) */}
+                      <p className="laptop-product-description">
+                        {expanded[product.id]
+                          ? product.description
+                          : product.description.slice(0, 60) + (product.description.length > 60 ? "..." : "")
+                        }
+                        {product.description.length > 60 && (
+                          <span
+                            className="read-more-toggle"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setExpanded((prev) => ({
+                                ...prev,
+                                [product.id]: !prev[product.id],
+                              }));
+                            }}
+                          >
+                            {expanded[product.id] ? " Show Less" : " Read More"}
+                          </span>
+                        )}
+                      </p>
+
+
+                      {/* Price + Color */}
+                      <div className="laptop-price-color">
+                        <p className="laptop-product-price">Price: ₹{displayPrice}</p>
+                        <p className="laptop-product-color">Color: {product.color}</p>
+                      </div>
+
+                      {/* Buttons */}
+                      <div className="laptop-product-actions">
+                        {cartItems.includes(product.id) ? (
+                          <button
+                            className="laptop-btn-outline"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              navigate("/cart");
+                            }}
+                          >
+                            Go To Cart
+                          </button>
+                        ) : (
+                          <button
+                            className="laptop-btn-outline"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              addToCart(product.id);
+                            }}
+                          >
+                            Add to Cart
+                          </button>
+                        )}
+
+                        <button
+                          className="laptop-btn-primary"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            buyNow(product.id, displayPrice);
+                          }}
+                        >
+                          Buy Now
+                        </button>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Add Your Own Product (from mobile, styled for laptop) */}
-
+                );
+              })}
+            </div>
+          )}
         </main>
       </div>
 

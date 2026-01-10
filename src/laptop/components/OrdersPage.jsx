@@ -27,7 +27,7 @@ const OrdersPage = () => {
         const fetchExistingReview = async () => {
             try {
                 const res = await axios.post(
-                    `http://localhost:5000/v1/reviews/getReviewById`,
+                    `https://rehomify.in/v1/reviews/getReviewById`,
                     {
                         orderId: order.id
                     }

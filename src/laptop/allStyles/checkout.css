@@ -246,7 +246,7 @@
   margin-top: 10px;
   border: 1px solid lightgray;
 }
-.coupon-list {
+.laptop-coupon-list {
   background: #fff;
   border: 1px solid #ccc;
   margin-top: 4px;
@@ -256,11 +256,16 @@
   padding: 0;
   list-style: none;
   position: absolute;
-  width: 90%;
+  width: 36%;
   z-index: 100;
 }
 
-.coupon-item {
+.laptop-coupon-item {
   padding: 8px 10px;
+  border-bottom: 1px solid #eee;
   cursor: pointer;
+}
+
+.laptop-coupon-item:hover {
+  background-color: #f0f0f0;
 }

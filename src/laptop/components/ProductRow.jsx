@@ -173,7 +173,7 @@ const ProductRow = ({ title, type, allproducts }) => {
 
             <div className="laptop-product-info">
               {/* <p className="laptop-product-description" onClick={() => handleProductClick(product._id)}>Color: {product.color}</p> */}
-              <p className="laptop-product-price" onClick={() => handleProductClick(product._id)}>Price: ₹{product.price}</p>
+              <p className="laptop-product-price" onClick={() => handleProductClick(product._id)}>Price: ₹{product.varieties[0].price}</p>
               <div className="product-actions">
                 {cartItems.includes(product._id) ? (
                   <button className="btn-outline" onClick={(e) => { e.stopPropagation(); navigate("/cart"); }}>

@@ -36,12 +36,20 @@
   transform: scale(0.98);
 }
 
-.mobile-product-offer-image {
+/* .mobile-product-offer-image {
   width: fit-content;
   height: 100px;
   object-fit: cover;
   margin-bottom: 0.5rem;
+} */
+
+.mobile-product-offer-image {
+  width: 100%;
+  height: 100px;
+  object-fit: contain;   /* keeps full image visible */
+  display: block;
 }
+
 
 .mobile-product-offer-header {
   font-weight: 600;

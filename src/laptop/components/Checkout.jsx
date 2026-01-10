@@ -18,6 +18,7 @@ const Checkout = () => {
   const [subtotal, setSubtotal] = useState(locationSubtotal);
   const [showAddressForm, setShowAddressForm] = useState(false);
   const [paymentSessionId, setPaymentSessionId] = useState("");
+  const [offers, setOffers] = useState([]);
   const [userPhone, setUserPhone] = useState("");
   const [address, setAddress] = useState({
     name: "",
@@ -35,6 +36,27 @@ const Checkout = () => {
   const [discount, setDiscount] = useState("");
   const [applied, setApplied] = useState(null);
   const [isPincodeServiceable, setIsPincodeServiceable] = useState(false); // ✅ new state
+
+  useEffect(() => {
+    const fetchOffers = async () => {
+      try {
+        const res = await axios.get("https://rehomify.in/v1/offers/");
+
+        if (Array.isArray(res.data.data)) {
+          // ✅ Filter only active offers
+          const activeOffers = res.data.data.filter((offer) => offer.isActive);
+          setOffers(activeOffers);
+        } else {
+          setOffers([]); // fallback if response is not array
+        }
+      } catch (err) {
+        console.error("Error fetching homepage data:", err);
+        setOffers([]);
+      }
+    };
+
+    fetchOffers();
+  }, []);
 
   const applyDiscount = (coupon) => {
     if (!coupon) return;
@@ -55,44 +77,13 @@ const Checkout = () => {
   };
 
   const applyCoupon = (code) => {
-    const c = coupons.find((c) => c.code === code);
+    console.log("Applying coupon code:", code);
+    const c = offers.find((c) => c.code === code);
     setApplied(c);
     setSelectedCode(code);
     setCouponVisible(false);
     if (c) applyDiscount(c);
   };
-
-
-  const coupons = [
-    // {
-    //   id: 1,
-    //   type: "New User Offer",
-    //   description: "₹150 off for new users on first purchase",
-    //   code: "FIRST150",
-    //   amount: 150,
-    // },
-    // {
-    //   id: 2,
-    //   type: "New User Offer",
-    //   description: "Sign-up bonus of ₹200 for new users",
-    //   code: "SIGNUP200",
-    //   amount: 200,
-    // },
-    {
-      id: 3,
-      type: "New Year Offer",
-      description: "Extra 15% off on ReHomify all purchases",
-      code: "NEWYEAR15",
-      percentage: 15,
-    },
-    // {
-    //   id: 3,
-    //   type: "Website Offer",
-    //   description: "Get ₹500 off on orders above ₹9999",
-    //   code: "EXTRA500",
-    //   amount: 500,
-    // },
-  ];
 
   useEffect(() => {
     setSubtotal(locationSubtotal);
@@ -274,7 +265,7 @@ const Checkout = () => {
 
       const sessionId = paymentSession.data.data.payments_session.payments_session_id;
       setPaymentSessionId(sessionId);
-      console.log("paymentSession", sessionId);
+      // console.log("paymentSession", sessionId);
 
       // --- Zoho Checkout Integration ---
       if (window.ZPayments) {
@@ -431,12 +422,12 @@ const Checkout = () => {
                 disabled={isDiscount}
               />
               {couponVisible && (
-                <ul className="coupon-list">
-                  {coupons.map(c => (
+                <ul className="laptop-coupon-list">
+                  {offers.map(c => (
                     <li
                       key={c.code}
                       onClick={() => applyCoupon(c.code)}
-                      className="coupon-item"
+                      className="laptop-coupon-item"
                     >
                       <strong>{c.code}</strong> – {c.description}
                     </li>

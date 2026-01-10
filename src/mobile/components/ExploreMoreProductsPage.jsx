@@ -49,9 +49,9 @@ const ExploreMoreProductsPage = () => {
                 const all = res.data.data || [];
 
                 const categorized = {
-                    "Product under 5000": all.filter((p) => p.price < 5000),
-                    "Popular right now": [...all].sort((a, b) => b.price - a.price).slice(0, 10),
-                    "Deep discounts": all.filter((p) => p.price < 8000),
+                    "Product under 5000": all.filter((p) => p.varieties[0]?.price < 5000),
+                    "Popular right now": [...all].sort((a, b) => b.varieties[0]?.price - a.varieties[0]?.price).slice(0, 10),
+                    "Deep discounts": all.filter((p) => p.varieties[0]?.price < 8000),
                     "Clearance sale": all.slice(0, 10),
                 };
 
@@ -239,7 +239,7 @@ const ExploreMoreProductsPage = () => {
                                                 className="mobile-product-price"
                                                 onClick={() => handleProductClick(product._id)}
                                             >
-                                                Price: <strong>₹{product.price}</strong>
+                                                Price: <strong>₹{product.varieties[0]?.price}</strong>
                                             </p>
                                             <div className="mobile-product-buttons">
                                                 {cartItems.includes(product._id) ? (
@@ -267,7 +267,7 @@ const ExploreMoreProductsPage = () => {
                                                     className="mobile-buy-now-btn"
                                                     onClick={(e) => {
                                                         e.stopPropagation();
-                                                        buyNow(product._id, product.price);
+                                                        buyNow(product._id, product.varieties[0]?.price);
                                                     }}
                                                 >
                                                     Buy Now

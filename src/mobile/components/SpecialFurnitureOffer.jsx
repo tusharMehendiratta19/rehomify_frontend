@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "../allStyles/specialfurnitureoffer.css";
 
 const SpecialFurnitureOffer = () => {
