@@ -315,11 +315,11 @@ const ProductPage = () => {
                 <br />
                 <ul>
                   <li><strong>Material</strong>: {product.woodMaterial}</li>
-                  {/* <li><strong>Width</strong>: {product.width} foot</li>
-                <li><strong>Length</strong>: {product.length} foot</li>
-                <li><strong>Height</strong>: {product.height} foot</li> */}
+                  <li><strong>Width</strong>: {product.width} foot</li>
+                  <li><strong>Length</strong>: {product.length} foot</li>
+                  <li><strong>Height</strong>: {product.height} foot</li>
                   <li><strong>Color</strong>: {product.color}</li>
-                  <li><strong>Ratings</strong>: 4★</li>
+                  {/* <li><strong>Ratings</strong>: 4★</li> */}
                 </ul>
               </div>
               <div className='laptop-offerImage'>
