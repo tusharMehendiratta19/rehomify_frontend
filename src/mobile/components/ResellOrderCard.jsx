@@ -85,17 +85,17 @@ const ResellOrderDetails = () => {
     return (
         <>
             <Header />
-            <h3 className="resell-heading">Resell Request Details</h3>
-            <div className="resell-order-card">
-                <div className="resell-order-left">
+            <h3 className="mobile-resell-heading">Resell Request Details</h3>
+            <div className="mobile-resell-order-card">
+                <div className="mobile-resell-order-left">
                     <img
                         src={order.productDetails.imageUrl || "/default-image.png"}
                         alt={order.productDetails.name}
-                        className="resell-order-image"
+                        className="mobile-resell-order-image"
                     />
                 </div>
 
-                <div className="resell-order-right">
+                <div className="mobile-resell-order-right">
                     <p className="resell-order-id">
                         <strong>Order ID:</strong> {order.orderId}
                     </p>
@@ -105,9 +105,9 @@ const ResellOrderDetails = () => {
 
                     <p className="resell-order-name">{order.productDetails.name}</p>
 
-                    <p className="resell-order-description">
+                    {/* <p className="resell-order-description">
                         {order.productDetails.description}
-                    </p>
+                    </p> */}
 
                     <span
                         className={`resell-order-status ${order.status.toLowerCase()}`}
@@ -117,7 +117,7 @@ const ResellOrderDetails = () => {
 
                     <button
                         onClick={() => handleCancelRequest(order._id)}
-                        className="resell-order-cancel-btn"
+                        className="mobile-resell-order-cancel-btn"
                         disabled={btnDisabled || order.status === "Cancelled"}
                     >
                         Cancel Request

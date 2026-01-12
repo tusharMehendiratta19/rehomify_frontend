@@ -4,21 +4,24 @@ import "../allStyles/resellorders.css";
 import Header from "./Header";
 import Footer from "./Footer";
 import axios from "axios";
+import OtherProductResell from "./OtherProductResell";
 
 const ResellOrders = () => {
   const [orders, setOrders] = useState([]);
   const [resellOrders, setResellOrders] = useState([]);
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [selectedOrderId, setSelectedOrderId] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     const custId = localStorage.getItem("custId");
-    let result = axios.get(`http://localhost:5000/v1/orders/${custId}`);
-    let resellOrders = axios.get(`http://localhost:5000/v1/resell-orders/customer/${custId}`);
+    let result = axios.get(`https://rehomify.in/v1/orders/${custId}`);
+    let resellOrders = axios.get(`https://rehomify.in/v1/resell-orders/customer/${custId}`);
 
     if (result) {
       result.then((res) => {
         console.log(res.data);
-        const filteredOrders = res.data.filter(order => !order.isResellRequested);
+        const filteredOrders = res.data.filter(order => !order.isResellRequested && order.paymentStatus === "payment.succeeded");
         setOrders(filteredOrders);
       });
     } else {
@@ -39,18 +42,37 @@ const ResellOrders = () => {
     navigate("/resellOrderPage", { state: { orderId } });
   };
 
-  const handleResellClick = async (orderId) => {
-    let result = await axios.post(`http://localhost:5000/v1/resell-orders`, { orderId });
-    if (result) {
-      result.then((res) => {
-        console.log(res.data);
-        alert("Resell request submitted successfully!");
-      }
+  const handleResellClick = async () => {
+    try {
+      let result = await axios.post(
+        `https://rehomify.in/v1/resell-orders/addResellOrder`,
+        { orderId: selectedOrderId }
       );
-    } else {
-      alert("Failed to submit resell request.");
+
+      if (result.data.success) {
+        window.dispatchEvent(
+          new CustomEvent("snackbar", {
+            detail: { message: "Resell requested raised!", type: "success" },
+          })
+        );
+
+        setResellOrders([...resellOrders, result.data.data]);
+        setOrders(orders.filter(order => order.id !== selectedOrderId));
+      } else {
+        throw new Error();
+      }
+    } catch {
+      window.dispatchEvent(
+        new CustomEvent("snackbar", {
+          detail: { message: "Failed to raise resell request.", type: "error" },
+        })
+      );
+    } finally {
+      setShowConfirm(false);
+      setSelectedOrderId(null);
     }
-  }
+  };
+
 
   return (
     <div>
@@ -86,12 +108,21 @@ const ResellOrders = () => {
                 <img src={order.product.imageUrl} alt={order.name} className="resell-image" />
                 <div className="resell-details">
                   <h4>{order.product.name}</h4>
-                  <p>{order.description}</p>
                   <p>
                     <strong>Order ID:</strong> {order.id}
                   </p>
-                  <button className="resell-btn">Resell</button>
-                  <button className="resell-btn" onClick={() => handleResellClick(order.id)}>Resell</button>
+                  <p>{order.product.description}</p>
+                  <button
+                    className="resell-btn"
+                    onClick={() => {
+                      setSelectedOrderId(order.id);
+                      setShowConfirm(true);
+                    }}
+                  >
+                    Resell
+                  </button>
+
+
                 </div>
               </div>
             ))
@@ -99,7 +130,30 @@ const ResellOrders = () => {
             <p>No products available for resell.</p>
           )}
         </div>
+        <OtherProductResell />
       </div>
+      {showConfirm && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <p>Are you sure you want to raise resell request for this order?</p>
+            <div className="modal-actions">
+              <button className="yes-btn" onClick={handleResellClick}>
+                Yes
+              </button>
+              <button
+                className="cancel-btn"
+                onClick={() => {
+                  setShowConfirm(false);
+                  setSelectedOrderId(null);
+                }}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <Footer />
     </div>
   );

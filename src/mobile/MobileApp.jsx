@@ -16,6 +16,7 @@ import Products from "./pages/Products";
 import ForgotPassword from "./pages/ForgotPassword";
 import CartCard from "./components/CartCard";
 import ResellOrders from "./components/ResellOrders";
+import ResellOrderDetails from "./components/ResellOrderCard";
 import Offers from "./pages/Offers";
 import Trends from "./components/Trends";
 import Orders from "./components/Orders";
@@ -82,6 +83,7 @@ function MobileApp() {
           <Route path="/cart" element={<CartCard />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/resell" element={<ResellOrders />} />
+          <Route path="/resellOrderPage" element={<ResellOrderDetails />} />
           <Route path="/offers" element={<Offers />} />
           <Route path="/trends" element={<Trends />} />
           <Route path="/orders" element={<Orders />} />
