@@ -23,6 +23,7 @@ import Checkout from "./components/Checkout";
 import ExploreMoreProductsPage from "./components/ExploreMoreProductsPage";
 import SellOption from "./components/SellOption";
 import Wishlist from "./components/Wishlist";
+import ResellOrderCard from "./components/ResellOrderCard";
 
 // Seller imports
 import SellerHubLayout from "./sellers/components/SellerHubLayout";
@@ -82,6 +83,7 @@ function LaptopApp() {
           <Route path="/offers" element={<Offers />} />
           <Route path="/trends" element={<Trends />} />
           <Route path="/orders" element={<Orders />} />
+          <Route path="/resellOrderPage" element={<ResellOrderCard />} />
           <Route path="/returns" element={<Returns />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/sellOptions" element={<SellOption />} />

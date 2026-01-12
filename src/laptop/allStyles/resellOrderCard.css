@@ -1,0 +1,64 @@
+.resell-order-card {
+    display: flex;
+    background: #fff;
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.resell-order-image {
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.resell-order-right {
+    margin-left: 12px;
+    flex: 1;
+}
+
+.resell-order-id {
+    font-size: 12px;
+    color: #666;
+}
+
+.resell-order-name {
+    font-size: 15px;
+    font-weight: 600;
+    margin: 4px 0;
+}
+
+.resell-order-description {
+    font-size: 13px;
+    color: #555;
+    margin-bottom: 6px;
+}
+
+.resell-order-status {
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-weight: 500;
+}
+
+.resell-order-status.pending {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.resell-order-status.approved {
+    background: #d4edda;
+    color: #155724;
+}
+
+.resell-order-status.rejected {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.resell-order-status.sold {
+    background: #d1ecf1;
+    color: #0c5460;
+}

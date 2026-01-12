@@ -25,6 +25,13 @@
   padding: 2rem;
 }
 
+.resell-heading {
+  text-align: center;
+  margin-bottom: 1rem;
+  margin-top: 2%;
+  color: #333;
+}
+
 .resell-card {
   display: flex;
   background: #fff;
@@ -61,4 +68,35 @@
   color: white;
   font-weight: bold;
   
+}
+
+.resell-status {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  background-color: #f0f0f0;
+  font-weight: bold;
+}
+.resell-status:hover {
+  background-color: #dedede;
+}
+.view-status {
+  border: 1px solid #b63e2b;
+  background-color: white;
+  color: #b63e2b;
+  padding: 0.3rem 0.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+  width: 40%;
+  transition: background-color 0.3s, color 0.3s;
+  font-size: medium;
+  font-weight: bold;
+}
+
+.view-status:hover {
+  background-color: #b63e2b;
+  color: white;
+  font-weight: bold;
 }
