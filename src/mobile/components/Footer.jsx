@@ -22,9 +22,9 @@ const Footer = () => {
             <a href="https://instagram.com/re_homify/" target="_blank" rel="noopener noreferrer" className="mobile-social-icon">
               <FaInstagram size={15} />
             </a>
-            <a href="https://x.com" target="_blank" rel="noopener noreferrer" className="mobile-social-icon">
+            {/* <a href="https://x.com" target="_blank" rel="noopener noreferrer" className="mobile-social-icon">
               <FaXTwitter size={15} />
-            </a>
+            </a> */}
             <a href="https://in.pinterest.com/Rehomify/" target="_blank" rel="noopener noreferrer" className="mobile-social-icon">
               <FaPinterest size={15} />
             </a>

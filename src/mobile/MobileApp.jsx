@@ -68,6 +68,7 @@ function MobileApp() {
   };
 
   return (
+    
     <CartProvider>
       <Router>
         <Routes>
