@@ -62,7 +62,7 @@ const LaptopSellerProducts = () => {
   const handleEdit = async (product) => {
     try {
       const res = await axios.get(`https://rehomify.in/v1/products/edit/${product.id}`);
-      console.log("Edit fetch response:", res.data);
+      //console.log("Edit fetch response:", res.data);
       setEditProduct({
         ...res.data,
         optionalImages: res.data.optionalImages || [] // ensure array

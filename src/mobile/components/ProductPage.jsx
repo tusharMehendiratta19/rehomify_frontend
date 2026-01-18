@@ -145,9 +145,9 @@ const ProductPage = () => {
       return;
     }
     try {
-      console.log("productId: ", productId)
-      console.log("price: ", price)
-      console.log("quantity: ", qty)
+      //console.log("productId: ", productId)
+      //console.log("price: ", price)
+      //console.log("quantity: ", qty)
       navigate('/checkout', { state: { productId, fromCart: false, total: price, qty: qty } });
     } catch (error) {
       console.error('Error proceeding to Buy Now:', error);
@@ -313,9 +313,10 @@ const ProductPage = () => {
                   <li><strong>Material</strong>: {product.woodMaterial}</li>
                   <li><strong>Width</strong>: {product.width} foot</li>
                   <li><strong>Length</strong>: {product.length} foot</li>
-                  <li><strong>Height</strong>: {product.height} foot</li>
+                  {/* <li><strong>Height</strong>: {product.height} foot</li> */}
                   <li><strong>Color</strong>: {product.color}</li>
-                  {/* <li><strong>Ratings</strong>: 4★</li> */}
+                  {product.colorCode && <li><strong>Color Code: </strong>{product.colorCode}</li>}
+                  {product.colorCode && <span>(Actual color code may vary.)</span>}
                 </ul>
               </div>
               <div className='offerImage'>

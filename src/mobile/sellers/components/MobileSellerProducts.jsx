@@ -5,7 +5,7 @@ import "../sellerstyles/sellerProducts.css";
 const categories = ["All", "Chair", "Table", "Single Bed", "Double Bed", "Cupboard"];
 
 const categoryMapping = {
-  Chair: ["chair"],
+  Combo: ["combo"],
   Table: ["table"],
   Sofa: ["sofa"],
   "Single Bed": ["single_bed"],
@@ -90,6 +90,7 @@ const MobileSellerProducts = () => {
         price,
         category,
         color,
+        colorCode,
         width,
         length,
         height,
@@ -102,6 +103,7 @@ const MobileSellerProducts = () => {
         price,
         category,
         color,
+        colorCode,
         width,
         length,
         height,
@@ -214,6 +216,11 @@ const MobileSellerProducts = () => {
                     ))}
                   </select>
                 </div>
+
+                {editProduct.colorCode && <div className="edit-input">
+                  <label>Color Code:</label>
+                  <input type="text" name="colorCode" value={editProduct.colorCode} onChange={handleInputChange} />
+                </div>}
 
                 <div className="edit-input">
                   <label>Category:</label>

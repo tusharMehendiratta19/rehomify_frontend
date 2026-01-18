@@ -63,7 +63,7 @@ const ProductPage = () => {
         } else {
           console.warn("Product not found for id:", id);
         }
-        console.log("Fetched product:", found);
+        //console.log("Fetched product:", found);
       } catch (error) {
         console.error("Failed to fetch product:", error);
       }
@@ -148,9 +148,9 @@ const ProductPage = () => {
       return;
     }
     try {
-      console.log("productId: ", productId)
-      console.log("price: ", price)
-      console.log("quantity: ", qty)
+      //console.log("productId: ", productId)
+      //console.log("price: ", price)
+      //console.log("quantity: ", qty)
       navigate('/checkout', { state: { productId, fromCart: false, total: price, qty: qty } });
     } catch (error) {
       console.error('Error proceeding to Buy Now:', error);
