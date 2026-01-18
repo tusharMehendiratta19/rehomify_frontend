@@ -63,6 +63,7 @@ const ProductPage = () => {
         } else {
           console.warn("Product not found for id:", id);
         }
+        console.log("Fetched product:", found);
       } catch (error) {
         console.error("Failed to fetch product:", error);
       }
@@ -317,9 +318,10 @@ const ProductPage = () => {
                   <li><strong>Material</strong>: {product.woodMaterial}</li>
                   <li><strong>Width</strong>: {product.width} foot</li>
                   <li><strong>Length</strong>: {product.length} foot</li>
-                  <li><strong>Height</strong>: {product.height} foot</li>
+                  {/* <li><strong>Height</strong>: {product.height} foot</li> */}
                   <li><strong>Color</strong>: {product.color}</li>
-                  {/* <li><strong>Ratings</strong>: 4★</li> */}
+                  {product.colorCode && <li><strong>Color Code: </strong>{product.colorCode}</li>}
+                  {product.colorCode && <span>(Actual color code may vary.)</span>}
                 </ul>
               </div>
               <div className='laptop-offerImage'>

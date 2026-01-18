@@ -135,7 +135,7 @@
   padding: 8px;
   border-radius: 6px;
   background-color: bisque;
-  height: 180px;
+  height: 190px;
   width: 60%;
   /* margin-top: 15px; */
   box-shadow: 1px 1px 3px #3e3e3e;
@@ -318,7 +318,7 @@
   /* background-color: yellowgreen; */
 }
 .laptop-offerImage {
-  width: 22%;
+  width: 24.5%;
   margin-left: 3%;
 }
 .laptop-offerImage img {

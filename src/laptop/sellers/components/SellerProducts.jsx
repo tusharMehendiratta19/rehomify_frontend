@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../sellerstyles/sellerProducts.css";
 
-const categories = ["All", "Chair", "Table", "Single Bed", "Double Bed", "Cupboard"];
+const categories = ["All", "Table", "Single Bed", "Double Bed", "Cupboard", "Combo"];
 
 const categoryMapping = {
   Chair: ["chair"],
@@ -62,6 +62,7 @@ const LaptopSellerProducts = () => {
   const handleEdit = async (product) => {
     try {
       const res = await axios.get(`https://rehomify.in/v1/products/edit/${product.id}`);
+      console.log("Edit fetch response:", res.data);
       setEditProduct({
         ...res.data,
         optionalImages: res.data.optionalImages || [] // ensure array
@@ -105,6 +106,7 @@ const LaptopSellerProducts = () => {
         description,
         category,
         color,
+        colorCode,
         width,
         length,
         height,
@@ -118,6 +120,7 @@ const LaptopSellerProducts = () => {
       formData.append("description", description);
       formData.append("category", category);
       formData.append("color", color);
+      formData.append("colorCode", colorCode);
       formData.append("width", width);
       formData.append("length", length);
       formData.append("height", height);
@@ -257,6 +260,11 @@ const LaptopSellerProducts = () => {
                     ))}
                   </select>
                 </div>
+
+                {editProduct.colorCode && <div className="edit-input">
+                  <label>Color Code:</label>
+                  <input type="text" name="colorCode" value={editProduct.colorCode} onChange={handleInputChange} />
+                </div>}
 
                 <div className="edit-input">
                   <label>Category:</label>
