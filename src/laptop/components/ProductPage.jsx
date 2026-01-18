@@ -321,7 +321,7 @@ const ProductPage = () => {
                   {/* <li><strong>Height</strong>: {product.height} foot</li> */}
                   <li><strong>Color</strong>: {product.color}</li>
                   {product.colorCode && <li><strong>Color Code: </strong>{product.colorCode}</li>}
-                  {product.colorCode && <span>(Actual color code may vary.)</span>}
+                  {product.colorCode && <span>(Actual color may slightly differ from the shown code.)</span>}
                 </ul>
               </div>
               <div className='laptop-offerImage'>
